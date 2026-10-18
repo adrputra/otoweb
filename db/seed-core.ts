@@ -126,6 +126,10 @@ const domainRows: NewTenantDomain[] = [
     type: 'platform_subdomain',
     status: 'active',
     verifiedAt: SEED_TIMESTAMP,
+    verificationStatus: 'verified',
+    sslStatus: 'active',
+    sslProvisionedAt: SEED_TIMESTAMP,
+    lastCheckedAt: SEED_TIMESTAMP,
   },
   {
     id: TENANT_B_DOMAIN_ID,
@@ -134,6 +138,10 @@ const domainRows: NewTenantDomain[] = [
     type: 'platform_subdomain',
     status: 'active',
     verifiedAt: SEED_TIMESTAMP,
+    verificationStatus: 'verified',
+    sslStatus: 'active',
+    sslProvisionedAt: SEED_TIMESTAMP,
+    lastCheckedAt: SEED_TIMESTAMP,
   },
 ]
 

@@ -92,7 +92,9 @@ values over 253 characters. `findTenantByHostname` resolves in this order:
 
 1. **Exact registered domain** — a matching `tenant_domains.hostname` with
    `status = 'active'`, a non-null `verified_at`, and a tenant in `active` or
-   `trial`.
+   `trial`. A `custom_domain` row must additionally have
+   `verification_status = 'verified'` and `ssl_status = 'active'`; otherwise the
+   host fails closed.
 2. **Wildcard tenant host** — a single-label subdomain of
    `TENANT_ROOT_DOMAIN` (default `otoweb.id`) resolves by tenant slug, for
    example `prima-auto-gallery.otoweb.id`. This requires no per-host row.
@@ -102,7 +104,13 @@ values over 253 characters. `findTenantByHostname` resolves in this order:
 
 Unknown, unverified, inactive, multi-label, suffix-spoofed, or malformed hosts
 resolve to no tenant. An exact inactive/unverified domain does **not** fall
-through to wildcard inference. There is no default-tenant fallback.
+through to wildcard inference, and a pending/failed custom domain does not serve
+traffic. There is no default-tenant fallback.
+
+Custom domains are registered and verified from the platform console through a
+server-only provider boundary. The tenant's platform subdomain is a separate
+hostname and remains available as a fallback for every custom-domain state. See
+[`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md).
 
 Development host behavior is documented in
 [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md).
@@ -243,6 +251,7 @@ If any tenant isolation test fails, do not proceed: fix the isolation first.
   `platform_admin` membership, re-checked inside a platform RLS transaction.
   Showroom owner/staff roles never grant it.
 - Wildcard subdomain routing is implemented in F013 and documented in
-  [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md). Custom-domain verification
-  remains F014; this feature provides the resolver and RLS substrate it builds
-  on.
+  [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md). Custom-domain registration,
+  verification, DNS instructions, SSL provisioning, and routing are implemented
+  in F014 and documented in [`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md). The
+  platform subdomain remains the fallback address.

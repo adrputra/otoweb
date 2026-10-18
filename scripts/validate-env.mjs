@@ -34,6 +34,26 @@ export const envSchema = z
         'TENANT_ROOT_DOMAIN must be a lowercase DNS hostname such as otoweb.id',
       )
       .default('otoweb.id'),
+    // Custom-domain provider. Development/tests default to the deterministic
+    // fake provider; production without a provider fails closed. A real
+    // deployment selects `http` and supplies the two server-only values below.
+    DOMAIN_PROVIDER: z.enum(['fake', 'http']).optional(),
+    DOMAIN_PROVIDER_URL: z
+      .string()
+      .trim()
+      .url('DOMAIN_PROVIDER_URL must be a valid URL')
+      .optional(),
+    DOMAIN_PROVIDER_TOKEN: z.string().trim().min(1).optional(),
+    CUSTOM_DOMAIN_CNAME_TARGET: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .max(253, 'CUSTOM_DOMAIN_CNAME_TARGET must be 253 characters or fewer')
+      .regex(
+        /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))*$/,
+        'CUSTOM_DOMAIN_CNAME_TARGET must be a lowercase DNS hostname such as otoweb.id',
+      )
+      .optional(),
     // Optional media configuration. Absent credentials select the local fake
     // provider in development; production surfaces a clear runtime error when
     // uploads are attempted without Cloudinary configured.
@@ -63,6 +83,32 @@ export const envSchema = z
         path: ['CLOUDINARY_CLOUD_NAME'],
         message:
           'Cloudinary credentials must be set together: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.',
+      })
+    }
+
+    if (value.DOMAIN_PROVIDER === 'http') {
+      if (!value.DOMAIN_PROVIDER_URL) {
+        context.addIssue({
+          code: 'custom',
+          path: ['DOMAIN_PROVIDER_URL'],
+          message: 'DOMAIN_PROVIDER_URL is required when DOMAIN_PROVIDER=http.',
+        })
+      }
+      if (!value.DOMAIN_PROVIDER_TOKEN) {
+        context.addIssue({
+          code: 'custom',
+          path: ['DOMAIN_PROVIDER_TOKEN'],
+          message: 'DOMAIN_PROVIDER_TOKEN is required when DOMAIN_PROVIDER=http.',
+        })
+      }
+    }
+
+    if (value.DOMAIN_PROVIDER === 'fake' && value.NODE_ENV === 'production') {
+      context.addIssue({
+        code: 'custom',
+        path: ['DOMAIN_PROVIDER'],
+        message:
+          'DOMAIN_PROVIDER=fake is not allowed in production. Configure the http provider with server-only credentials.',
       })
     }
   })

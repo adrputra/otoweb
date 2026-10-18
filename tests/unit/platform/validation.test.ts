@@ -6,9 +6,11 @@ import {
   normalizePlatformHostname,
   normalizeTenantPlan,
   normalizeTenantSlug,
+  registerCustomDomainInputSchema,
   setStatusInputSchema,
   setSubdomainInputSchema,
   toFieldErrors,
+  verifyCustomDomainInputSchema,
 } from '@/lib/platform/validation'
 
 describe('platform validation primitives', () => {
@@ -135,6 +137,45 @@ describe('tenant operation contracts', () => {
       setSubdomainInputSchema.safeParse({
         tenantId: '11111111-1111-4111-8111-111111111111',
         hostname: 'bad host',
+      }).success,
+    ).toBe(false)
+  })
+})
+
+describe('custom domain contracts', () => {
+  it('accepts a full custom hostname', () => {
+    const parsed = registerCustomDomainInputSchema.safeParse({
+      tenantId: '11111111-1111-4111-8111-111111111111',
+      hostname: '  Showroom.Example.COM. ',
+    })
+
+    expect(parsed.success).toBe(true)
+    if (!parsed.success) return
+    expect(parsed.data.hostname).toBe('Showroom.Example.COM.')
+  })
+
+  it('rejects malformed, single-label, and path-bearing hostnames', () => {
+    for (const hostname of ['not a host', 'single-label', 'showroom.example.com/path', '']) {
+      const parsed = registerCustomDomainInputSchema.safeParse({
+        tenantId: '11111111-1111-4111-8111-111111111111',
+        hostname,
+      })
+      expect(parsed.success, hostname).toBe(false)
+    }
+  })
+
+  it('validates tenant and domain ids for verification', () => {
+    expect(
+      verifyCustomDomainInputSchema.safeParse({
+        tenantId: '11111111-1111-4111-8111-111111111111',
+        domainId: '70000000-0000-4000-8000-000000000001',
+      }).success,
+    ).toBe(true)
+
+    expect(
+      verifyCustomDomainInputSchema.safeParse({
+        tenantId: 'tenant',
+        domainId: 'domain',
       }).success,
     ).toBe(false)
   })

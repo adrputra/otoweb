@@ -176,8 +176,11 @@ async function findExactTenant(
   const rows = await db
     .select({
       hostname: tenantDomains.hostname,
+      domainType: tenantDomains.type,
       domainStatus: tenantDomains.status,
       verifiedAt: tenantDomains.verifiedAt,
+      verificationStatus: tenantDomains.verificationStatus,
+      sslStatus: tenantDomains.sslStatus,
       tenant: {
         id: tenants.id,
         name: tenants.name,
@@ -197,6 +200,16 @@ async function findExactTenant(
   // An explicit registration is authoritative. A disabled/unverified domain
   // must not fall through to wildcard inference.
   if (row.domainStatus !== 'active' || row.verifiedAt == null) {
+    return { ok: false, error: 'unknown_hostname' }
+  }
+
+  // Custom domains additionally require proven ownership and an active
+  // certificate. Platform subdomains keep their existing active+verified
+  // contract (covered by the platform wildcard certificate).
+  if (
+    row.domainType === 'custom_domain' &&
+    (row.verificationStatus !== 'verified' || row.sslStatus !== 'active')
+  ) {
     return { ok: false, error: 'unknown_hostname' }
   }
 

@@ -7,7 +7,7 @@ const PLATFORM_PROFILE_ID = '50000000-0000-4000-8000-000000000003'
 
 export default defineConfig({
   testDir: './tests/e2e',
-  testMatch: /platform\.spec\.ts/,
+  testMatch: /(?:platform|custom-domains)\.spec\.ts/,
   fullyParallel: false,
   workers: 1,
   reporter: [['list'], ['html', { open: 'never' }]],
@@ -55,6 +55,7 @@ export default defineConfig({
         NEXT_PUBLIC_SUPABASE_URL: AUTH_URL,
         NEXT_PUBLIC_SUPABASE_ANON_KEY: 'fake-anon-key',
         MEDIA_PROVIDER: 'fake',
+        DOMAIN_PROVIDER: 'fake',
       },
     },
   ],

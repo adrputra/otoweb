@@ -30,11 +30,30 @@ describe('wildcard routing safety', () => {
       type: 'custom_domain',
       status: 'active',
       verifiedAt: new Date('2026-10-18T00:00:00.000Z'),
+      verificationStatus: 'verified',
+      sslStatus: 'active',
     })
 
     await expect(
       findTenantByHostname(harness.db, 'showroom.example.com', productionOptions),
     ).resolves.toMatchObject({ ok: true, tenant: { id: tenantB.tenantId } })
+  })
+
+  it('fails closed when an active custom domain has no active certificate', async () => {
+    await harness.db.insert(tenantDomains).values({
+      id: '99999999-9999-4999-8999-999999999915',
+      tenantId: tenantB.tenantId,
+      hostname: 'ssl-pending.example.com',
+      type: 'custom_domain',
+      status: 'active',
+      verifiedAt: new Date('2026-10-18T00:00:00.000Z'),
+      verificationStatus: 'verified',
+      sslStatus: 'pending',
+    })
+
+    await expect(
+      findTenantByHostname(harness.db, 'ssl-pending.example.com', productionOptions),
+    ).resolves.toEqual({ ok: false, error: 'unknown_hostname' })
   })
 
   it('does not infer a tenant for an unregistered custom domain', async () => {

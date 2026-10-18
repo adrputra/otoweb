@@ -8,7 +8,7 @@ const nextConfig = {
   // the development-only database fallback is not bundled into chunks.
   serverExternalPackages: ['@electric-sql/pglite'],
   // Visual QA reaches the dev server through the seeded tenant hostnames.
-  allowedDevOrigins: ['prima.otoweb.id', 'tenant-b.otoweb.id'],
+  allowedDevOrigins: ['prima.otoweb.id', 'tenant-b.otoweb.id', 'showroom.prima.test', 'pending.prima.test'],
   async headers() {
     return [
       {

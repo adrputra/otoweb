@@ -1,0 +1,94 @@
+{
+  "baseUrl": "http://prima.otoweb.id:3106",
+  "capturedAt": "2026-10-18T20:14:27.045Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "f014-platform-custom-domain",
+      "url": "http://prima.otoweb.id:3106/platform/tenants/11111111-1111-4111-8111-111111111111"
+    },
+    {
+      "name": "f014-custom-domain-home",
+      "url": "http://showroom.prima.test:3106/"
+    },
+    {
+      "name": "f014-platform-subdomain-fallback",
+      "url": "http://prima.otoweb.id:3106/"
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "url": "http://prima.otoweb.id:3106/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "unexpectedTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f014-platform-custom-domain.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "url": "http://showroom.prima.test:3106/",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "unexpectedTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f014-custom-domain-home.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "url": "http://prima.otoweb.id:3106/",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "unexpectedTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f014-platform-subdomain-fallback.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "url": "http://prima.otoweb.id:3106/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "unexpectedTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f014-platform-custom-domain.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "url": "http://showroom.prima.test:3106/",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "unexpectedTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f014-custom-domain-home.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "url": "http://prima.otoweb.id:3106/",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "unexpectedTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f014-platform-subdomain-fallback.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

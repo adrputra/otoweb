@@ -11,6 +11,8 @@ import {
   vehicles,
 } from '@/db/schema'
 import type * as schema from '@/db/schema'
+import { buildDnsInstructions, resolveCnameTarget } from '@/lib/domains/dns'
+import type { DomainSslStatus, DomainVerificationStatus } from '@/lib/domains/types'
 import { withPlatformSession } from '@/lib/tenant/session'
 
 import { findPlatformOperatorMembership } from './auth'
@@ -36,21 +38,21 @@ import {
 
 type Database = PgDatabase<PgQueryResultHKT, typeof schema>
 
-class PlatformForbiddenError extends Error {
+export class PlatformForbiddenError extends Error {
   constructor() {
     super('Platform operator authorization required.')
     this.name = 'PlatformForbiddenError'
   }
 }
 
-class PlatformNotFoundError extends Error {
+export class PlatformNotFoundError extends Error {
   constructor(message = 'Tenant tidak ditemukan.') {
     super(message)
     this.name = 'PlatformNotFoundError'
   }
 }
 
-class PlatformConflictError extends Error {
+export class PlatformConflictError extends Error {
   constructor(
     readonly field: string,
     message: string,
@@ -66,7 +68,7 @@ class PlatformConflictError extends Error {
  * deliberately repeated at the data boundary so a privileged application
  * connection cannot bypass the route/action guard.
  */
-async function runPlatform<T>(
+export async function runPlatform<T>(
   db: Database,
   actorUserId: string,
   callback: (tx: Database) => Promise<T>,
@@ -89,7 +91,7 @@ function isUniqueViolation(error: unknown): boolean {
   return /duplicate key|unique constraint/i.test(message)
 }
 
-function toResultError<T>(error: unknown): PlatformResult<T> {
+export function toResultError<T>(error: unknown): PlatformResult<T> {
   if (error instanceof PlatformForbiddenError) {
     return {
       ok: false,
@@ -123,12 +125,27 @@ function statusValue(value: string): PlatformTenantStatus {
 }
 
 function toDomain(row: typeof tenantDomains.$inferSelect): PlatformTenantDomain {
+  const isCustom = row.type === 'custom_domain'
+
   return {
     id: row.id,
     hostname: row.hostname,
     type: row.type,
     status: row.status,
     verifiedAt: row.verifiedAt ? row.verifiedAt.toISOString() : null,
+    verificationStatus: row.verificationStatus as DomainVerificationStatus,
+    verificationToken: row.verificationToken,
+    sslStatus: row.sslStatus as DomainSslStatus,
+    sslProvisionedAt: row.sslProvisionedAt ? row.sslProvisionedAt.toISOString() : null,
+    lastCheckedAt: row.lastCheckedAt ? row.lastCheckedAt.toISOString() : null,
+    dnsInstructions:
+      isCustom && row.verificationToken
+        ? buildDnsInstructions({
+            hostname: row.hostname,
+            token: row.verificationToken,
+            cnameTarget: resolveCnameTarget(),
+          })
+        : null,
     createdAt: row.createdAt.toISOString(),
   }
 }
@@ -250,7 +267,7 @@ export async function listPlatformTenants(
   }
 }
 
-async function loadTenantDetail(
+export async function loadTenantDetail(
   tx: Database,
   tenantId: string,
 ): Promise<PlatformTenantDetail | null> {
@@ -457,6 +474,10 @@ export async function createPlatformTenant(
           type: 'platform_subdomain',
           status: 'active',
           verifiedAt: now,
+          verificationStatus: 'verified',
+          sslStatus: 'active',
+          sslProvisionedAt: now,
+          lastCheckedAt: now,
         })
       }
 
@@ -574,7 +595,15 @@ export async function setTenantSubdomain(
       if (current) {
         await tx
           .update(tenantDomains)
-          .set({ hostname, status: 'active', verifiedAt: now })
+          .set({
+            hostname,
+            status: 'active',
+            verifiedAt: now,
+            verificationStatus: 'verified',
+            sslStatus: 'active',
+            sslProvisionedAt: now,
+            lastCheckedAt: now,
+          })
           .where(eq(tenantDomains.id, current.id))
       } else {
         await tx.insert(tenantDomains).values({
@@ -583,6 +612,10 @@ export async function setTenantSubdomain(
           type: 'platform_subdomain',
           status: 'active',
           verifiedAt: now,
+          verificationStatus: 'verified',
+          sslStatus: 'active',
+          sslProvisionedAt: now,
+          lastCheckedAt: now,
         })
       }
 

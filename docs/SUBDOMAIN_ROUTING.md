@@ -13,7 +13,8 @@ serves its own branding, inventory, and contact details from the same process.
 request Host header
   -> normalize (trim, lowercase, strip a numeric port and one trailing dot)
   -> exact active + verified tenant_domains row?
-       yes -> that tenant, or fail closed if the tenant is unusable
+       yes -> custom row also needs verification=verified and ssl=active
+              then that tenant, or fail closed if the tenant is unusable
        no  -> single-label subdomain of a configured root?
                 -> tenant slug
                 -> development alias (localhost only)
@@ -23,8 +24,10 @@ request Host header
 
 Exact registrations always win. If a registered hostname is inactive or
 unverified, the request fails with `unknown_hostname`; it does **not** fall
-through to a wildcard alias. A suspended or disabled tenant returns
-`tenant_unavailable`.
+through to a wildcard alias. Custom registrations additionally require
+`verification_status = 'verified'` and `ssl_status = 'active'`, so a domain
+whose certificate is still pending does not serve traffic. A suspended or
+disabled tenant returns `tenant_unavailable`.
 
 ## Production
 
@@ -37,6 +40,8 @@ through to a wildcard alias. A suspended or disabled tenant returns
 | `unknown.otoweb.id` | not-found |
 | `a.b.otoweb.id` | not-found (multi-label prefixes are not tenant aliases) |
 | any host outside the configured root | not-found unless registered exactly |
+| a verified custom host such as `showroom.example.com` | that tenant (exact custom row) |
+| a pending/failed custom host | not-found; the platform subdomain still serves |
 
 Infrastructure still needs:
 
@@ -102,13 +107,17 @@ than a test-only shortcut.
 `/platform` still sets an explicit platform subdomain for a tenant. That row is
 the exact hostname and takes precedence. Wildcard routing means a tenant can
 also be reached as `<slug>.<TENANT_ROOT_DOMAIN>` without a deployment change.
-Custom-domain registration, verification, DNS instructions, and SSL are Phase 14
-(F014) and are not handled by this resolver beyond exact registered hostnames.
+Custom-domain registration, verification, DNS instructions, and SSL are
+implemented in Phase 14 (F014) and documented in
+[`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md). The platform subdomain remains
+available as a fallback while a custom domain is pending or failed.
 
 ## Safety properties
 
 - No production default tenant. Unknown hosts render not-found.
 - Exact inactive/unverified domains fail closed and never fall through.
+- Custom domains also require verified ownership and an active certificate.
+- The platform subdomain is never disabled by a custom-domain failure.
 - Suspended/disabled tenants fail closed on exact, slug, and alias paths.
 - Multi-label prefixes and suffix-spoofed hosts (`prima.otoweb.id.evil.example`)
   do not resolve.
@@ -125,7 +134,9 @@ npx vitest run tests/unit/tenant/hostname.test.ts \
   tests/unit/public/tenant-resolution.test.ts
 
 npx playwright test tests/e2e/subdomain-routing.spec.ts
+npx playwright test --config playwright.platform.config.ts tests/e2e/custom-domains.spec.ts
 npm run visual:qa:subdomain
+npm run visual:qa:custom-domains
 npx tsc --noEmit
 npm test
 ```

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 
 import { PlatformPageHeader } from '@/components/platform-shell'
+import { CustomDomains } from '@/components/platform/custom-domains'
 import { PlatformStatusBadge } from '@/components/platform/status-badge'
 import { TenantControls } from '@/components/platform/tenant-controls'
 import { requirePlatformOperatorPage } from '@/lib/platform/auth'
@@ -171,6 +172,7 @@ export default async function TenantDetailPage({
       </div>
 
       <TenantControls tenant={tenant} />
+      <CustomDomains tenant={tenant} />
     </>
   )
 }

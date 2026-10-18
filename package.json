@@ -18,6 +18,7 @@
     "visual:qa": "node scripts/visual-qa.mjs",
     "visual:qa:subdomain": "node scripts/visual-qa-subdomain.mjs",
     "visual:qa:admin": "node scripts/visual-qa-admin.mjs",
+    "visual:qa:custom-domains": "node scripts/visual-qa-custom-domains.mjs",
     "validate:env": "node scripts/validate-env.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx db/migrate.ts",

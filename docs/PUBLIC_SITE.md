@@ -16,6 +16,7 @@ request Host header
   -> resolvePublicTenant()
      -> findTenantByHostname()
           -> exact active/verified tenant_domains row
+             (custom rows also need verified ownership + active SSL)
           -> wildcard <slug>.<TENANT_ROOT_DOMAIN>
           -> development-only *.localhost alias
      -> development only, bare localhost/127.0.0.1:
@@ -31,6 +32,8 @@ with no resolved tenant renders not-found. The three public routes declare
 `dynamic = 'force-dynamic'`: they depend on the request host and the database,
 so they must not be prerendered at build time. Wildcard and development host
 behavior is documented in [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md).
+Custom domains, their DNS/SSL lifecycle, and the platform-subdomain fallback are
+documented in [`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md).
 
 ## Modules
 
@@ -148,7 +151,8 @@ markdown report.
 - No unscoped vehicle/settings query. A missing or malformed tenant id throws
   before SQL.
 - No admin CRUD, image upload, or settings editing here. SEO output is
-  documented in `docs/SEO.md`; subdomain routing beyond the F005 resolver is
-  still out of scope. Lead capture is documented in `docs/LEADS.md`; contact
-  submissions and WhatsApp actions are the only public writes.
+  documented in `docs/SEO.md`; wildcard and custom-domain routing are documented
+  in `docs/SUBDOMAIN_ROUTING.md` and `docs/CUSTOM_DOMAINS.md`. Lead capture is
+  documented in `docs/LEADS.md`; contact submissions and WhatsApp actions are
+  the only public writes.
 - The service role and database credentials never reach the browser.

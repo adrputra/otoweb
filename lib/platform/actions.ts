@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import type { AppDatabase } from '@/lib/db/runtime'
 
 import { requirePlatformOperatorAction } from './auth'
+import { registerCustomDomain, verifyCustomDomain } from './domain-service'
 import {
   assignTenantOwner,
   createPlatformTenant,
@@ -82,6 +83,24 @@ export async function setTenantSubdomainAction(
 ): Promise<PlatformResult<PlatformTenantDetail>> {
   return runAction(
     (db, actorUserId) => setTenantSubdomain(db, actorUserId, input),
+    tenantIdFrom(input),
+  )
+}
+
+export async function registerCustomDomainAction(
+  input: unknown,
+): Promise<PlatformResult<PlatformTenantDetail>> {
+  return runAction(
+    (db, actorUserId) => registerCustomDomain(db, actorUserId, input),
+    tenantIdFrom(input),
+  )
+}
+
+export async function verifyCustomDomainAction(
+  input: unknown,
+): Promise<PlatformResult<PlatformTenantDetail>> {
+  return runAction(
+    (db, actorUserId) => verifyCustomDomain(db, actorUserId, input),
     tenantIdFrom(input),
   )
 }

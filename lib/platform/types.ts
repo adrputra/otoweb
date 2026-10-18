@@ -1,3 +1,9 @@
+import type {
+  DnsInstruction,
+  DomainSslStatus,
+  DomainVerificationStatus,
+} from '@/lib/domains/types'
+
 /** Tenant lifecycle status stored on `tenants.status`. */
 export const PLATFORM_TENANT_STATUSES = [
   'active',
@@ -16,6 +22,13 @@ export interface PlatformTenantDomain {
   type: 'platform_subdomain' | 'custom_domain'
   status: string
   verifiedAt: string | null
+  verificationStatus: DomainVerificationStatus
+  verificationToken: string | null
+  sslStatus: DomainSslStatus
+  sslProvisionedAt: string | null
+  lastCheckedAt: string | null
+  /** Present only for custom domains; exact TXT/CNAME records to publish. */
+  dnsInstructions: DnsInstruction[] | null
   createdAt: string
 }
 

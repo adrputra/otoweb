@@ -48,8 +48,16 @@ profiles ── tenant_members (1:N)
 ### `tenant_domains`
 
 `id`, `tenant_id`, `hostname` (globally unique), `type`
-(`platform_subdomain`/`custom_domain`), `status`, `verified_at`, `created_at`.
-Indexed by tenant.
+(`platform_subdomain`/`custom_domain`), `status`, `verified_at`,
+`verification_status` (`pending`/`verified`/`failed`), `verification_token`,
+`ssl_status` (`none`/`pending`/`active`/`failed`), `ssl_provisioned_at`,
+`last_checked_at`, `created_at`. Indexed by tenant.
+
+F014 adds the verification and certificate columns. Existing active verified
+rows are backfilled to `verification_status = 'verified'` and
+`ssl_status = 'active'`. A custom row routes only when it is active, verified,
+and its certificate is active; platform subdomains keep the active-and-verified
+contract. See [`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md).
 
 ### `profiles`
 

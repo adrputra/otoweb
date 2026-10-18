@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T20:00:37Z",
+  "updated_at": "2026-10-18T20:00:46Z",
   "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -583,13 +583,13 @@
         "The platform subdomain remains available as a fallback.",
         "Custom domains are implemented only after wildcard subdomains are stable."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T20:00:46Z",
       "completed_at": null
     },
     {
@@ -641,9 +641,9 @@
     }
   ],
   "last_run": {
-    "feature": "F013",
-    "event": "complete",
-    "at": "2026-10-18T20:00:37Z",
-    "detail": "F013 done; committed 819f612."
+    "feature": "F014",
+    "event": "dispatch",
+    "at": "2026-10-18T20:00:46Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }

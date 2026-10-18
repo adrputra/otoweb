@@ -17,6 +17,9 @@ never see or reach it.
 | `components/platform/status-badge.tsx` | Shared lifecycle status labels and state colors |
 | `components/platform/create-tenant-form.tsx` | Create tenant + default profile + subdomain + owner |
 | `components/platform/tenant-controls.tsx` | Plan, status, owner, subdomain, and disable controls |
+| `components/platform/custom-domains.tsx` | Custom-domain registration, DNS instructions, verification, and SSL state |
+| `lib/platform/domain-service.ts` | Registration and verification lifecycle over the provider boundary |
+| `lib/domains/` | Server-only DNS/SSL provider interface, fake provider, HTTP adapter |
 | `lib/platform/auth.ts` | Explicit platform-operator authorization |
 | `lib/platform/validation.ts` | Client-safe zod contracts and hostname normalization |
 | `lib/platform/tenant-service.ts` | Cross-tenant reads and atomic mutations |
@@ -77,6 +80,8 @@ HTML redirect.
 | Inspect tenant | Detail | Identity, theme, creation date, domains, members/owners, vehicle and lead counts |
 | Set subdomain | Detail → Subdomain | Normalizes a full hostname, rejects another tenant's hostname, updates the primary platform subdomain in place |
 | Set plan/status | Detail → Plan / Status | Persists a plan label and one of `active`, `trial`, `suspended`, `disabled` |
+| Register custom domain | Detail → Domain kustom | Stores a pending `custom_domain` row and shows TXT/CNAME instructions |
+| Verify custom domain | Detail → Domain kustom | Checks DNS ownership, provisions SSL, and activates routing only when both succeed |
 
 ### Owner assignment
 
@@ -97,7 +102,8 @@ Wildcard routing is implemented in F013 and documented in
 [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md): a tenant is also reachable as
 `<slug>.<TENANT_ROOT_DOMAIN>` without a per-host row, and `*.localhost` provides
 development aliases. Custom-domain registration, verification, DNS
-instructions, and SSL provisioning remain F014.
+instructions, SSL provisioning, and the platform-subdomain fallback are
+implemented in F014 and documented in [`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md).
 
 ### Disable
 
@@ -145,6 +151,7 @@ npx vitest run tests/unit/platform tests/unit/tenant tests/unit/db
 
 # Operator acceptance (QA fake auth as the platform operator)
 npx playwright test --config playwright.platform.config.ts tests/e2e/platform.spec.ts
+npx playwright test --config playwright.platform.config.ts tests/e2e/custom-domains.spec.ts
 
 # Detector
 /home/adrputra/.agents/skills/impeccable/scripts/impeccable detect --json \
@@ -172,6 +179,7 @@ denial, including under the restricted RLS role.
 - Never authorize platform actions from a showroom role or a resolved tenant
   context alone.
 - Never weaken the tenant isolation suite to make a platform change pass.
-- No billing integration, invite email, or custom-domain verification in this
-  feature. Wildcard subdomain routing lives in F013; this surface only manages
-  the explicit platform subdomain.
+- No billing integration or invite email.
+- Custom-domain management is operator-only and lives in
+  [`CUSTOM_DOMAINS.md`](./CUSTOM_DOMAINS.md). The platform subdomain remains a
+  fallback for every tenant.

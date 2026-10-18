@@ -119,6 +119,11 @@ export const tenantIdSchema = z
   .trim()
   .regex(USER_ID_PATTERN, 'Tenant ID tidak valid')
 
+export const domainIdSchema = z
+  .string()
+  .trim()
+  .regex(USER_ID_PATTERN, 'Domain ID tidak valid')
+
 export const createTenantInputSchema = z.object({
   name: z
     .string()
@@ -149,6 +154,23 @@ export const setSubdomainInputSchema = z.object({
     ),
 })
 
+export const registerCustomDomainInputSchema = z.object({
+  tenantId: tenantIdSchema,
+  hostname: z
+    .string()
+    .trim()
+    .max(253, 'Hostname maksimal 253 karakter')
+    .refine(
+      (value) => normalizePlatformHostname(value) !== null,
+      'Masukkan hostname lengkap yang valid, misalnya showroom.example.com',
+    ),
+})
+
+export const verifyCustomDomainInputSchema = z.object({
+  tenantId: tenantIdSchema,
+  domainId: domainIdSchema,
+})
+
 export const setPlanInputSchema = z.object({
   tenantId: tenantIdSchema,
   plan: tenantPlanSchema,
@@ -162,6 +184,8 @@ export const setStatusInputSchema = z.object({
 export type CreateTenantInput = z.output<typeof createTenantInputSchema>
 export type AssignOwnerInput = z.output<typeof assignOwnerInputSchema>
 export type SetSubdomainInput = z.output<typeof setSubdomainInputSchema>
+export type RegisterCustomDomainInput = z.output<typeof registerCustomDomainInputSchema>
+export type VerifyCustomDomainInput = z.output<typeof verifyCustomDomainInputSchema>
 export type SetPlanInput = z.output<typeof setPlanInputSchema>
 export type SetStatusInput = z.output<typeof setStatusInputSchema>
 
