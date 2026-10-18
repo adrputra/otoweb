@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T17:49:23Z",
+  "updated_at": "2026-10-18T18:12:34Z",
   "active_milestone": "M2",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -57,6 +57,12 @@
       "feature": null,
       "decision": "advance-milestone",
       "detail": "MILESTONE-ADVANCE pre-approved: M1 complete (F001-F005 done). Activated M2 (F006-F010 pending)."
+    },
+    {
+      "at": "2026-10-18T18:12:34Z",
+      "feature": "F006",
+      "decision": "auto-approve-checkpoint",
+      "detail": "AUTO_CHECKPOINT marker: F006 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 181/181) passed; VISUAL_QA PASS with desktop/mobile evidence."
     }
   ],
   "features": [
@@ -253,14 +259,23 @@
         "Tenant showroom settings render.",
         "Existing visual design is preserved."
       ],
-      "status": "in_progress",
+      "status": "done",
       "attempts": 1,
-      "spec_dir": null,
-      "commit": null,
-      "evidence": [],
+      "spec_dir": "specs/005-public-website-database",
+      "commit": "f447738fd9af5d1f4a803b4fd7afc4752b550f50",
+      "evidence": [
+        "specs/005-public-website-database",
+        ".sdd-toolbox/waves/005-public-website-database.json",
+        "lib/public",
+        "tests/unit/public",
+        "tests/e2e/home.spec.ts",
+        "docs/PUBLIC_SITE.md",
+        ".visual-qa/reports/f006-public-database-visual-qa.md",
+        ".sdd-toolbox/journal/20261019-011234-F006-complete.md"
+      ],
       "blocker": null,
       "started_at": "2026-10-18T17:49:23Z",
-      "completed_at": null
+      "completed_at": "2026-10-18T18:12:34Z"
     },
     {
       "id": "F007",
@@ -512,8 +527,8 @@
   ],
   "last_run": {
     "feature": "F006",
-    "event": "dispatch",
-    "at": "2026-10-18T17:49:23Z",
-    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run; M2 active."
+    "event": "complete",
+    "at": "2026-10-18T18:12:34Z",
+    "detail": "F006 done; committed f447738."
   }
 }
