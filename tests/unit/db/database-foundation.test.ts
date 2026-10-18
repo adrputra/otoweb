@@ -22,6 +22,7 @@ function expectedStatus(vehicle: MockVehicle): string {
 const migrationsFolder = fileURLToPath(new URL('../../../db/migrations', import.meta.url))
 
 const requiredTables = [
+  'analytics_events',
   'profiles',
   'showroom_settings',
   'tenant_domains',
@@ -118,7 +119,8 @@ describe('database foundation migrations', () => {
           'tenant_members',
           'showroom_settings',
           'vehicles',
-          'vehicle_images'
+          'vehicle_images',
+          'analytics_events'
         )
     `)
 

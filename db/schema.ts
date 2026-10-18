@@ -55,6 +55,21 @@ export const leadStatus = pgEnum('lead_status', [
   'lost',
 ])
 
+export const analyticsEventType = pgEnum('analytics_event_type', [
+  'vehicle_view',
+  'inventory_search',
+  'filter_use',
+  'whatsapp_click',
+  'contact_submit',
+  'vehicle_share',
+])
+
+export type AnalyticsEventMetadata = {
+  filters?: Record<string, string>
+  vehicleSlug?: string
+  method?: 'native' | 'clipboard'
+}
+
 export const tenants = pgTable(
   'tenants',
   {
@@ -251,12 +266,40 @@ export const leads = pgTable(
   ],
 )
 
+export const analyticsEvents = pgTable(
+  'analytics_events',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    tenantId: uuid('tenant_id')
+      .notNull()
+      .references(() => tenants.id, { onDelete: 'cascade' }),
+    eventType: analyticsEventType('event_type').notNull(),
+    vehicleId: uuid('vehicle_id').references(() => vehicles.id, { onDelete: 'set null' }),
+    metadata: jsonb('metadata')
+      .$type<AnalyticsEventMetadata>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    path: text('path'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('analytics_events_tenant_type_created_idx').on(
+      table.tenantId,
+      table.eventType,
+      table.createdAt,
+    ),
+    index('analytics_events_tenant_vehicle_idx').on(table.tenantId, table.vehicleId),
+    index('analytics_events_tenant_created_idx').on(table.tenantId, table.createdAt),
+  ],
+)
+
 export const tenantsRelations = relations(tenants, ({ many, one }) => ({
   domains: many(tenantDomains),
   members: many(tenantMembers),
   settings: one(showroomSettings),
   vehicles: many(vehicles),
   leads: many(leads),
+  analyticsEvents: many(analyticsEvents),
 }))
 
 export const tenantDomainsRelations = relations(tenantDomains, ({ one }) => ({
@@ -295,6 +338,7 @@ export const vehiclesRelations = relations(vehicles, ({ many, one }) => ({
   }),
   images: many(vehicleImages),
   leads: many(leads),
+  analyticsEvents: many(analyticsEvents),
 }))
 
 export const vehicleImagesRelations = relations(vehicleImages, ({ one }) => ({
@@ -319,6 +363,17 @@ export const leadsRelations = relations(leads, ({ one }) => ({
   }),
 }))
 
+export const analyticsEventsRelations = relations(analyticsEvents, ({ one }) => ({
+  tenant: one(tenants, {
+    fields: [analyticsEvents.tenantId],
+    references: [tenants.id],
+  }),
+  vehicle: one(vehicles, {
+    fields: [analyticsEvents.vehicleId],
+    references: [vehicles.id],
+  }),
+}))
+
 export type Tenant = typeof tenants.$inferSelect
 export type NewTenant = typeof tenants.$inferInsert
 export type TenantDomain = typeof tenantDomains.$inferSelect
@@ -335,3 +390,5 @@ export type VehicleImage = typeof vehicleImages.$inferSelect
 export type NewVehicleImage = typeof vehicleImages.$inferInsert
 export type Lead = typeof leads.$inferSelect
 export type NewLead = typeof leads.$inferInsert
+export type AnalyticsEvent = typeof analyticsEvents.$inferSelect
+export type NewAnalyticsEvent = typeof analyticsEvents.$inferInsert

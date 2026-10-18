@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { recordAnalyticsEvent } from '@/lib/analytics/record'
 import { getAppDatabase } from '@/lib/db/runtime'
 import { whatsappLink } from '@/lib/format'
 import { createWhatsappLead } from '@/lib/public/lead-service'
@@ -34,6 +35,14 @@ export async function GET(request: NextRequest) {
   if (!result.ok) {
     return NextResponse.redirect(new URL('/?inquiry=failed#contact', request.url))
   }
+
+  // Reuse the lead write as the WhatsApp click signal instead of adding a
+  // second client-side beacon that would double-count the same click.
+  await recordAnalyticsEvent(db, tenant.id, {
+    eventType: 'whatsapp_click',
+    vehicleId: result.data.vehicleId,
+    vehicleSlug,
+  }).catch(() => {})
 
   const number = settings?.whatsapp?.trim()
   if (!number) {

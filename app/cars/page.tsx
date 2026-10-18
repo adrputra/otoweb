@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { InventoryTracker } from '@/components/analytics/page-trackers'
 import { PublicFooter } from '@/components/public-footer'
 import { Filters, VehicleCard } from '@/components/showroom'
 import { inventoryMetadata } from '@/lib/public/metadata'
@@ -32,6 +33,7 @@ export default async function Cars({
 
   return (
     <main className="min-h-screen bg-[#faf9f7]" style={showroomThemeStyle(showroom.colors)}>
+      <InventoryTracker searchParams={params} />
       <header className="border-b border-neutral-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
           <Link href="/" className="flex items-center gap-2.5 font-bold">

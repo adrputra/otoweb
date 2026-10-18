@@ -17,6 +17,10 @@ No advanced CRM behaviour is included: there are no pipelines, assignments,
 deal values, notes, tasks, tags, automation, bulk exports, or email/SMS sends,
 and there is no WhatsApp Business API integration.
 
+F015 adds non-blocking first-party analytics for `contact_submit` and
+`whatsapp_click` after a lead insert succeeds. Analytics never changes lead
+capture behavior; see `docs/ANALYTICS.md`.
+
 ## Lead model
 
 `db/schema.ts` defines `leads` and two enums:
@@ -137,6 +141,7 @@ removed.
 npx vitest run tests/unit/validation/lead.test.ts \
   tests/unit/public/lead-capture.test.ts \
   tests/unit/public/whatsapp-tracking.test.ts \
+  tests/unit/analytics/lead-events.test.ts \
   tests/unit/admin/leads.test.ts \
   tests/unit/tenant/rls.test.ts
 npx playwright test --config playwright.admin.config.ts tests/e2e/admin-leads.spec.ts
@@ -151,7 +156,8 @@ Visual evidence is written to `.visual-qa/reports/f010-lead-capture-visual-qa.md
 
 ## Boundaries
 
-- No advanced CRM, analytics, custom-domain, or platform-admin behaviour.
+- No advanced CRM, custom-domain, or platform-admin behaviour. First-party lead
+  analytics are documented in `docs/ANALYTICS.md`.
 - No WhatsApp Business API integration.
 - No manual database operation is required for inquiries, tracking, or status
   changes.

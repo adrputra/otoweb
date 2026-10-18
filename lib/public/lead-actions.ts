@@ -1,5 +1,6 @@
 'use server'
 
+import { recordAnalyticsEvent } from '@/lib/analytics/record'
 import { getAppDatabase } from '@/lib/db/runtime'
 import { createContactLead, type LeadCreationResult } from '@/lib/public/lead-service'
 import { getPublicTenant } from '@/lib/public/tenant'
@@ -24,5 +25,14 @@ export async function submitContactLeadAction(
   }
 
   const db = await getAppDatabase()
-  return createContactLead(db, tenant.id, input)
+  const result = await createContactLead(db, tenant.id, input)
+
+  if (result.ok) {
+    // Best-effort and non-throwing: lead capture must never depend on analytics.
+    await recordAnalyticsEvent(db, tenant.id, { eventType: 'contact_submit' }).catch(
+      () => {},
+    )
+  }
+
+  return result
 }

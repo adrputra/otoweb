@@ -9,6 +9,7 @@ const mocks = vi.hoisted(() => ({
   getAppDatabase: vi.fn(),
   createWhatsappLead: vi.fn(),
   getShowroomSettings: vi.fn(),
+  recordAnalyticsEvent: vi.fn(),
 }))
 
 vi.mock('@/lib/public/tenant', () => ({
@@ -25,6 +26,10 @@ vi.mock('@/lib/public/lead-service', () => ({
 
 vi.mock('@/lib/tenant/scoped-queries', () => ({
   getShowroomSettings: mocks.getShowroomSettings,
+}))
+
+vi.mock('@/lib/analytics/record', () => ({
+  recordAnalyticsEvent: mocks.recordAnalyticsEvent,
 }))
 
 let GET: (request: NextRequest) => Promise<Response>
@@ -66,6 +71,7 @@ beforeEach(() => {
     whatsapp: '6281299001122',
   })
   mocks.createWhatsappLead.mockResolvedValue({ ok: true, data: lead })
+  mocks.recordAnalyticsEvent.mockResolvedValue(true)
 })
 
 describe('GET /api/public/whatsapp', () => {
@@ -89,6 +95,11 @@ describe('GET /api/public/whatsapp', () => {
         showroomName: 'Prima Auto Gallery',
       },
     )
+    expect(mocks.recordAnalyticsEvent).toHaveBeenCalledWith({}, prima.tenantId, {
+      eventType: 'whatsapp_click',
+      vehicleId: undefined,
+      vehicleSlug: 'toyota-fortuner-2021-1',
+    })
     expect(response.status).toBe(307)
 
     const location = new URL(response.headers.get('location') ?? '')
@@ -119,5 +130,15 @@ describe('GET /api/public/whatsapp', () => {
     expect(response.headers.get('location')).toBe(
       'http://prima.otoweb.id/?inquiry=failed#contact',
     )
+    expect(mocks.recordAnalyticsEvent).not.toHaveBeenCalled()
+  })
+
+  it('still redirects when the analytics write rejects', async () => {
+    mocks.recordAnalyticsEvent.mockRejectedValue(new Error('analytics unavailable'))
+
+    const response = await GET(request('?vehicle=toyota-fortuner-2021-1'))
+
+    expect(response.status).toBe(307)
+    expect(response.headers.get('location')).toContain('https://wa.me/')
   })
 })

@@ -114,6 +114,13 @@ No tenant id is accepted from the browser, and a foreign vehicle slug cannot be
 attached to the lead. See `docs/LEADS.md` for the full contract, statuses, and
 admin dashboard.
 
+F015 adds first-party, tenant-scoped analytics for public interactions:
+`vehicle_view`, `inventory_search`, `filter_use`, `whatsapp_click`,
+`contact_submit`, and `vehicle_share`. Page events use a best-effort same-origin
+beacon; lead-backed events are written only after the lead insert succeeds.
+Analytics failures never block rendering, contact confirmation, or the WhatsApp
+redirect. See `docs/ANALYTICS.md`.
+
 ## Development runtime
 
 - With `DATABASE_URL`, the normal PostgreSQL/Supabase connection is used.
@@ -154,5 +161,6 @@ markdown report.
   documented in `docs/SEO.md`; wildcard and custom-domain routing are documented
   in `docs/SUBDOMAIN_ROUTING.md` and `docs/CUSTOM_DOMAINS.md`. Lead capture is
   documented in `docs/LEADS.md`; contact submissions and WhatsApp actions are
-  the only public writes.
+  the only public lead writes. F015 adds a non-blocking analytics beacon
+  documented in `docs/ANALYTICS.md`.
 - The service role and database credentials never reach the browser.

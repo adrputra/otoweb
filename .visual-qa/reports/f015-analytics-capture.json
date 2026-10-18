@@ -1,0 +1,106 @@
+{
+  "baseUrl": "http://prima.otoweb.id:3100",
+  "capturedAt": "2026-10-18T20:35:03.456Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "analytics-vehicle-share",
+      "path": "/cars/toyota-fortuner-2021-1",
+      "heading": "Fortuner",
+      "requiredTexts": [
+        "Bagikan unit"
+      ]
+    },
+    {
+      "name": "analytics-admin-dashboard",
+      "path": "/admin",
+      "heading": "Dashboard",
+      "requiredTexts": [
+        "Analitik",
+        "Paling banyak dilihat",
+        "Kunjungan unit",
+        "Klik WhatsApp",
+        "Lead baru",
+        "Konversi",
+        "SEMUA WAKTU",
+        "Fortuner"
+      ],
+      "requiresAnalyticsViews": true
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/cars/toyota-fortuner-2021-1",
+      "url": "http://prima.otoweb.id:3100/cars/toyota-fortuner-2021-1",
+      "heading": "Fortuner",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "analyticsViews": null,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/analytics-vehicle-share.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/admin",
+      "url": "http://prima.otoweb.id:3100/admin",
+      "heading": "Dashboard",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "analyticsViews": 5,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/analytics-admin-dashboard.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/cars/toyota-fortuner-2021-1",
+      "url": "http://prima.otoweb.id:3100/cars/toyota-fortuner-2021-1",
+      "heading": "Fortuner",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "analyticsViews": null,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/analytics-vehicle-share.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/admin",
+      "url": "http://prima.otoweb.id:3100/admin",
+      "heading": "Dashboard",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "analyticsViews": 10,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/analytics-admin-dashboard.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

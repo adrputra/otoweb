@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T20:16:55Z",
+  "updated_at": "2026-10-18T20:17:04Z",
   "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -623,13 +623,13 @@
         "Dashboard metrics for vehicle views, most viewed vehicles, WhatsApp clicks, new leads, and conversion percentage are available.",
         "Analytics does not block MVP launch."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T20:17:04Z",
       "completed_at": null
     },
     {
@@ -657,9 +657,9 @@
     }
   ],
   "last_run": {
-    "feature": "F014",
-    "event": "complete",
-    "at": "2026-10-18T20:16:55Z",
-    "detail": "F014 done; committed 83dc2ac."
+    "feature": "F015",
+    "event": "dispatch",
+    "at": "2026-10-18T20:17:04Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }

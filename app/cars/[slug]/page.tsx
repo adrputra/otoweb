@@ -1,8 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Check, MapPin, Share2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, MapPin } from 'lucide-react'
 
+import { VehicleViewTracker } from '@/components/analytics/page-trackers'
+import { VehicleShareButton } from '@/components/analytics/vehicle-share-button'
 import { PublicFooter } from '@/components/public-footer'
 import { JsonLd } from '@/components/seo/json-ld'
 import { VehicleCard } from '@/components/showroom'
@@ -37,6 +39,7 @@ export default async function Detail({ params }: { params: Promise<{ slug: strin
 
   return (
     <main className="min-h-screen bg-[#faf9f7]" style={showroomThemeStyle(showroom.colors)}>
+      <VehicleViewTracker vehicleSlug={vehicle.slug} />
       <JsonLd data={buildVehicleStructuredData(vehicle, showroom, origin)} />
       <header className="border-b border-neutral-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
@@ -95,9 +98,10 @@ export default async function Detail({ params }: { params: Promise<{ slug: strin
             >
               {sold ? 'Tanya mobil serupa' : 'Tanya via WhatsApp'} <ArrowRight className="ml-2 size-5" />
             </a>
-            <button className="mt-3 flex h-12 items-center justify-center gap-2 border border-neutral-300 text-sm font-semibold">
-              <Share2 className="size-4" /> Bagikan unit
-            </button>
+            <VehicleShareButton
+              vehicleSlug={vehicle.slug}
+              title={`${vehicle.brand} ${vehicle.model} ${vehicle.variant}`}
+            />
           </div>
         </div>
         <section className="mt-16 border-t border-neutral-200 pt-12">

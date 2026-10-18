@@ -6,7 +6,7 @@ const AUTH_URL = `http://127.0.0.1:${AUTH_PORT}`
 
 export default defineConfig({
   testDir: './tests/e2e',
-  testMatch: /admin-(vehicles|vehicle-images|showroom-settings|leads)\.spec\.ts/,
+  testMatch: /admin-(vehicles|vehicle-images|showroom-settings|leads|analytics)\.spec\.ts/,
   fullyParallel: false,
   workers: 1,
   reporter: [['list'], ['html', { open: 'never' }]],

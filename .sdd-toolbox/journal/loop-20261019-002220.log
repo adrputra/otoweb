@@ -2541,3 +2541,158 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F014): custom domains" && git log -1 --format='%H %s'
 83dc2acd16944777ecc7acc8408d851359c25ed4 feat(F014): custom domains
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T20:16:55Z'; sha='83dc2acd16944777ecc7acc8408d851359c25ed4'
+for f in d['features']:
+    if f['id']=='F014':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/013-custom-domains'
+        f['evidence']=[
+          'specs/013-custom-domains',
+          '.sdd-toolbox/waves/013-custom-domains.json',
+          'lib/domains',
+          'lib/platform/domain-service.ts',
+          'tests/unit/platform/domain-service.test.ts',
+          'tests/e2e/custom-domains.spec.ts',
+          'docs/CUSTOM_DOMAINS.md',
+          '.visual-qa/reports/f014-custom-domains-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-031655-F014-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F014','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F014 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 462/462) passed; VISUAL_QA PASS incl. custom-domain routing and platform-subdomain fallback.'})
+d['last_run']={'feature':'F014','event':'complete','at':now,'detail':'F014 done; committed 83dc2ac.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-031655-F014-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `83dc2acd16944777ecc7acc8408d851359c25ed4` — feat(F014): custom domains
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F014): record checkpoint commit" && git log --oneline -3
+e579b63 chore(F014): record checkpoint commit
+83dc2ac feat(F014): custom domains
+25ece7c chore(F013): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 57.'); j=s.find('# 58.'); print(s[i:j])
+EOF
+# 57. PHASE 15 — Analytics
+
+Track:
+
+```text
+vehicle_view
+inventory_search
+filter_use
+whatsapp_click
+contact_submit
+vehicle_share
+```
+
+Possible dashboard metrics:
+
+```text
+vehicle views
+most viewed vehicles
+WhatsApp clicks
+new leads
+conversion percentage
+```
+
+Do not block MVP launch on analytics.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T20:17:04Z
+20261019-031704
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T20:17:04Z'
+for f in d['features']:
+    if f['id']=='F015':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F015','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-031704-F015.md <<'EOF'
+# F015 — Analytics
+
+- Timestamp: 2026-10-18T20:17:04Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M3
+- Roadmap source: `docs/ROADMAP.md`, `# 57. PHASE 15 — Analytics`
+- Dependencies: F014 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. vehicle_view, inventory_search, filter_use, whatsapp_click, contact_submit, and vehicle_share are tracked.
+2. Dashboard metrics for vehicle views, most viewed vehicles, WhatsApp clicks, new leads, and conversion percentage are available.
+3. Analytics does not block MVP launch.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F015[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F015[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -18 .visual-qa/reports/f015-analytics-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f015-analytics-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null
+# F015 Analytics — Visual QA
+
+**Captured**: 2026-10-18T20:35:03.456Z
+**Base URL**: http://prima.otoweb.id:3100
+**Verdict**: PASS
+
+| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Vehicle views | Screenshot |
+|---|---|---|---|---|---|---|---|
+| desktop | /cars/toyota-fortuner-2021-1 | yes | yes | no | no | — | .visual-qa/screenshots/desktop/analytics-vehicle-share.png |
+| desktop | /admin | yes | yes | no | no | 5 | .visual-qa/screenshots/desktop/analytics-admin-dashboard.png |
+| mobile | /cars/toyota-fortuner-2021-1 | yes | yes | no | no | — | .visual-qa/screenshots/mobile/analytics-vehicle-share.png |
+| mobile | /admin | yes | yes | no | no | 10 | .visual-qa/screenshots/mobile/analytics-admin-dashboard.png |
+
+## Failures
+
+None.
+
+## Scope
+---
+{'capturedAt': '2026-10-18T20:35:03.456Z', 'verdict': 'PASS', 'failures': []}
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  57 passed (57)
+      Tests  522 passed (522)
+   Start at  03:35:22
+   Duration  64.69s (tests 91%, import 4%, environment 3%, setup 2%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T20:36:28Z
+20261019-033628
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-033628-F015-complete.md
+Wrote file successfully.
+[0m
