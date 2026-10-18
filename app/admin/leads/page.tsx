@@ -1,0 +1,8 @@
+'use client'
+import {useState} from 'react'
+import {leads as seed} from '@/data'
+import {vehicles} from '@/data'
+import {whatsappLink} from '@/lib/format'
+import {updateLead} from '@/lib/actions'
+import {PageHeader} from '@/components/admin-shell'
+export default function LeadsPage(){const [items,setItems]=useState(seed);return <><PageHeader title="Leads" description={`${items.length} percakapan dari semua kanal`}/><div className="border border-neutral-200 bg-white"><div className="divide-y divide-neutral-100">{items.map(l=>{const vehicle=vehicles.find(v=>v.id===l.vehicleId);return <div key={l.id} className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between"><div><div className="flex flex-wrap items-center gap-2"><p className="font-semibold">{l.name}</p><span className="text-xs text-neutral-400">{l.source}</span></div><p className="mt-1 text-sm text-neutral-600">{l.message}</p><p className="mt-2 text-xs text-neutral-400">{vehicle?.brand} {vehicle?.model} · {l.phone}</p></div><div className="flex items-center gap-3"><select value={l.status} onChange={async e=>{const status=e.target.value as typeof l.status;setItems(x=>x.map(i=>i.id===l.id?{...i,status}:i));await updateLead(l.id,status)}} className="h-9 border border-neutral-200 bg-white px-2 text-xs"><option value="new">Baru</option><option value="contacted">Dihubungi</option><option value="closed">Selesai</option></select><a target="_blank" href={whatsappLink(l.phone,`Halo ${l.name}, terima kasih sudah menghubungi Prima Auto Gallery.`)} className="h-9 bg-neutral-950 px-3 py-2 text-xs font-semibold text-white">Balas WhatsApp</a></div></div>})}</div></div></>}
