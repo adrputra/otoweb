@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T20:17:04Z",
+  "updated_at": "2026-10-18T20:36:28Z",
   "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -117,6 +117,12 @@
       "feature": "F014",
       "decision": "auto-approve-checkpoint",
       "detail": "AUTO_CHECKPOINT marker: F014 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 462/462) passed; VISUAL_QA PASS incl. custom-domain routing and platform-subdomain fallback."
+    },
+    {
+      "at": "2026-10-18T20:36:28Z",
+      "feature": "F015",
+      "decision": "auto-approve-checkpoint",
+      "detail": "AUTO_CHECKPOINT marker: F015 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 522/522) passed; VISUAL_QA PASS; non-blocking failure-safety tests pass."
     }
   ],
   "features": [
@@ -623,14 +629,25 @@
         "Dashboard metrics for vehicle views, most viewed vehicles, WhatsApp clicks, new leads, and conversion percentage are available.",
         "Analytics does not block MVP launch."
       ],
-      "status": "in_progress",
+      "status": "done",
       "attempts": 1,
-      "spec_dir": null,
-      "commit": null,
-      "evidence": [],
+      "spec_dir": "specs/014-analytics",
+      "commit": "cd65bc034ea2c31f8c2ef0c5cc64a08693d5701e",
+      "evidence": [
+        "specs/014-analytics",
+        ".sdd-toolbox/waves/014-analytics.json",
+        "lib/analytics",
+        "db/migrations/0004_analytics.sql",
+        "lib/admin/analytics-queries.ts",
+        "tests/unit/analytics",
+        "tests/e2e/admin-analytics.spec.ts",
+        "docs/ANALYTICS.md",
+        ".visual-qa/reports/f015-analytics-visual-qa.md",
+        ".sdd-toolbox/journal/20261019-033628-F015-complete.md"
+      ],
       "blocker": null,
       "started_at": "2026-10-18T20:17:04Z",
-      "completed_at": null
+      "completed_at": "2026-10-18T20:36:28Z"
     },
     {
       "id": "F016",
@@ -658,8 +675,8 @@
   ],
   "last_run": {
     "feature": "F015",
-    "event": "dispatch",
-    "at": "2026-10-18T20:17:04Z",
-    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
+    "event": "complete",
+    "at": "2026-10-18T20:36:28Z",
+    "detail": "F015 done; committed cd65bc0."
   }
 }
