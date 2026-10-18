@@ -279,6 +279,26 @@ describe('vehicle detail and related units', () => {
     expect(related.every((vehicle) => vehicle.bodyType === current!.bodyType)).toBe(true)
     expect(related.some((vehicle) => vehicle.id === TENANT_B_VEHICLE_ID)).toBe(false)
   })
+
+  it('never suggests sold units as related vehicles', async () => {
+    const sold = await getPublicVehicleBySlug(
+      database.db,
+      prima.tenantId,
+      'toyota-camry-2019-11',
+    )
+    expect(sold).not.toBeNull()
+    expect(sold?.availability).toBe('sold')
+
+    const related = await listRelatedPublicVehicles(
+      database.db,
+      prima.tenantId,
+      sold!.id,
+      sold!.bodyType,
+    )
+
+    expect(related.length).toBeGreaterThan(0)
+    expect(related.every((vehicle) => vehicle.availability !== 'sold')).toBe(true)
+  })
 })
 
 describe('tenant scope guard', () => {

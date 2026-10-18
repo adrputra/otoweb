@@ -1875,3 +1875,179 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F010): lead capture" && git log -1 --format='%H %s'
 399d2e50c9470cb12e60ea570bb471501ffee9be feat(F010): lead capture
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:18:41Z'; sha='399d2e50c9470cb12e60ea570bb471501ffee9be'
+for f in d['features']:
+    if f['id']=='F010':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/009-lead-capture'
+        f['evidence']=[
+          'specs/009-lead-capture',
+          '.sdd-toolbox/waves/009-lead-capture.json',
+          'db/migrations/0002_tiny_charles_xavier.sql',
+          'lib/admin/lead-service.ts',
+          'app/admin/leads/page.tsx',
+          'tests/e2e/admin-leads.spec.ts',
+          'docs/LEADS.md',
+          '.visual-qa/reports/f010-lead-capture-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-021841-F010-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F010','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F010 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 337/337) passed; VISUAL_QA PASS for public form and admin leads.'})
+d['last_run']={'feature':'F010','event':'complete','at':now,'detail':'F010 done; committed 399d2e5.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-021841-F010-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `399d2e50c9470cb12e60ea570bb471501ffee9be` — feat(F010): lead capture
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F010): record checkpoint commit" && git log --oneline -3
+1be6c06 chore(F010): record checkpoint commit
+399d2e5 feat(F010): lead capture
+51582f8 chore(F009): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 53.'); j=s.find('# 54.'); print(s[i:j])
+EOF
+# 53. PHASE 11 — SEO Productionization
+
+Implement:
+
+```text
+dynamic metadata
+OpenGraph
+canonical
+sitemap
+robots
+structured data
+sold listing handling
+```
+
+Sitemaps must be tenant-specific.
+
+Acceptance:
+
+Verify generated HTML, not just browser-rendered metadata.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:18:50Z
+20261019-021850
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:18:50Z'
+d['active_milestone']='M3'
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':None,'decision':'advance-milestone','detail':'MILESTONE-ADVANCE pre-approved: M2 complete (F006-F010 done). Activated M3 (F011-F016 pending).'})
+d['last_run']={'feature':None,'event':'milestone-advance','at':now,'detail':'M2 complete; activated M3.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-021850-M2-milestone.md <<'EOF'
+# Milestone M2 — complete
+
+- Timestamp: 2026-10-18T19:18:50Z
+- Event: milestone completion + advance
+- Features done: F006 Connect Public Website to Database, F007 Admin Vehicle CRUD, F008 Image Management, F009 Showroom Settings, F010 Lead Capture.
+- Commits: F006 `f447738`, F007 `8b423e1`, F008 `7d112e3`, F009 `9bfa174`, F010 `399d2e5` (plus checkpoint chore commits).
+- MILESTONE-ADVANCE pre-approved: active milestone switched M2 -> M3.
+- Next: F011 SEO Productionization (deps F010 done).
+EOF
+echo done
+done
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:18:50Z'
+for f in d['features']:
+    if f['id']=='F011':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F011','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run; M3 active.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-021850-F011.md <<'EOF'
+# F011 — SEO Productionization
+
+- Timestamp: 2026-10-18T19:18:50Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M3
+- Roadmap source: `docs/ROADMAP.md`, `# 53. PHASE 11 — SEO Productionization`
+- Dependencies: F010 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Dynamic metadata, OpenGraph, canonical, sitemap, robots, structured data, and sold listing handling are implemented.
+2. Sitemaps are tenant-specific.
+3. Generated HTML is verified, not just browser-rendered metadata.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F011[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F011[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -20 .visual-qa/reports/f011-seo-productionization-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f011-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null; cat .visual-qa/reports/f011-impeccable-detect.json 2>/dev/null
+# F011 SEO Productionization — Visual QA
+
+**Captured**: 2026-10-18T19:24:59.475Z
+**Command**: `pnpm visual:qa`
+**Base URL**: `http://127.0.0.1:3100`
+**Verdict**: PASS
+
+## Scope
+
+- Public home, inventory, and vehicle detail on `prima.otoweb.id`.
+- Public home on `tenant-b.otoweb.id` (cross-tenant identity check).
+- Desktop 1440×900 and mobile 390×844.
+- Capture report: `.visual-qa/reports/f011-capture.json`
+- Screenshots: `.visual-qa/screenshots/{desktop,mobile}/{home,inventory,vehicle-detail,tenant-b-home}.png`
+- Impeccable detector on the changed UI files: `.visual-qa/reports/f011-impeccable-detect.json` (no findings)
+
+## Result
+
+`Captured 8 screenshots; all checks passed.`
+
+---
+{'capturedAt': '2026-10-18T19:24:59.475Z', 'verdict': 'PASS', 'failures': []}
+[]
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  41 passed (41)
+      Tests  359 passed (359)
+   Start at  02:26:49
+   Duration  39.44s (tests 84%, import 6%, environment 5%, setup 3%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:27:30Z
+20261019-022730
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-022730-F011-complete.md
+Wrote file successfully.
+[0m

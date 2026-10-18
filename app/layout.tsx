@@ -6,27 +6,17 @@ import { Plus_Jakarta_Sans, Inter } from 'next/font/google'
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-jakarta' })
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
+/**
+ * Generic platform fallback metadata.
+ *
+ * Public showroom routes override this with tenant-specific metadata through
+ * `generateMetadata`. Keeping the fallback tenant-neutral prevents one
+ * showroom's identity from leaking into another tenant's response.
+ */
 export const metadata: Metadata = {
-  title: 'Prima Auto Gallery — Mobil Bekas Berkualitas',
-  description: 'Temukan mobil bekas berkualitas dan terinspeksi di Prima Auto Gallery.',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+  title: 'OtoWeb',
+  description: 'Platform website showroom mobil multi-tenant.',
+  applicationName: 'OtoWeb',
 }
 
 export const viewport: Viewport = {

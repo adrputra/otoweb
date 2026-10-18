@@ -81,11 +81,12 @@ incumbent neutral/amber layout is preserved while each tenant gets a distinct
 accent. The saved logo renders in the public header; social links and full
 address details render in the contact/footer area.
 
-Public metadata comes from `showroomMetadata()` in `lib/public/metadata.ts`:
-the home title/description use the stored SEO fields, inventory/detail keep
-contextual titles, and empty values fall back to the showroom identity. Full
-canonical, OpenGraph, sitemap, robots, and structured-data productionization is
-F011.
+Public metadata comes from `lib/seo/metadata.ts` through the stable
+`lib/public/metadata.ts` facade: the home title/description use the stored SEO
+fields, inventory/detail keep contextual titles, and empty values fall back to
+the showroom identity. Canonical URLs, OpenGraph, the tenant-specific
+`sitemap.xml`/`robots.txt`, JSON-LD, and the sold-listing policy are
+implemented by F011 and documented in `docs/SEO.md`.
 
 ## Contact form and WhatsApp leads
 
@@ -135,8 +136,8 @@ markdown report.
 - No public runtime import of `data/index.ts`.
 - No unscoped vehicle/settings query. A missing or malformed tenant id throws
   before SQL.
-- No admin CRUD, image upload, settings editing, SEO productionization, or
-  subdomain routing beyond the F005 resolver. Lead capture is documented in
-  `docs/LEADS.md`; contact submissions and WhatsApp actions are the only public
-  writes.
+- No admin CRUD, image upload, or settings editing here. SEO output is
+  documented in `docs/SEO.md`; subdomain routing beyond the F005 resolver is
+  still out of scope. Lead capture is documented in `docs/LEADS.md`; contact
+  submissions and WhatsApp actions are the only public writes.
 - The service role and database credentials never reach the browser.

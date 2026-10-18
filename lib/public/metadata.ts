@@ -1,31 +1,15 @@
-import type { Metadata } from 'next'
-
-import type { Showroom } from '@/lib/types'
-
 /**
- * Build public metadata from the tenant's stored SEO fields.
+ * Public metadata facade.
  *
- * Empty values fall back to the showroom identity so a tenant never ships a
- * blank title or description. Full canonical/OpenGraph/sitemap productionization
- * belongs to F011.
+ * The implementation lives in `lib/seo/metadata.ts` so the SEO builders are
+ * shared by pages, sitemap/robots, and structured data. This module keeps the
+ * existing import path stable for the public routes and tests.
  */
-export function showroomMetadata(showroom: Showroom): Metadata {
-  const title = showroom.seo.title.trim() || showroom.name
-  const description =
-    showroom.seo.description.trim() ||
-    showroom.description.trim() ||
-    showroom.tagline.trim() ||
-    undefined
-
-  return {
-    title,
-    description,
-    applicationName: showroom.name,
-    icons: showroom.logoUrl
-      ? {
-          icon: showroom.logoUrl,
-          apple: showroom.logoUrl,
-        }
-      : undefined,
-  }
-}
+export {
+  DESCRIPTION_LIMIT,
+  inventoryMetadata,
+  showroomMetadata,
+  truncateDescription,
+  vehicleMetadata,
+  vehicleTitle,
+} from '@/lib/seo/metadata'

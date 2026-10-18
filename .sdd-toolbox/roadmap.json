@@ -3,8 +3,8 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T19:18:41Z",
-  "active_milestone": "M2",
+  "updated_at": "2026-10-18T19:18:50Z",
+  "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
     "gates": "checkpoint-per-feature",
@@ -87,6 +87,12 @@
       "feature": "F010",
       "decision": "auto-approve-checkpoint",
       "detail": "AUTO_CHECKPOINT marker: F010 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 337/337) passed; VISUAL_QA PASS for public form and admin leads."
+    },
+    {
+      "at": "2026-10-18T19:18:50Z",
+      "feature": null,
+      "decision": "advance-milestone",
+      "detail": "MILESTONE-ADVANCE pre-approved: M2 complete (F006-F010 done). Activated M3 (F011-F016 pending)."
     }
   ],
   "features": [
@@ -459,13 +465,13 @@
         "Sitemaps are tenant-specific.",
         "Generated HTML is verified, not just browser-rendered metadata."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T19:18:50Z",
       "completed_at": null
     },
     {
@@ -589,9 +595,9 @@
     }
   ],
   "last_run": {
-    "feature": "F010",
-    "event": "complete",
-    "at": "2026-10-18T19:18:41Z",
-    "detail": "F010 done; committed 399d2e5."
+    "feature": "F011",
+    "event": "dispatch",
+    "at": "2026-10-18T19:18:50Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run; M3 active."
   }
 }

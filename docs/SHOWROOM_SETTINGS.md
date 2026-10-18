@@ -98,12 +98,13 @@ white-label sites from one deployment.
 
 ## SEO fields
 
-Home, inventory, and vehicle-detail routes call `showroomMetadata()`. The home
-title/description come from the stored SEO fields; inventory and detail keep
-their own contextual title while using the tenant identity. Empty SEO fields
-fall back to the showroom name and description, and a stored logo becomes the
-site icon. Canonical URLs, OpenGraph, sitemaps, robots, and structured data
-remain F011 scope.
+Home, inventory, and vehicle-detail routes build metadata through
+`lib/public/metadata.ts`/`lib/seo/metadata.ts`. The home title/description come
+from the stored SEO fields; inventory and detail keep their own contextual title
+while using the tenant identity. Empty SEO fields fall back to the showroom name
+and description, and a stored logo becomes the site icon and OpenGraph image
+source. Canonical URLs, OpenGraph, the tenant-specific sitemap/robots, and
+structured data are implemented by F011; see `docs/SEO.md`.
 
 ## Isolation and permissions
 

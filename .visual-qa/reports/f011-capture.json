@@ -1,0 +1,150 @@
+{
+  "baseUrl": "http://127.0.0.1:3100",
+  "capturedAt": "2026-10-18T19:24:59.475Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "home",
+      "host": "prima.otoweb.id",
+      "path": "/",
+      "heading": "Prima Auto Gallery"
+    },
+    {
+      "name": "inventory",
+      "host": "prima.otoweb.id",
+      "path": "/cars",
+      "heading": "Koleksi mobil"
+    },
+    {
+      "name": "vehicle-detail",
+      "host": "prima.otoweb.id",
+      "path": "/cars/toyota-fortuner-2021-1",
+      "heading": "Fortuner"
+    },
+    {
+      "name": "tenant-b-home",
+      "host": "tenant-b.otoweb.id",
+      "path": "/",
+      "heading": "Tenant B Test Showroom"
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "url": "http://prima.otoweb.id:3100/",
+      "heading": "Prima Auto Gallery",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/desktop/home.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/cars",
+      "url": "http://prima.otoweb.id:3100/cars",
+      "heading": "Koleksi mobil",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/desktop/inventory.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/cars/toyota-fortuner-2021-1",
+      "url": "http://prima.otoweb.id:3100/cars/toyota-fortuner-2021-1",
+      "heading": "Fortuner",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/desktop/vehicle-detail.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.otoweb.id",
+      "route": "/",
+      "url": "http://tenant-b.otoweb.id:3100/",
+      "heading": "Tenant B Test Showroom",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/desktop/tenant-b-home.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "url": "http://prima.otoweb.id:3100/",
+      "heading": "Prima Auto Gallery",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/mobile/home.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/cars",
+      "url": "http://prima.otoweb.id:3100/cars",
+      "heading": "Koleksi mobil",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/mobile/inventory.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/cars/toyota-fortuner-2021-1",
+      "url": "http://prima.otoweb.id:3100/cars/toyota-fortuner-2021-1",
+      "heading": "Fortuner",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/mobile/vehicle-detail.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.otoweb.id",
+      "route": "/",
+      "url": "http://tenant-b.otoweb.id:3100/",
+      "heading": "Tenant B Test Showroom",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "screenshot": ".visual-qa/screenshots/mobile/tenant-b-home.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

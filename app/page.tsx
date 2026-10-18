@@ -5,25 +5,32 @@ import { ArrowRight, Check, Mail, MapPin, Phone } from 'lucide-react'
 
 import { PublicContactForm } from '@/components/public-contact-form'
 import { PublicFooter } from '@/components/public-footer'
+import { JsonLd } from '@/components/seo/json-ld'
 import { Header, QuickSearch, VehicleCard } from '@/components/showroom'
 import { showroomMetadata } from '@/lib/public/metadata'
 import { getShowroom, listFeaturedVehicles, listVehicleBrands } from '@/lib/repositories'
+import { getRequestOrigin } from '@/lib/seo/origin'
+import { buildShowroomStructuredData } from '@/lib/seo/structured-data'
 import { showroomThemeStyle } from '@/lib/theme'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata() {
   const showroom = await getShowroom()
-  return showroom ? showroomMetadata(showroom) : {}
+  if (!showroom) return {}
+
+  const origin = await getRequestOrigin()
+  return showroomMetadata(showroom, { origin, path: '/' })
 }
 
 export default async function Page() {
-  const showroom = await getShowroom()
+  const [showroom, origin] = await Promise.all([getShowroom(), getRequestOrigin()])
   if (!showroom) notFound()
 
   const [cars, brands] = await Promise.all([listFeaturedVehicles(), listVehicleBrands()])
   return (
     <main style={showroomThemeStyle(showroom.colors)}>
+      <JsonLd data={buildShowroomStructuredData(showroom, origin)} />
       <section className="relative min-h-[680px] overflow-hidden bg-neutral-950 text-white">
         <Image
           src={showroom.heroImageUrl}

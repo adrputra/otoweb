@@ -16,6 +16,12 @@ export type PublicDatabase = PgDatabase<PgQueryResultHKT, typeof schema>
 
 export const PUBLIC_VEHICLE_STATUSES = ['available', 'reserved', 'sold'] as const
 
+/**
+ * Related-unit suggestions must offer a next step, so sold units are excluded
+ * even though their detail pages remain public for SEO preservation.
+ */
+export const RELATED_VEHICLE_STATUSES = ['available', 'reserved'] as const
+
 const TRANSMISSIONS = new Set(['AT', 'MT', 'CVT'])
 const FUELS = new Set(['bensin', 'diesel', 'hybrid', 'listrik'])
 const SORTS = new Set([
@@ -309,7 +315,7 @@ export async function listRelatedPublicVehicles(
     .where(
       and(
         eq(vehicles.tenantId, id),
-        inArray(vehicles.status, [...PUBLIC_VEHICLE_STATUSES]),
+        inArray(vehicles.status, [...RELATED_VEHICLE_STATUSES]),
         eq(vehicles.bodyType, bodyType),
         ne(vehicles.id, vehicleId),
       ),

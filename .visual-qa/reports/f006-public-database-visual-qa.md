@@ -1,6 +1,6 @@
 # F006 Public Site Visual QA
 
-**Captured**: 2026-10-18T18:11:23.897Z
+**Captured**: 2026-10-18T19:24:59.475Z
 **Base URL**: http://127.0.0.1:3100
 **Verdict**: PASS
 

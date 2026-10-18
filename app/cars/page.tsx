@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation'
 
 import { PublicFooter } from '@/components/public-footer'
 import { Filters, VehicleCard } from '@/components/showroom'
-import { showroomMetadata } from '@/lib/public/metadata'
+import { inventoryMetadata } from '@/lib/public/metadata'
 import { getShowroom, listVehicleBrands, listVehicles } from '@/lib/repositories'
+import { getRequestOrigin } from '@/lib/seo/origin'
 import { showroomThemeStyle } from '@/lib/theme'
 
 export const dynamic = 'force-dynamic'
@@ -13,8 +14,9 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata() {
   const showroom = await getShowroom()
   if (!showroom) return {}
-  const base = showroomMetadata(showroom)
-  return { ...base, title: `Koleksi mobil — ${showroom.name}` }
+
+  const origin = await getRequestOrigin()
+  return inventoryMetadata(showroom, origin)
 }
 
 export default async function Cars({
