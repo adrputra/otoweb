@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T14:54:10Z",
+  "updated_at": "2026-10-18T14:54:40Z",
   "active_milestone": "M1",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -89,7 +89,7 @@
       "status": "done",
       "attempts": 1,
       "spec_dir": "specs/001-engineering-foundation",
-      "commit": "880e0cdeda3177656acf7bd36fa48a4dfa80f776",
+      "commit": "f40ec4633820a588702c1010a1251586ad495843",
       "evidence": [
         "specs/001-engineering-foundation",
         ".sdd-toolbox/waves/001-engineering-foundation.json",
