@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T14:42:43Z",
+  "updated_at": "2026-10-18T14:54:10Z",
   "active_milestone": "M1",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -27,6 +27,12 @@
       "feature": null,
       "decision": "approve-queue",
       "detail": "Approved the 16-feature queue derived from docs/ROADMAP.md. F001 is recorded as pre-completed; F002-F016 are pending. Active milestone M1. No constitution bootstrap."
+    },
+    {
+      "at": "2026-10-18T14:53:40Z",
+      "feature": "F002",
+      "decision": "auto-approve-checkpoint",
+      "detail": "AUTO_CHECKPOINT marker (scripts/loop.sh --auto-checkpoint): F002 checkpoint auto-approved. All outer validation commands passed."
     }
   ],
   "features": [
@@ -37,7 +43,7 @@
       "milestone": "M1",
       "kind": "feature",
       "deps": [],
-      "roadmap_section": "# 43. PHASE 1 — Repository Production Audit",
+      "roadmap_section": "# 43. PHASE 1 \u2014 Repository Production Audit",
       "acceptance": [
         "All existing routes are documented.",
         "Reusable components are identified.",
@@ -69,7 +75,7 @@
       "deps": [
         "F001"
       ],
-      "roadmap_section": "# 44. PHASE 2 — Engineering Foundation",
+      "roadmap_section": "# 44. PHASE 2 \u2014 Engineering Foundation",
       "acceptance": [
         "ESLint, formatting, typecheck command, Vitest, Testing Library, Playwright, GitHub Actions, and environment validation are implemented.",
         ".env.example is added without real credentials.",
@@ -80,14 +86,20 @@
         "At least one Playwright smoke test exists.",
         "No backend integration is introduced."
       ],
-      "status": "pending",
-      "attempts": 0,
-      "spec_dir": null,
-      "commit": null,
-      "evidence": [],
+      "status": "done",
+      "attempts": 1,
+      "spec_dir": "specs/001-engineering-foundation",
+      "commit": "880e0cdeda3177656acf7bd36fa48a4dfa80f776",
+      "evidence": [
+        "specs/001-engineering-foundation",
+        ".sdd-toolbox/waves/001-engineering-foundation.json",
+        ".github/workflows/ci.yml",
+        "tests/e2e/home.spec.ts",
+        ".sdd-toolbox/journal/20261018-145340-F002-complete.md"
+      ],
       "blocker": null,
-      "started_at": null,
-      "completed_at": null
+      "started_at": "2026-10-18T14:43:31Z",
+      "completed_at": "2026-10-18T14:53:40Z"
     },
     {
       "id": "F003",
@@ -98,7 +110,7 @@
       "deps": [
         "F002"
       ],
-      "roadmap_section": "# 45. PHASE 3 — Database Foundation",
+      "roadmap_section": "# 45. PHASE 3 \u2014 Database Foundation",
       "acceptance": [
         "Supabase, Drizzle ORM, and PostgreSQL migrations are configured.",
         "The required tables tenants, tenant_domains, profiles, tenant_members, showroom_settings, vehicles, and vehicle_images exist.",
@@ -127,7 +139,7 @@
       "deps": [
         "F003"
       ],
-      "roadmap_section": "# 46. PHASE 4 — Authentication",
+      "roadmap_section": "# 46. PHASE 4 \u2014 Authentication",
       "acceptance": [
         "Login, logout, password reset, authenticated admin routes, and session handling are implemented.",
         "No public registration is implemented.",
@@ -154,7 +166,7 @@
       "deps": [
         "F004"
       ],
-      "roadmap_section": "# 47. PHASE 5 — Multi-Tenant Security",
+      "roadmap_section": "# 47. PHASE 5 \u2014 Multi-Tenant Security",
       "acceptance": [
         "Tenant memberships, tenant context, hostname resolver, tenant-scoped queries, RLS, permission helpers, and tenant isolation tests are implemented.",
         "Fixtures prima and tenant-b exist.",
@@ -182,7 +194,7 @@
       "deps": [
         "F005"
       ],
-      "roadmap_section": "# 48. PHASE 6 — Connect Public Website to Database",
+      "roadmap_section": "# 48. PHASE 6 \u2014 Connect Public Website to Database",
       "acceptance": [
         "Homepage featured units, inventory, vehicle detail, related vehicles, and showroom data are database-driven.",
         "No public vehicle data comes from hard-coded mock arrays.",
@@ -211,7 +223,7 @@
       "deps": [
         "F006"
       ],
-      "roadmap_section": "# 49. PHASE 7 — Admin Vehicle CRUD",
+      "roadmap_section": "# 49. PHASE 7 \u2014 Admin Vehicle CRUD",
       "acceptance": [
         "Create, edit, publish, reserve, sell, archive, duplicate, and delete are implemented.",
         "Server-side validation is used.",
@@ -237,7 +249,7 @@
       "deps": [
         "F007"
       ],
-      "roadmap_section": "# 50. PHASE 8 — Image Management",
+      "roadmap_section": "# 50. PHASE 8 \u2014 Image Management",
       "acceptance": [
         "Cloudinary upload, multiple upload, progress, reordering, cover selection, deletion, validation, and optimization are implemented.",
         "Approximately 15 high-resolution images are tested in one vehicle workflow.",
@@ -265,7 +277,7 @@
       "deps": [
         "F008"
       ],
-      "roadmap_section": "# 51. PHASE 9 — Showroom Settings",
+      "roadmap_section": "# 51. PHASE 9 \u2014 Showroom Settings",
       "acceptance": [
         "Name, tagline, description, logo, hero image, colors, contact details, address, social links, opening hours, and SEO fields are editable.",
         "All changes are tenant scoped.",
@@ -291,7 +303,7 @@
       "deps": [
         "F009"
       ],
-      "roadmap_section": "# 52. PHASE 10 — Lead Capture",
+      "roadmap_section": "# 52. PHASE 10 \u2014 Lead Capture",
       "acceptance": [
         "The lead table, contact form, WhatsApp tracking, lead dashboard, and lead status updates are implemented.",
         "No advanced CRM features are created.",
@@ -315,7 +327,7 @@
       "deps": [
         "F010"
       ],
-      "roadmap_section": "# 53. PHASE 11 — SEO Productionization",
+      "roadmap_section": "# 53. PHASE 11 \u2014 SEO Productionization",
       "acceptance": [
         "Dynamic metadata, OpenGraph, canonical, sitemap, robots, structured data, and sold listing handling are implemented.",
         "Sitemaps are tenant-specific.",
@@ -339,7 +351,7 @@
       "deps": [
         "F011"
       ],
-      "roadmap_section": "# 54. PHASE 12 — Platform Administration",
+      "roadmap_section": "# 54. PHASE 12 \u2014 Platform Administration",
       "acceptance": [
         "A /platform surface exists.",
         "Create tenant, disable tenant, assign owner, inspect tenant, set subdomain, and set plan/status are available.",
@@ -363,7 +375,7 @@
       "deps": [
         "F012"
       ],
-      "roadmap_section": "# 55. PHASE 13 — Subdomain Routing",
+      "roadmap_section": "# 55. PHASE 13 \u2014 Subdomain Routing",
       "acceptance": [
         "Wildcard tenant routing is implemented.",
         "Development supports easy tenant testing.",
@@ -387,7 +399,7 @@
       "deps": [
         "F013"
       ],
-      "roadmap_section": "# 56. PHASE 14 — Custom Domains",
+      "roadmap_section": "# 56. PHASE 14 \u2014 Custom Domains",
       "acceptance": [
         "Domain registration, verification state, DNS instructions, domain routing, and SSL provisioning integration are implemented.",
         "The platform subdomain remains available as a fallback.",
@@ -411,7 +423,7 @@
       "deps": [
         "F014"
       ],
-      "roadmap_section": "# 57. PHASE 15 — Analytics",
+      "roadmap_section": "# 57. PHASE 15 \u2014 Analytics",
       "acceptance": [
         "vehicle_view, inventory_search, filter_use, whatsapp_click, contact_submit, and vehicle_share are tracked.",
         "Dashboard metrics for vehicle views, most viewed vehicles, WhatsApp clicks, new leads, and conversion percentage are available.",
@@ -435,7 +447,7 @@
       "deps": [
         "F015"
       ],
-      "roadmap_section": "# 58. PHASE 16 — Production Hardening",
+      "roadmap_section": "# 58. PHASE 16 \u2014 Production Hardening",
       "acceptance": [
         "Security, RLS, authorization, dependency, mobile, desktop, SEO, accessibility, performance, and failure-state audits are performed.",
         "The system is tested with two or more realistic showrooms."
@@ -452,8 +464,8 @@
   ],
   "last_run": {
     "feature": "F002",
-    "event": "dispatch-aborted",
-    "at": "2026-10-18T14:42:43Z",
-    "detail": "A loop dispatch was started externally and stopped before FeatureRunner produced specs or code artifacts. F002 was reset to pending for a clean baseline; the aborted dispatch remains recorded in the journal/log."
+    "event": "complete",
+    "at": "2026-10-18T14:53:40Z",
+    "detail": "FeatureRunner COMPLETE; outer validation passed; auto-approved and committed at 880e0cd."
   }
 }

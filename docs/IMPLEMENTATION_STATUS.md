@@ -26,7 +26,7 @@ finished and still be `UI_ONLY` or `MOCKED`.
 | Phase | Roadmap title | Status | Reason |
 |---|---|---|---|
 | 1 | Repository Production Audit | `COMPLETE` | Audit and three documents delivered; build verified |
-| 2 | Engineering Foundation | `NOT_STARTED` | No lint/format/tests/CI/env validation |
+| 2 | Engineering Foundation | `COMPLETE` | Lint/format/typecheck, Vitest + Testing Library, Playwright smoke, CI, env validation, and `.env.example` delivered and verified |
 | 3 | Database Foundation | `NOT_STARTED` | No Supabase, Drizzle, PostgreSQL, migrations, or seeds |
 | 4 | Authentication | `NOT_STARTED` | No auth, sessions, or protected admin routes |
 | 5 | Multi-Tenant Security | `NOT_STARTED` | No tenancy, memberships, tenant context, or RLS |
@@ -50,11 +50,11 @@ Counts are calculated from the detailed capability map in §3.
 
 | Status | Count |
 |---|---:|
-| `COMPLETE` | 30 |
+| `COMPLETE` | 44 |
 | `UI_ONLY` | 20 |
 | `MOCKED` | 19 |
-| `PARTIAL` | 39 |
-| `NOT_STARTED` | 137 |
+| `PARTIAL` | 36 |
+| `NOT_STARTED` | 126 |
 | `BLOCKED` | 9 |
 | **Total** | **254** |
 
@@ -94,21 +94,21 @@ Counts are calculated from the detailed capability map in §3.
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| ESLint | `NOT_STARTED` | No ESLint config or dependency |
-| Formatting | `NOT_STARTED` | No Prettier/Biome config or script |
-| `typecheck` command | `PARTIAL` | `npx tsc --noEmit` passes; no package script |
-| Vitest | `NOT_STARTED` | No Vitest dependency/config |
-| Testing Library | `NOT_STARTED` | No Testing Library dependency/config |
-| Playwright | `NOT_STARTED` | No Playwright dependency/config |
-| GitHub Actions | `NOT_STARTED` | No `.github/` directory |
-| Environment validation | `NOT_STARTED` | No env schema or startup validation |
-| `.env.example` | `NOT_STARTED` | File absent |
-| Required scripts (`lint`, `typecheck`, `test`, `test:e2e`) | `PARTIAL` | `dev`, `build`, `start` exist; the other scripts do not |
-| `pnpm lint` succeeds | `NOT_STARTED` | Script does not exist; command exits 1 |
-| `pnpm typecheck` succeeds | `PARTIAL` | Standalone `tsc` passes; command/script does not exist and exits 1 |
-| `pnpm test` succeeds | `NOT_STARTED` | No test script; `pnpm test` silently exits 0 without running tests, while `pnpm run test` and `npm test` exit 1 |
-| `pnpm build` succeeds | `COMPLETE` | Verified during audit |
-| At least one Playwright smoke test | `NOT_STARTED` | No test files |
+| ESLint | `COMPLETE` | `eslint.config.mjs` (ESLint 9 flat config, Next core-web-vitals + TypeScript + Prettier); `pnpm lint` exit 0 with 0 errors and 11 pre-existing warnings |
+| Formatting | `COMPLETE` | `.prettierrc.json`, `.prettierignore`, `format`/`format:check` scripts; new tooling/test files pass `prettier --check` |
+| `typecheck` command | `COMPLETE` | `pnpm typecheck` runs `tsc --noEmit`; exit 0 |
+| Vitest | `COMPLETE` | `vitest.config.ts`; `pnpm test` runs 2 test files / 5 tests, all passing |
+| Testing Library | `COMPLETE` | `tests/unit/vehicle-card.test.tsx` renders `VehicleCard` with Testing Library |
+| Playwright | `COMPLETE` | `playwright.config.ts`; `tests/e2e/home.spec.ts` passes against the running app |
+| GitHub Actions | `COMPLETE` | `.github/workflows/ci.yml` runs install, env validation, lint, typecheck, test, and build |
+| Environment validation | `COMPLETE` | `scripts/validate-env.mjs` (Zod) is imported by `next.config.mjs`; invalid URL/slug exit 1 |
+| `.env.example` | `COMPLETE` | Credential-free template for `NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_SHOWROOM_SLUG`; real env files ignored |
+| Required scripts (`lint`, `typecheck`, `test`, `test:e2e`) | `COMPLETE` | All present in `package.json`, plus `format`, `format:check`, and `validate:env` |
+| `pnpm lint` succeeds | `COMPLETE` | Exit 0 (0 errors, 11 legacy warnings) |
+| `pnpm typecheck` succeeds | `COMPLETE` | Exit 0 |
+| `pnpm test` succeeds | `COMPLETE` | Exit 0; 2 files / 5 tests passed |
+| `pnpm build` succeeds | `COMPLETE` | Exit 0; Next.js 16.4 build with TypeScript checking enabled |
+| At least one Playwright smoke test | `COMPLETE` | `tests/e2e/home.spec.ts` (1 passed) |
 
 ### Phase 3 — Database Foundation
 
@@ -450,7 +450,8 @@ Blocking conditions in the current repository:
    `BLOCKED`.
 2. **No auth.** Admin access is open; owner/staff roles cannot be exercised.
 3. **No tenant model.** Multi-tenant and isolation capabilities cannot start.
-4. **No test harness or CI.** Regression protection is absent.
+4. **No test harness or CI.** Resolved in Phase 2: Vitest, Testing Library,
+   Playwright, and GitHub Actions now exist.
 5. **Create vehicle and showroom save are no-ops.** The core admin workflows
    cannot be validated end-to-end.
 6. **Draft vehicle leakage.** `getVehicleBySlug` does not filter publication.
@@ -473,8 +474,8 @@ items that block roadmap phases are:
 | TD-04 Draft/archived public access | Phase 6, 7, 11 |
 | TD-05 Create vehicle no-op | Phase 7 |
 | TD-06 Showroom save no-op | Phase 9 |
-| TD-07 No tests/CI | Phase 2, all later phases |
-| TD-08 Build ignores TS errors | Phase 2 |
+| TD-07 No tests/CI | Resolved in Phase 2 (Vitest, Testing Library, Playwright, GitHub Actions) |
+| TD-08 Build ignores TS errors | Resolved in Phase 2 (`typescript.ignoreBuildErrors` removed; build runs TypeScript) |
 | TD-09 No server validation | Phases 7, 9, 10 |
 | TD-10 Fake media upload | Phase 8 |
 | TD-11 No SEO | Phase 11 |
@@ -512,15 +513,19 @@ and 13. For that boundary to be credible:
 
 Commands run after the Phase 1 documentation was written:
 
+Phase 2 (F002) validation evidence captured after the engineering tooling was
+delivered:
+
 | Command | Result |
 |---|---|
 | `npx tsc --noEmit` | Exit 0 |
-| `pnpm lint` | Exit 1 — `Command "lint" not found` |
-| `pnpm typecheck` | Exit 1 — `Command "typecheck" not found` |
-| `npm test` | Exit 1 — `Missing script: "test"` |
-| `pnpm run test` | Exit 1 — `Missing script: "test"` |
-| `pnpm test` | Exit 0 with no output; does not execute tests |
-| `pnpm build` | Exit 0; Next.js compiled; type validation skipped |
+| `npm test` | Exit 0 — 2 test files / 5 tests passed |
+| `pnpm lint` | Exit 0 — 0 errors, 11 pre-existing warnings |
+| `pnpm typecheck` | Exit 0 |
+| `pnpm test` | Exit 0 — 2 test files / 5 tests passed |
+| `pnpm build` | Exit 0 — Next.js 16.4 compiled with TypeScript checking |
+| `pnpm test:e2e` | Exit 0 — 1 Chromium smoke test passed |
+| `pnpm validate:env` | Exit 0 with defaults; exit 1 for a malformed URL and slug |
 
 Runtime route checks performed during the audit:
 
@@ -533,19 +538,12 @@ Runtime route checks performed during the audit:
 
 ## 8. Recommended next phase
 
-**PHASE 2 — Engineering Foundation.**
+**PHASE 3 — Database Foundation.**
 
-It is the correct next step because:
-
-- It does not require production data or credentials.
-- It turns the existing build into a verifiable baseline.
-- It adds the guardrails needed for every later migration.
-- It resolves the current `npm test` failure and missing lint/typecheck scripts.
-- It can be completed without changing the approved visual design.
-
-Phase 2 should add ESLint, formatting, `typecheck`, `lint`, `test`, `test:e2e`,
-Vitest, Testing Library, Playwright, GitHub Actions, `.env.example`, and
-environment validation, then verify:
+Phase 2 is complete and verified. The next phase can add Supabase, Drizzle,
+PostgreSQL migrations, and development seeds on top of the now-enforced lint,
+typecheck, unit/component test, Playwright smoke, CI, and environment-validation
+gates.
 
 ```text
 pnpm lint
@@ -554,4 +552,4 @@ pnpm test
 pnpm build
 ```
 
-Do not start Phase 3 until Phase 2 is approved.
+Do not start Phase 3 until Phase 2 is approved at the roadmap checkpoint.

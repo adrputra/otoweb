@@ -7,4 +7,13 @@ export const carCatalog = {
 } as const
 
 export const brands = Object.keys(carCatalog)
-export const commonFeatures = ['Sunroof', 'Kamera 360', 'Apple CarPlay', 'Android Auto', 'Cruise Control', 'Blind Spot Monitor', 'Kunci Serep', 'Servis Rutin']
+export const commonFeatures = [
+  'Sunroof',
+  'Kamera 360',
+  'Apple CarPlay',
+  'Android Auto',
+  'Cruise Control',
+  'Blind Spot Monitor',
+  'Kunci Serep',
+  'Servis Rutin',
+]

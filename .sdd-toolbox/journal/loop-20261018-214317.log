@@ -1,0 +1,664 @@
+== roadmap loop ==
+mode: auto-checkpoint=true advance-milestone=true through=none
+milestone M1:
+  F001  done
+  F002  pending
+  F003  pending
+  F004  pending
+  F005  pending
+log: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/journal/loop-20261018-214317.log
+
+-- iteration 1/57 --
+[0m
+> roadmap-driver · deepseek-flash
+[0m
+[0m$ [0mls -la .sdd-toolbox/ 2>/dev/null && echo "---" && ls .opencode/context/roadmap/ 2>/dev/null
+total 40
+drwxr-xr-x  3 adrputra adrputra  4096 Oct 18 21:36 .
+drwxr-xr-x 15 adrputra adrputra  4096 Oct 18 21:27 ..
+-rw-r--r--  1 adrputra adrputra   208 Oct 18 21:16 config.json
+drwxr-xr-x  2 adrputra adrputra  4096 Oct 18 21:43 journal
+-rw-------  1 adrputra adrputra  6087 Oct 18 21:16 manifest.json
+-rw-r--r--  1 adrputra adrputra 14249 Oct 18 21:42 roadmap.json
+---
+loop-protocol.md
+[0m
+[0m→ [0mRead .opencode/context/roadmap/loop-protocol.md
+[0m→ [0mRead .sdd-toolbox/roadmap.json
+[0m→ [0mRead .sdd-toolbox/config.json
+[0m
+[0m$ [0mls -la .sdd-toolbox/journal/ && echo "---GIT---" && git log --oneline -10 && echo "---STATUS---" && git status --short
+total 36
+drwxr-xr-x 2 adrputra adrputra  4096 Oct 18 21:43 .
+drwxr-xr-x 3 adrputra adrputra  4096 Oct 18 21:36 ..
+-rw-r--r-- 1 adrputra adrputra  2257 Oct 18 21:36 20261018-143639-init.md
+-rw-r--r-- 1 adrputra adrputra   753 Oct 18 21:41 20261018-144153-F002.md
+-rw-r--r-- 1 adrputra adrputra  1103 Oct 18 21:42 20261018-144243-F002-aborted.md
+-rw-r--r-- 1 adrputra adrputra 10501 Oct 18 21:42 loop-20261018-214140.log
+-rw-r--r-- 1 adrputra adrputra   971 Oct 18 21:43 loop-20261018-214317.log
+---GIT---
+b8d5ed5 chore: initialize roadmap workflow and phase 1 audit
+4a4e744 Merge pull request #2 from adrputra/v0/restore-as-built-docs
+0becb67 docs: restore as-built documentation
+c8b6b45 Merge pull request #1 from adrputra/v0/as-built-documentation
+88caba2 init
+c5eb952 feat: refactor showroom settings live preview to collapsible details
+b634b04 feat: add new settings and showroom pages with form state management
+1ea6fd7 feat: add vehicle edit and new pages with form
+f4fc71f feat: add new admin pages for layout, leads, dashboard, staff, and vehicles
+6f412d5 Initial commit from v0
+---STATUS---
+?? .sdd-toolbox/journal/loop-20261018-214317.log
+[0m
+[0m$ [0mcat .sdd-toolbox/journal/20261018-144153-F002.md; echo "===ABORTED==="; cat .sdd-toolbox/journal/20261018-144243-F002-aborted.md; echo "===LOG==="; cat .sdd-toolbox/journal/loop-20261018-214317.log
+# F002 — Engineering Foundation
+
+- Timestamp: 2026-10-18T14:41:53Z
+- Event: dispatch
+- Attempt: 1 of 2
+- Milestone: M1
+- Roadmap source: `docs/ROADMAP.md`, `# 44. PHASE 2 — Engineering Foundation`
+- Dependencies: F001 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. ESLint, formatting, typecheck command, Vitest, Testing Library, Playwright, GitHub Actions, and environment validation are implemented.
+2. `.env.example` is added without real credentials.
+3. `pnpm lint` succeeds.
+4. `pnpm typecheck` succeeds.
+5. `pnpm test` succeeds.
+6. `pnpm build` succeeds.
+7. At least one Playwright smoke test exists.
+8. No backend integration is introduced.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+===ABORTED===
+# F002 — Aborted dispatch and baseline reset
+
+- Timestamp: 2026-10-18T14:42:43Z
+- Event: dispatch-aborted
+- Feature: F002 — Engineering Foundation
+- Milestone: M1
+
+## What happened
+
+A loop run was started externally with:
+
+```text
+scripts/loop.sh --auto-checkpoint --advance-milestone
+```
+
+It dispatched F002 and wrote a dispatch journal entry, then stopped before
+FeatureRunner produced any plan, spec directory, or code artifact.
+
+Evidence:
+
+- `.sdd-toolbox/journal/20261018-144153-F002.md` (dispatch record)
+- `.sdd-toolbox/journal/loop-20261018-214140.log` (loop log, ends at the
+  FeatureRunner invocation)
+- No `specs/` directory was created.
+- No application or configuration files changed.
+
+## Baseline reset
+
+F002 was reset from `in_progress` to `pending` with:
+
+- `attempts: 0`
+- `started_at: null`
+- `completed_at: null`
+- `spec_dir: null`
+- `commit: null`
+- `blocker: null`
+
+This gives F002 a clean attempt budget. The aborted dispatch remains recorded
+in the journal and loop log; nothing was silently discarded.
+
+## Next step
+
+Commit the baseline, then start the loop again from F002.
+===LOG===
+== roadmap loop ==
+mode: auto-checkpoint=true advance-milestone=true through=none
+milestone M1:
+  F001  done
+  F002  pending
+  F003  pending
+  F004  pending
+  F005  pending
+log: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/journal/loop-20261018-214317.log
+
+-- iteration 1/57 --
+[0m
+> roadmap-driver · deepseek-flash
+[0m
+[0m$ [0mls -la .sdd-toolbox/ 2>/dev/null && echo "---" && ls .opencode/context/roadmap/ 2>/dev/null
+total 40
+drwxr-xr-x  3 adrputra adrputra  4096 Oct 18 21:36 .
+drwxr-xr-x 15 adrputra adrputra  4096 Oct 18 21:27 ..
+-rw-r--r--  1 adrputra adrputra   208 Oct 18 21:16 config.json
+drwxr-xr-x  2 adrputra adrputra  4096 Oct 18 21:43 journal
+-rw-------  1 adrputra adrputra  6087 Oct 18 21:16 manifest.json
+-rw-r--r--  1 adrputra adrputra 14249 Oct 18 21:42 roadmap.json
+---
+loop-protocol.md
+[0m
+[0m→ [0mRead .opencode/context/roadmap/loop-protocol.md
+[0m→ [0mRead .sdd-toolbox/roadmap.json
+[0m→ [0mRead .sdd-toolbox/config.json
+[0m
+[0m$ [0mls -la .sdd-toolbox/journal/ && echo "---GIT---" && git log --oneline -10 && echo "---STATUS---" && git status --short
+total 36
+drwxr-xr-x 2 adrputra adrputra  4096 Oct 18 21:43 .
+drwxr-xr-x 3 adrputra adrputra  4096 Oct 18 21:36 ..
+-rw-r--r-- 1 adrputra adrputra  2257 Oct 18 21:36 20261018-143639-init.md
+-rw-r--r-- 1 adrputra adrputra   753 Oct 18 21:41 20261018-144153-F002.md
+-rw-r--r-- 1 adrputra adrputra  1103 Oct 18 21:42 20261018-144243-F002-aborted.md
+-rw-r--r-- 1 adrputra adrputra 10501 Oct 18 21:42 loop-20261018-214140.log
+-rw-r--r-- 1 adrputra adrputra   971 Oct 18 21:43 loop-20261018-214317.log
+---GIT---
+b8d5ed5 chore: initialize roadmap workflow and phase 1 audit
+4a4e744 Merge pull request #2 from adrputra/v0/restore-as-built-docs
+0becb67 docs: restore as-built documentation
+c8b6b45 Merge pull request #1 from adrputra/v0/as-built-documentation
+88caba2 init
+c5eb952 feat: refactor showroom settings live preview to collapsible details
+b634b04 feat: add new settings and showroom pages with form state management
+1ea6fd7 feat: add vehicle edit and new pages with form
+f4fc71f feat: add new admin pages for layout, leads, dashboard, staff, and vehicles
+6f412d5 Initial commit from v0
+---STATUS---
+?? .sdd-toolbox/journal/loop-20261018-214317.log
+[0m
+[0m
+[0m$ [0mls -la; echo "===PKG==="; cat package.json 2>/dev/null | head -60; echo "===SPECS==="; ls specs/ 2>/dev/null; ls .specify/ 2>/dev/null
+total 216
+drwxr-xr-x 15 adrputra adrputra   4096 Oct 18 21:27 .
+drwxr-xr-x 30 adrputra adrputra   4096 Oct 18 20:59 ..
+drwxr-xr-x  9 adrputra adrputra   4096 Oct 18 21:43 .git
+-rw-r--r--  1 adrputra adrputra    224 Oct 18 20:59 .gitignore
+drwxr-xr-x  8 adrputra adrputra   4096 Oct 18 21:27 .next
+drwxr-xr-x  7 adrputra adrputra   4096 Oct 18 21:17 .opencode
+drwxr-xr-x  3 adrputra adrputra   4096 Oct 18 21:36 .sdd-toolbox
+drwxr-xr-x  7 adrputra adrputra   4096 Oct 18 21:16 .specify
+drwxr-xr-x  4 adrputra adrputra   4096 Oct 18 20:59 app
+drwxr-xr-x  3 adrputra adrputra   4096 Oct 18 20:59 components
+-rw-r--r--  1 adrputra adrputra    428 Oct 18 20:59 components.json
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 20:59 data
+drwxr-xr-x  3 adrputra adrputra   4096 Oct 18 21:27 docs
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 20:59 lib
+-rw-r--r--  1 adrputra adrputra    288 Oct 18 21:19 next-env.d.ts
+-rw-r--r--  1 adrputra adrputra    367 Oct 18 20:59 next.config.mjs
+drwxr-xr-x 10 adrputra adrputra   4096 Oct 18 21:19 node_modules
+-rw-r--r--  1 adrputra adrputra    182 Oct 18 21:16 opencode.json
+-rw-r--r--  1 adrputra adrputra    986 Oct 18 20:59 package.json
+-rw-r--r--  1 adrputra adrputra 119145 Oct 18 20:59 pnpm-lock.yaml
+-rw-r--r--  1 adrputra adrputra     67 Oct 18 20:59 pnpm-workspace.yaml
+-rw-r--r--  1 adrputra adrputra    144 Oct 18 20:59 postcss.config.mjs
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 20:59 public
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 21:15 scripts
+-rw-r--r--  1 adrputra adrputra    647 Oct 18 20:59 tsconfig.json
+===PKG===
+{
+  "name": "my-project",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@hookform/resolvers": "^5.9.2",
+    "@vercel/analytics": "1.6.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "next": "16.4.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-hook-form": "^7.90.0",
+    "shadcn": "^4.11.0",
+    "sonner": "^2.0.8",
+    "tailwind-merge": "^3.3.1",
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "postcss": "^8.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "5.7.3"
+  }
+}
+===SPECS===
+init-options.json
+integration.json
+integrations
+memory
+scripts
+templates
+workflows
+[0m
+[0m$ [0mls docs/; echo "==="; grep -n "PHASE 2" -A 80 docs/ROADMAP.md | head -120
+ARCHITECTURE.md
+CURRENT_STATE.md
+IMPLEMENTATION_STATUS.md
+INTEGRATION.md
+ROADMAP.md
+as-built
+===
+1445:# 44. PHASE 2 — Engineering Foundation
+1446-
+1447-Goal:
+1448-
+1449-Turn the v0 repository into a reliable engineering project.
+1450-
+1451-Implement:
+1452-
+1453-```text
+1454-ESLint
+1455-formatting
+1456-typecheck command
+1457-Vitest
+1458-Testing Library
+1459-Playwright
+1460-GitHub Actions
+1461-environment validation
+1462-```
+1463-
+1464-Add:
+1465-
+1466-```text
+1467-.env.example
+1468-```
+1469-
+1470-Never include real credentials.
+1471-
+1472-Acceptance:
+1473-
+1474-```text
+1475-pnpm lint
+1476-pnpm typecheck
+1477-pnpm test
+1478-pnpm build
+1479-```
+1480-
+1481-must succeed.
+1482-
+1483-At least one Playwright smoke test must exist.
+1484-
+1485-No backend integration yet.
+1486-
+1487----
+1488-
+1489-# 45. PHASE 3 — Database Foundation
+1490-
+1491-Install and configure:
+1492-
+1493-```text
+1494-Supabase
+1495-Drizzle ORM
+1496-PostgreSQL migrations
+1497-```
+1498-
+1499-Implement tables:
+1500-
+1501-```text
+1502-tenants
+1503-tenant_domains
+1504-profiles
+1505-tenant_members
+1506-showroom_settings
+1507-vehicles
+1508-vehicle_images
+1509-```
+1510-
+1511-Add development seeds.
+1512-
+1513-Seed:
+1514-
+1515-```text
+1516-Prima Auto Gallery
+1517-Tenant B Test Showroom
+1518-```
+1519-
+1520-Migrate existing mock vehicle data into seed data.
+1521-
+1522-Important:
+1523-
+1524-The UI should continue looking the same.
+1525-
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T14:43:31Z
+20261018-214331
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+for f in d['features']:
+    if f['id']=='F002':
+        f['status']='in_progress'
+        f['attempts']=1
+        f['started_at']='2026-10-18T14:43:31Z'
+        f['blocker']=None
+d['updated_at']='2026-10-18T14:43:31Z'
+d['last_run']={'feature':'F002','event':'dispatch','at':'2026-10-18T14:43:31Z','detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2)
+open(p,'a').write('\n')
+print('state updated')
+EOF
+state updated
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-144331-F002.md
+Wrote file successfully.
+[0m
+[0m• [0mExecute roadmap feature F002[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F002[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mgit status --short | head -60; echo "===SPEC==="; ls specs/; echo "===E2E==="; ls tests/e2e 2>/dev/null; echo "===CI==="; sed -n '1,80p' .github/workflows/ci.yml 2>/dev/null
+M .gitignore
+ M .sdd-toolbox/roadmap.json
+ M data/car-catalog.ts
+ M data/index.ts
+ M docs/IMPLEMENTATION_STATUS.md
+ M lib/actions.ts
+ M lib/format.ts
+ M lib/repositories.ts
+ M lib/types.ts
+ M next.config.mjs
+ M package.json
+ M pnpm-lock.yaml
+ M pnpm-workspace.yaml
+ M tsconfig.json
+?? .env.example
+?? .github/
+?? .prettierignore
+?? .prettierrc.json
+?? .sdd-toolbox/journal/20261018-144331-F002.md
+?? .sdd-toolbox/journal/loop-20261018-214317.log
+?? .sdd-toolbox/waves/
+?? eslint.config.mjs
+?? playwright.config.ts
+?? scripts/validate-env.mjs
+?? specs/
+?? tests/
+?? vitest.config.ts
+?? vitest.setup.ts
+===SPEC===
+001-engineering-foundation
+===E2E===
+home.spec.ts
+===CI===
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate environment
+        run: pnpm validate:env
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+[0m
+[0m$ [0mset -e
+echo "=== npx tsc --noEmit ==="; npx tsc --noEmit; echo "EXIT:$?"
+echo "=== npm test ==="; npm test; echo "EXIT:$?"
+=== npx tsc --noEmit ===
+EXIT:0
+=== npm test ===
+
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  21:53:23
+   Duration  668ms (environment 68%, setup 13%, tests 10%, import 6%, transform 2%, worker 1%)
+
+EXIT:0
+[0m
+[0m$ [0mecho "=== pnpm lint ==="; pnpm lint 2>&1 | tail -25; echo "LINT_EXIT:${PIPESTATUS[0]}"
+echo "=== pnpm build ==="; pnpm build 2>&1 | tail -30; echo "BUILD_EXIT:${PIPESTATUS[0]}"
+=== pnpm lint ===
+$ eslint .
+
+/home/adrputra/Documents/Private/otoweb/app/admin/vehicles/page.tsx
+  11:132  warning  'notice' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  11:139  warning  'setNotice' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/adrputra/Documents/Private/otoweb/app/cars/page.tsx
+  1:192  warning  'ArrowLeft' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/adrputra/Documents/Private/otoweb/components/showroom.tsx
+  2:125  warning  'MapPin' is defined but never used             @typescript-eslint/no-unused-vars
+  2:132  warning  'Phone' is defined but never used              @typescript-eslint/no-unused-vars
+  2:138  warning  'ChevronDown' is defined but never used        @typescript-eslint/no-unused-vars
+  2:150  warning  'SlidersHorizontal' is defined but never used  @typescript-eslint/no-unused-vars
+  2:271  warning  'whatsappLink' is defined but never used       @typescript-eslint/no-unused-vars
+
+/home/adrputra/Documents/Private/otoweb/components/vehicle-form.tsx
+  19:395   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  21:332   warning  'setValue' is assigned a value but never used                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  21:9119  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+✖ 11 problems (0 errors, 11 warnings)
+
+LINT_EXIT:0
+=== pnpm build ===
+  Creating an optimized production build ...
+✓ Compiled successfully in 161ms
+  Running TypeScript ...
+  Finished TypeScript in 1306ms ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/11) ...
+  Generating static pages using 11 workers (2/11) 
+  Generating static pages using 11 workers (5/11) 
+  Generating static pages using 11 workers (8/11) 
+✓ Generating static pages using 11 workers (11/11) in 265ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /admin
+├ ○ /admin/leads
+├ ○ /admin/settings
+├ ○ /admin/settings/showroom
+├ ○ /admin/staff
+├ ○ /admin/vehicles
+├ ƒ /admin/vehicles/[id]/edit
+├ ○ /admin/vehicles/new
+├ ƒ /cars
+└ ƒ /cars/[slug]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+BUILD_EXIT:0
+[0m
+[0m$ [0mls specs/001-engineering-foundation/; echo "===TASKS==="; grep -c "\- \[X\]" specs/001-engineering-foundation/tasks.md; grep -c "\- \[ \]" specs/001-engineering-foundation/tasks.md || true; echo "===WAVES==="; cat .sdd-toolbox/waves/001-engineering-foundation.json 2>/dev/null | head -40
+checklists
+plan.md
+quickstart.md
+research.md
+spec.md
+tasks.md
+===TASKS===
+0
+0
+===WAVES===
+{
+  "schema": 1,
+  "feature": "001-engineering-foundation",
+  "source_tasks_sha256": "5efbad32fabeb36a4843fc80e9fe4a4ff3be2d8af1016e032ea7df6fd9aa7ed3",
+  "strategy": "auto",
+  "waves": [
+    {
+      "n": 1,
+      "tasks": [
+        "T001",
+        "T002",
+        "T003",
+        "T009"
+      ]
+    },
+    {
+      "n": 2,
+      "tasks": [
+        "T004",
+        "T005",
+        "T006",
+        "T007",
+        "T008",
+        "T010"
+      ]
+    },
+    {
+      "n": 3,
+      "tasks": [
+        "T011",
+        "T012",
+        "T013",
+        "T014",
+        "T015"
+      ]
+    },
+    {
+      "n": 4,
+      "tasks": [
+        "T016",
+[0m
+[0m$ [0mecho "=== format:check ==="; pnpm format:check 2>&1 | tail -5; echo "EXIT:${PIPESTATUS[0]}"
+echo "=== validate:env ==="; pnpm validate:env 2>&1 | tail -5; echo "EXIT:${PIPESTATUS[0]}"
+echo "=== .env.example ==="; cat .env.example
+echo "=== deps check ==="; grep -Ein "supabase|drizzle|prisma|cloudinary|postgres" package.json || echo "none"
+=== format:check ===
+$ prettier --check .
+Checking formatting...
+All matched files use Prettier code style!
+EXIT:0
+=== validate:env ===
+$ node scripts/validate-env.mjs
+Environment validation passed.
+EXIT:0
+=== .env.example ===
+# OtoWeb public configuration
+#
+# Copy this file to .env.local and adjust values for your environment.
+# Never commit real credentials, API keys, service-role secrets, or tokens.
+# Only public, browser-safe values belong in NEXT_PUBLIC_* variables.
+
+# Public canonical site URL used for metadata and links.
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# Public showroom identifier. Lowercase letters, digits, and hyphens only.
+NEXT_PUBLIC_SHOWROOM_SLUG=prima
+=== deps check ===
+none
+[0m
+[0m$ [0mgrep -n "\[.\]" specs/001-engineering-foundation/tasks.md | head -5; grep -c "\[x\]" specs/001-engineering-foundation/tasks.md; grep -c "\[X\]" specs/001-engineering-foundation/tasks.md; grep -c "\[ \]" specs/001-engineering-foundation/tasks.md
+20:- **[P]**: Can run in parallel (different files, no dependencies)
+39:- [x] T001 Install the engineering dev dependencies with pnpm (ESLint 9 + `eslint-config-next@16.4.0` + `eslint-config-prettier`, Prettier 3, Vitest 5 + `@vitejs/plugin-react` + `jsdom`, Testing Library packages, and `@playwright/test`) and update `package.json` and `pnpm-lock.yaml`.
+40:- [x] T002 [P] Add `.env.example` with non-secret placeholders for `NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_SHOWROOM_SLUG`, plus a comment that real credentials never belong in the file.
+41:- [x] T003 [P] Update `.gitignore` to ignore real environment files (`.env`, `.env.*`) while keeping `!.env.example`, and ignore `*.tsbuildinfo`, `coverage/`, `playwright-report/`, and `test-results/`.
+52:- [x] T004 [P] Create `scripts/validate-env.mjs` with a Zod schema for `NODE_ENV`, `NEXT_PUBLIC_SITE_URL` (URL, default `http://localhost:3000`), and `NEXT_PUBLIC_SHOWROOM_SLUG` (lowercase kebab-case, default `prima`); export `validateEnv` and `env`, print a success line when run directly, and exit non-zero with a clear message on invalid input.
+27
+0
+0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"
+2026-10-18T14:53:40Z
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-145340-F002-complete.md
+Wrote file successfully.
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+for f in d['features']:
+    if f['id']=='F002':
+        f['status']='done'
+        f['completed_at']='2026-10-18T14:53:40Z'
+        f['spec_dir']='specs/001-engineering-foundation'
+        f['evidence']=[
+            'specs/001-engineering-foundation',
+            '.sdd-toolbox/waves/001-engineering-foundation.json',
+            '.github/workflows/ci.yml',
+            'tests/e2e/home.spec.ts',
+            '.sdd-toolbox/journal/20261018-145340-F002-complete.md'
+        ]
+        f['blocker']=None
+d['updated_at']='2026-10-18T14:53:40Z'
+d['last_run']={'feature':'F002','event':'complete','at':'2026-10-18T14:53:40Z','detail':'FeatureRunner COMPLETE; outer validation passed; auto-approved under AUTO_CHECKPOINT.'}
+d['owner_decisions'].append({
+  'at':'2026-10-18T14:53:40Z',
+  'feature':'F002',
+  'decision':'auto-approve-checkpoint',
+  'detail':'AUTO_CHECKPOINT marker (scripts/loop.sh --auto-checkpoint): F002 checkpoint auto-approved. All outer validation commands passed.'
+})
+json.dump(d,open(p,'w'),indent=2)
+open(p,'a').write('\n')
+print('done')
+EOF
+done
+[0m

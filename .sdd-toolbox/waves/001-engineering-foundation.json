@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "feature": "001-engineering-foundation",
+  "source_tasks_sha256": "5efbad32fabeb36a4843fc80e9fe4a4ff3be2d8af1016e032ea7df6fd9aa7ed3",
+  "strategy": "auto",
+  "waves": [
+    {
+      "n": 1,
+      "tasks": [
+        "T001",
+        "T002",
+        "T003",
+        "T009"
+      ]
+    },
+    {
+      "n": 2,
+      "tasks": [
+        "T004",
+        "T005",
+        "T006",
+        "T007",
+        "T008",
+        "T010"
+      ]
+    },
+    {
+      "n": 3,
+      "tasks": [
+        "T011",
+        "T012",
+        "T013",
+        "T014",
+        "T015"
+      ]
+    },
+    {
+      "n": 4,
+      "tasks": [
+        "T016",
+        "T017",
+        "T018",
+        "T019",
+        "T020",
+        "T021",
+        "T022",
+        "T023"
+      ]
+    },
+    {
+      "n": 5,
+      "tasks": [
+        "T024",
+        "T025"
+      ]
+    },
+    {
+      "n": 6,
+      "tasks": [
+        "T026"
+      ]
+    }
+  ],
+  "generated_at": "2026-10-18T14:52:16.325Z"
+}
