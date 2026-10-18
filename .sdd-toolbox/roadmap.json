@@ -1,0 +1,459 @@
+{
+  "schema": 1,
+  "project": "otoweb",
+  "source": "docs/ROADMAP.md",
+  "created_at": "2026-10-18T14:15:57Z",
+  "updated_at": "2026-10-18T14:42:43Z",
+  "active_milestone": "M1",
+  "journal_dir": ".sdd-toolbox/journal",
+  "policy": {
+    "gates": "checkpoint-per-feature",
+    "auto_approve_phases": [
+      "specify",
+      "plan",
+      "tasks"
+    ],
+    "require_clean_analysis": true,
+    "feature_checkpoint": "human",
+    "stop_on_validation_failure": true,
+    "max_attempts_per_feature": 2,
+    "commit_per_feature": true,
+    "commit_prefix": "feat"
+  },
+  "bootstrap": {},
+  "owner_decisions": [
+    {
+      "at": "2026-10-18T14:36:39Z",
+      "feature": null,
+      "decision": "approve-queue",
+      "detail": "Approved the 16-feature queue derived from docs/ROADMAP.md. F001 is recorded as pre-completed; F002-F016 are pending. Active milestone M1. No constitution bootstrap."
+    }
+  ],
+  "features": [
+    {
+      "id": "F001",
+      "title": "Repository Production Audit",
+      "phase": 1,
+      "milestone": "M1",
+      "kind": "feature",
+      "deps": [],
+      "roadmap_section": "# 43. PHASE 1 — Repository Production Audit",
+      "acceptance": [
+        "All existing routes are documented.",
+        "Reusable components are identified.",
+        "Mock data locations are documented.",
+        "Technical debt is documented.",
+        "Production migration plan is documented.",
+        "No visual redesign is performed.",
+        "The application still builds."
+      ],
+      "status": "done",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [
+        "docs/CURRENT_STATE.md",
+        "docs/ARCHITECTURE.md",
+        "docs/IMPLEMENTATION_STATUS.md"
+      ],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": "2026-10-18T14:36:39Z"
+    },
+    {
+      "id": "F002",
+      "title": "Engineering Foundation",
+      "phase": 2,
+      "milestone": "M1",
+      "kind": "feature",
+      "deps": [
+        "F001"
+      ],
+      "roadmap_section": "# 44. PHASE 2 — Engineering Foundation",
+      "acceptance": [
+        "ESLint, formatting, typecheck command, Vitest, Testing Library, Playwright, GitHub Actions, and environment validation are implemented.",
+        ".env.example is added without real credentials.",
+        "pnpm lint succeeds.",
+        "pnpm typecheck succeeds.",
+        "pnpm test succeeds.",
+        "pnpm build succeeds.",
+        "At least one Playwright smoke test exists.",
+        "No backend integration is introduced."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F003",
+      "title": "Database Foundation",
+      "phase": 3,
+      "milestone": "M1",
+      "kind": "feature",
+      "deps": [
+        "F002"
+      ],
+      "roadmap_section": "# 45. PHASE 3 — Database Foundation",
+      "acceptance": [
+        "Supabase, Drizzle ORM, and PostgreSQL migrations are configured.",
+        "The required tables tenants, tenant_domains, profiles, tenant_members, showroom_settings, vehicles, and vehicle_images exist.",
+        "Development seeds include Prima Auto Gallery and Tenant B Test Showroom.",
+        "Existing mock vehicle data exists in the database.",
+        "Schema migration works from an empty database.",
+        "Seed works.",
+        "Schema is documented.",
+        "Build passes."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F004",
+      "title": "Authentication",
+      "phase": 4,
+      "milestone": "M1",
+      "kind": "feature",
+      "deps": [
+        "F003"
+      ],
+      "roadmap_section": "# 46. PHASE 4 — Authentication",
+      "acceptance": [
+        "Login, logout, password reset, authenticated admin routes, and session handling are implemented.",
+        "No public registration is implemented.",
+        "Unauthenticated admin access is blocked.",
+        "An authenticated owner can access admin.",
+        "Logout works.",
+        "Expired sessions are handled."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F005",
+      "title": "Multi-Tenant Security",
+      "phase": 5,
+      "milestone": "M1",
+      "kind": "feature",
+      "deps": [
+        "F004"
+      ],
+      "roadmap_section": "# 47. PHASE 5 — Multi-Tenant Security",
+      "acceptance": [
+        "Tenant memberships, tenant context, hostname resolver, tenant-scoped queries, RLS, permission helpers, and tenant isolation tests are implemented.",
+        "Fixtures prima and tenant-b exist.",
+        "All cross-tenant tests fail safely.",
+        "Tenant B data cannot appear for Tenant A.",
+        "Direct DB/API attempts are protected.",
+        "Service role never reaches the browser.",
+        "Do not proceed if tenant isolation tests fail."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F006",
+      "title": "Connect Public Website to Database",
+      "phase": 6,
+      "milestone": "M2",
+      "kind": "feature",
+      "deps": [
+        "F005"
+      ],
+      "roadmap_section": "# 48. PHASE 6 — Connect Public Website to Database",
+      "acceptance": [
+        "Homepage featured units, inventory, vehicle detail, related vehicles, and showroom data are database-driven.",
+        "No public vehicle data comes from hard-coded mock arrays.",
+        "Featured vehicles are database-driven.",
+        "Filtering works.",
+        "Sorting works.",
+        "Vehicle detail works.",
+        "Tenant showroom settings render.",
+        "Existing visual design is preserved."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F007",
+      "title": "Admin Vehicle CRUD",
+      "phase": 7,
+      "milestone": "M2",
+      "kind": "feature",
+      "deps": [
+        "F006"
+      ],
+      "roadmap_section": "# 49. PHASE 7 — Admin Vehicle CRUD",
+      "acceptance": [
+        "Create, edit, publish, reserve, sell, archive, duplicate, and delete are implemented.",
+        "Server-side validation is used.",
+        "Zod schemas are shared where reasonable between server and client.",
+        "Admin creates vehicle, the vehicle is stored, admin publishes, and the vehicle is visible publicly.",
+        "No manual DB operations are required."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F008",
+      "title": "Image Management",
+      "phase": 8,
+      "milestone": "M2",
+      "kind": "feature",
+      "deps": [
+        "F007"
+      ],
+      "roadmap_section": "# 50. PHASE 8 — Image Management",
+      "acceptance": [
+        "Cloudinary upload, multiple upload, progress, reordering, cover selection, deletion, validation, and optimization are implemented.",
+        "Approximately 15 high-resolution images are tested in one vehicle workflow.",
+        "Upload is reliable.",
+        "Image ordering persists.",
+        "Cover persists.",
+        "Thumbnails are optimized.",
+        "Deleting a vehicle handles the media policy correctly."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F009",
+      "title": "Showroom Settings",
+      "phase": 9,
+      "milestone": "M2",
+      "kind": "feature",
+      "deps": [
+        "F008"
+      ],
+      "roadmap_section": "# 51. PHASE 9 — Showroom Settings",
+      "acceptance": [
+        "Name, tagline, description, logo, hero image, colors, contact details, address, social links, opening hours, and SEO fields are editable.",
+        "All changes are tenant scoped.",
+        "Admin updates showroom and the public website reflects the configuration.",
+        "Changes take effect without deployment.",
+        "The white-label requirement is satisfied."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F010",
+      "title": "Lead Capture",
+      "phase": 10,
+      "milestone": "M2",
+      "kind": "feature",
+      "deps": [
+        "F009"
+      ],
+      "roadmap_section": "# 52. PHASE 10 — Lead Capture",
+      "acceptance": [
+        "The lead table, contact form, WhatsApp tracking, lead dashboard, and lead status updates are implemented.",
+        "No advanced CRM features are created.",
+        "Customer inquiry becomes a tenant lead and appears in the admin dashboard."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F011",
+      "title": "SEO Productionization",
+      "phase": 11,
+      "milestone": "M3",
+      "kind": "feature",
+      "deps": [
+        "F010"
+      ],
+      "roadmap_section": "# 53. PHASE 11 — SEO Productionization",
+      "acceptance": [
+        "Dynamic metadata, OpenGraph, canonical, sitemap, robots, structured data, and sold listing handling are implemented.",
+        "Sitemaps are tenant-specific.",
+        "Generated HTML is verified, not just browser-rendered metadata."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F012",
+      "title": "Platform Administration",
+      "phase": 12,
+      "milestone": "M3",
+      "kind": "feature",
+      "deps": [
+        "F011"
+      ],
+      "roadmap_section": "# 54. PHASE 12 — Platform Administration",
+      "acceptance": [
+        "A /platform surface exists.",
+        "Create tenant, disable tenant, assign owner, inspect tenant, set subdomain, and set plan/status are available.",
+        "The interface is not exposed to normal showroom owners."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F013",
+      "title": "Subdomain Routing",
+      "phase": 13,
+      "milestone": "M3",
+      "kind": "feature",
+      "deps": [
+        "F012"
+      ],
+      "roadmap_section": "# 55. PHASE 13 — Subdomain Routing",
+      "acceptance": [
+        "Wildcard tenant routing is implemented.",
+        "Development supports easy tenant testing.",
+        "Two hostnames display different showroom branding, inventory, and contact details from one deployment."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F014",
+      "title": "Custom Domains",
+      "phase": 14,
+      "milestone": "M3",
+      "kind": "feature",
+      "deps": [
+        "F013"
+      ],
+      "roadmap_section": "# 56. PHASE 14 — Custom Domains",
+      "acceptance": [
+        "Domain registration, verification state, DNS instructions, domain routing, and SSL provisioning integration are implemented.",
+        "The platform subdomain remains available as a fallback.",
+        "Custom domains are implemented only after wildcard subdomains are stable."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F015",
+      "title": "Analytics",
+      "phase": 15,
+      "milestone": "M3",
+      "kind": "feature",
+      "deps": [
+        "F014"
+      ],
+      "roadmap_section": "# 57. PHASE 15 — Analytics",
+      "acceptance": [
+        "vehicle_view, inventory_search, filter_use, whatsapp_click, contact_submit, and vehicle_share are tracked.",
+        "Dashboard metrics for vehicle views, most viewed vehicles, WhatsApp clicks, new leads, and conversion percentage are available.",
+        "Analytics does not block MVP launch."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    },
+    {
+      "id": "F016",
+      "title": "Production Hardening",
+      "phase": 16,
+      "milestone": "M3",
+      "kind": "feature",
+      "deps": [
+        "F015"
+      ],
+      "roadmap_section": "# 58. PHASE 16 — Production Hardening",
+      "acceptance": [
+        "Security, RLS, authorization, dependency, mobile, desktop, SEO, accessibility, performance, and failure-state audits are performed.",
+        "The system is tested with two or more realistic showrooms."
+      ],
+      "status": "pending",
+      "attempts": 0,
+      "spec_dir": null,
+      "commit": null,
+      "evidence": [],
+      "blocker": null,
+      "started_at": null,
+      "completed_at": null
+    }
+  ],
+  "last_run": {
+    "feature": "F002",
+    "event": "dispatch-aborted",
+    "at": "2026-10-18T14:42:43Z",
+    "detail": "A loop dispatch was started externally and stopped before FeatureRunner produced specs or code artifacts. F002 was reset to pending for a clean baseline; the aborted dispatch remains recorded in the journal/log."
+  }
+}

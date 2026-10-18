@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "toolbox": {
+    "version": "0.6.0",
+    "commit": "b410a15"
+  },
+  "pins": {
+    "oac": "0.7.1",
+    "spec_kit": "v1.2.1"
+  },
+  "profile": "roadmap-node-typescript",
+  "extensions": [],
+  "files": [
+    {
+      "path": ".opencode/agent/core/spec-kit-driver.md",
+      "sha256": "c56558fff2177fd00abc05e085f1971b1c6fb66eb62253c8dcc64c447db92503",
+      "source": "component",
+      "component": "agent:spec-kit-driver"
+    },
+    {
+      "path": ".opencode/command/sdd.md",
+      "sha256": "7019d57729bd2a42f08629b527e0c1f923ca1ff8685ce3701a749f8853452728",
+      "source": "component",
+      "component": "command:sdd"
+    },
+    {
+      "path": ".opencode/context/spec-kit/navigation.md",
+      "sha256": "615871bd5d51d4685444afe10e429ab30cdeef1a307e07e2e7f3b95658a871f8",
+      "source": "component",
+      "component": "context:spec-kit-navigation"
+    },
+    {
+      "path": ".opencode/context/spec-kit/workflow.md",
+      "sha256": "d06ebe46b3fbc9a8d4a8cfd947ecf36513b5fddf873603d4349f527654eed98d",
+      "source": "component",
+      "component": "context:spec-kit-workflow"
+    },
+    {
+      "path": ".opencode/context/spec-kit/artifacts.md",
+      "sha256": "991dc2fcd1fb6272c34e2869df3afae9aa0c63b59fd7bce975dfb1d21ffa5919",
+      "source": "component",
+      "component": "context:spec-kit-artifacts"
+    },
+    {
+      "path": ".opencode/context/spec-kit/wave-execution.md",
+      "sha256": "8fb47be374856fe10e04f2fbb44342419d2536c767b1b699c6c5edf16e84a42b",
+      "source": "component",
+      "component": "context:spec-kit-wave-execution"
+    },
+    {
+      "path": ".opencode/context/spec-kit/evidence.md",
+      "sha256": "8c639780c1c9fdaf443b824786bec654b2c5555d813ff0dff0e6fc8a4823c043",
+      "source": "component",
+      "component": "context:spec-kit-evidence"
+    },
+    {
+      "path": ".opencode/agent/subagents/core/contextscout.md",
+      "sha256": "07c53321b379bbc730232017ac1a3b9ccea7caa04813b7ef8360a8ad2cf2defe",
+      "source": "vendor",
+      "component": "subagent:contextscout"
+    },
+    {
+      "path": ".opencode/agent/subagents/core/externalscout.md",
+      "sha256": "db49de7dd34025da36040dd29dac2d2203fdb660ebac793814757542ef2bf279",
+      "source": "vendor",
+      "component": "subagent:externalscout"
+    },
+    {
+      "path": ".opencode/agent/subagents/core/task-manager.md",
+      "sha256": "c7ad82a49c4b11d4a4b196c36c48c42129e7c7faffd42c34c3bbad9afc2a03b5",
+      "source": "vendor",
+      "component": "subagent:task-manager"
+    },
+    {
+      "path": ".opencode/agent/subagents/code/coder-agent.md",
+      "sha256": "e84cfb0c68d626986677a5c5718347d5e10925227a455b6f3cfb21486600c5d1",
+      "source": "vendor",
+      "component": "subagent:coder-agent"
+    },
+    {
+      "path": ".opencode/agent/subagents/core/batch-executor.md",
+      "sha256": "aebef03f2dd9942c1bdd22e4acfaf4801ae5e15160aecd26219d8303287300c7",
+      "source": "component",
+      "component": "subagent:batch-executor"
+    },
+    {
+      "path": ".opencode/agent/subagents/code/tester.md",
+      "sha256": "2e8e9b723ec47c322d48d01324fde721431dd264bb80547352b6177387739724",
+      "source": "vendor",
+      "component": "subagent:tester"
+    },
+    {
+      "path": ".opencode/agent/subagents/core/documentation.md",
+      "sha256": "7c4fae60dec9de93f500e7ba83b27e8e0e2fccd5572b7c1632a046547788e888",
+      "source": "vendor",
+      "component": "subagent:documentation"
+    },
+    {
+      "path": ".opencode/context/core/standards/code-quality.md",
+      "sha256": "e9e8392863e3e64581c2ff5e1daa752c6b4057f5446463ad2fa1d19e5a411139",
+      "source": "vendor",
+      "component": "context:code-quality"
+    },
+    {
+      "path": ".opencode/agent/subagents/code/reviewer.md",
+      "sha256": "6778680bece095aee88a9e8791346849fa386bb3658cb6beb2e0a82a31cd6e4f",
+      "source": "vendor",
+      "component": "subagent:reviewer"
+    },
+    {
+      "path": ".opencode/agent/subagents/code/build-agent.md",
+      "sha256": "7087d2206adbd9d9f1f1a2edee182d61e34dc0299a4db9c2ffa44ecb3e6fcb95",
+      "source": "vendor",
+      "component": "subagent:build-agent"
+    },
+    {
+      "path": ".opencode/context/core/standards/test-coverage.md",
+      "sha256": "6455cd0ccdf46c59d24180805c925527030394e35bbf1ba2e73ce8288c01f1a5",
+      "source": "vendor",
+      "component": "context:test-coverage"
+    },
+    {
+      "path": ".opencode/context/typescript/standards.md",
+      "sha256": "c05c50df4bc3935ff057eabc49837f67bb7cef0fddde01f7a1ad68efda5d2958",
+      "source": "component",
+      "component": "context:typescript-standards"
+    },
+    {
+      "path": ".opencode/agent/core/roadmap-driver.md",
+      "sha256": "b07dade328ffba7d7c5dec0bc3449e4bbb8e49ea795ec4924f07aa49119aa695",
+      "source": "component",
+      "component": "agent:roadmap-driver"
+    },
+    {
+      "path": ".opencode/agent/subagents/core/feature-runner.md",
+      "sha256": "7d0ee75342200863374a0be801fb4f9cfc1d9b19f0a9ba593e7d724ea82686e8",
+      "source": "component",
+      "component": "subagent:feature-runner"
+    },
+    {
+      "path": ".opencode/command/roadmap.md",
+      "sha256": "ff87f2de2f4bfb3707b87359c255e9af711dac010b968ba5870162357a3e0494",
+      "source": "component",
+      "component": "command:roadmap"
+    },
+    {
+      "path": ".opencode/command/loop_advance.md",
+      "sha256": "2d35e43fb621b6b13f1387eb720c37ec179b69ebff9060834c042a1408bcac6d",
+      "source": "component",
+      "component": "command:loop-advance"
+    },
+    {
+      "path": ".opencode/context/roadmap/loop-protocol.md",
+      "sha256": "25e7da52fbc6a0982cbb913f53cfbf351482159c70fab2fd4a357c13ce66caac",
+      "source": "component",
+      "component": "context:roadmap-loop-protocol"
+    },
+    {
+      "path": "scripts/loop.sh",
+      "sha256": "2596e9c46fb50b2e07a1272d98e528676ced0ce2ebb5fcfd5d93c4dee668cf3e",
+      "source": "component",
+      "component": "script:roadmap-loop"
+    },
+    {
+      "path": ".sdd-toolbox/config.json",
+      "sha256": "ed408613869bacd4dfd6e65eb8fb3080ab739bb07382432bdebf6fbd6c3a7f30",
+      "source": "generated",
+      "component": ""
+    }
+  ]
+}

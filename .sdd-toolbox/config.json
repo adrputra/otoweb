@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "wave_strategy": "auto",
+  "parallel_threshold": 5,
+  "validation": {
+    "commands": [
+      "npx tsc --noEmit",
+      "npm test"
+    ],
+    "scope": "repo"
+  },
+  "converge_loop": true
+}

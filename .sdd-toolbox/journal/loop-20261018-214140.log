@@ -1,0 +1,371 @@
+== roadmap loop ==
+mode: auto-checkpoint=true advance-milestone=true through=none
+milestone M1:
+  F001  done
+  F002  pending
+  F003  pending
+  F004  pending
+  F005  pending
+log: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/journal/loop-20261018-214140.log
+
+-- iteration 1/57 --
+[0m
+> roadmap-driver · deepseek-flash
+[0m
+[0m→ [0mRead .opencode/context/roadmap/loop-protocol.md
+[0m→ [0mRead .sdd-toolbox/roadmap.json
+[0m→ [0mRead .sdd-toolbox/config.json
+[0m→ [0mRead .opencode/context/spec-kit/evidence.md
+[0m
+[0m$ [0mgit status --short && git log --oneline -5 && ls .sdd-toolbox/journal 2>/dev/null | tail -5
+?? .opencode/
+?? .sdd-toolbox/
+?? .specify/
+?? docs/ARCHITECTURE.md
+?? docs/CURRENT_STATE.md
+?? docs/IMPLEMENTATION_STATUS.md
+?? docs/ROADMAP.md
+?? next-env.d.ts
+?? opencode.json
+?? scripts/
+4a4e744 Merge pull request #2 from adrputra/v0/restore-as-built-docs
+0becb67 docs: restore as-built documentation
+c8b6b45 Merge pull request #1 from adrputra/v0/as-built-documentation
+88caba2 init
+c5eb952 feat: refactor showroom settings live preview to collapsible details
+20261018-143639-init.md
+loop-20261018-214140.log
+[0m
+[0m$ [0mls -la && cat package.json 2>/dev/null | head -60
+total 216
+drwxr-xr-x 15 adrputra adrputra   4096 Oct 18 21:27 .
+drwxr-xr-x 30 adrputra adrputra   4096 Oct 18 20:59 ..
+drwxr-xr-x  9 adrputra adrputra   4096 Oct 18 21:41 .git
+-rw-r--r--  1 adrputra adrputra    224 Oct 18 20:59 .gitignore
+drwxr-xr-x  8 adrputra adrputra   4096 Oct 18 21:27 .next
+drwxr-xr-x  7 adrputra adrputra   4096 Oct 18 21:17 .opencode
+drwxr-xr-x  3 adrputra adrputra   4096 Oct 18 21:36 .sdd-toolbox
+drwxr-xr-x  7 adrputra adrputra   4096 Oct 18 21:16 .specify
+drwxr-xr-x  4 adrputra adrputra   4096 Oct 18 20:59 app
+drwxr-xr-x  3 adrputra adrputra   4096 Oct 18 20:59 components
+-rw-r--r--  1 adrputra adrputra    428 Oct 18 20:59 components.json
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 20:59 data
+drwxr-xr-x  3 adrputra adrputra   4096 Oct 18 21:27 docs
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 20:59 lib
+-rw-r--r--  1 adrputra adrputra    288 Oct 18 21:19 next-env.d.ts
+-rw-r--r--  1 adrputra adrputra    367 Oct 18 20:59 next.config.mjs
+drwxr-xr-x 10 adrputra adrputra   4096 Oct 18 21:19 node_modules
+-rw-r--r--  1 adrputra adrputra    182 Oct 18 21:16 opencode.json
+-rw-r--r--  1 adrputra adrputra    986 Oct 18 20:59 package.json
+-rw-r--r--  1 adrputra adrputra 119145 Oct 18 20:59 pnpm-lock.yaml
+-rw-r--r--  1 adrputra adrputra     67 Oct 18 20:59 pnpm-workspace.yaml
+-rw-r--r--  1 adrputra adrputra    144 Oct 18 20:59 postcss.config.mjs
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 20:59 public
+drwxr-xr-x  2 adrputra adrputra   4096 Oct 18 21:15 scripts
+-rw-r--r--  1 adrputra adrputra    647 Oct 18 20:59 tsconfig.json
+{
+  "name": "my-project",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@hookform/resolvers": "^5.9.2",
+    "@vercel/analytics": "1.6.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.16.0",
+    "next": "16.4.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-hook-form": "^7.90.0",
+    "shadcn": "^4.11.0",
+    "sonner": "^2.0.8",
+    "tailwind-merge": "^3.3.1",
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "postcss": "^8.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "5.7.3"
+  }
+}
+[0m
+[0m$ [0msed -n '/# 44\. PHASE 2/,/# 45\. PHASE 3/p' docs/ROADMAP.md
+# 44. PHASE 2 — Engineering Foundation
+
+Goal:
+
+Turn the v0 repository into a reliable engineering project.
+
+Implement:
+
+```text
+ESLint
+formatting
+typecheck command
+Vitest
+Testing Library
+Playwright
+GitHub Actions
+environment validation
+```
+
+Add:
+
+```text
+.env.example
+```
+
+Never include real credentials.
+
+Acceptance:
+
+```text
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+must succeed.
+
+At least one Playwright smoke test must exist.
+
+No backend integration yet.
+
+---
+
+# 45. PHASE 3 — Database Foundation
+[0m
+[0m$ [0mls -R .specify | head -80; echo ---; ls .opencode/context/spec-kit
+.specify:
+init-options.json
+integration.json
+integrations
+memory
+scripts
+templates
+workflows
+
+.specify/integrations:
+opencode.manifest.json
+speckit.manifest.json
+
+.specify/memory:
+constitution.md
+
+.specify/scripts:
+bash
+
+.specify/scripts/bash:
+check-prerequisites.sh
+common.sh
+create-new-feature.sh
+resolve-template.sh
+setup-plan.sh
+setup-tasks.sh
+
+.specify/templates:
+checklist-template.md
+constitution-template.md
+plan-template.md
+spec-template.md
+tasks-template.md
+
+.specify/workflows:
+speckit
+workflow-registry.json
+
+.specify/workflows/speckit:
+workflow.yml
+---
+artifacts.md
+evidence.md
+navigation.md
+wave-execution.md
+workflow.md
+[0m
+[0m$ [0mcat .sdd-toolbox/journal/20261018-143639-init.md; echo ---; tail -40 .sdd-toolbox/journal/loop-20261018-214140.log
+# Initialization — OtoWeb roadmap queue
+
+- Timestamp: 2026-10-18T14:36:39Z
+- Event: init
+- Source: `docs/ROADMAP.md`
+- Active milestone: M1
+- Constitution bootstrap: none (the roadmap defines no governance rules for `.specify/memory/constitution.md`)
+
+## Owner approval
+
+The owner approved the proposed 16-feature queue with the option
+**Approve queue (Recommended)**.
+
+Approval record is stored in `.sdd-toolbox/roadmap.json` under
+`owner_decisions`.
+
+## Queue
+
+| ID | Phase | Title | Milestone | Deps | Status |
+|---|---|---|---|---|---|
+| F001 | 1 | Repository Production Audit | M1 | — | done (pre-loop) |
+| F002 | 2 | Engineering Foundation | M1 | F001 | pending |
+| F003 | 3 | Database Foundation | M1 | F002 | pending |
+| F004 | 4 | Authentication | M1 | F003 | pending |
+| F005 | 5 | Multi-Tenant Security | M1 | F004 | pending |
+| F006 | 6 | Connect Public Website to Database | M2 | F005 | pending |
+| F007 | 7 | Admin Vehicle CRUD | M2 | F006 | pending |
+| F008 | 8 | Image Management | M2 | F007 | pending |
+| F009 | 9 | Showroom Settings | M2 | F008 | pending |
+| F010 | 10 | Lead Capture | M2 | F009 | pending |
+| F011 | 11 | SEO Productionization | M3 | F010 | pending |
+| F012 | 12 | Platform Administration | M3 | F011 | pending |
+| F013 | 13 | Subdomain Routing | M3 | F012 | pending |
+| F014 | 14 | Custom Domains | M3 | F013 | pending |
+| F015 | 15 | Analytics | M3 | F014 | pending |
+| F016 | 16 | Production Hardening | M3 | F015 | pending |
+
+## Notes
+
+- F001 was completed immediately before this initialization. Its evidence is
+  `docs/CURRENT_STATE.md`, `docs/ARCHITECTURE.md`, and
+  `docs/IMPLEMENTATION_STATUS.md`. No commit sha was recorded because no commit
+  was requested for Phase 1.
+- F012, F014, F015, and F016 have no explicit acceptance block in the roadmap.
+  Their acceptance criteria are derived from the phase's required-capability
+  list; no criteria were invented beyond the document.
+- Dependencies follow the roadmap phase order and the roadmap rule to stop after
+  each phase.
+- Current validation commands are `npx tsc --noEmit` and `npm test`. `npm test`
+  fails because the project has no test script; F002 is intended to add it.
+
+## Next eligible feature
+
+F002 — Engineering Foundation (milestone M1).
+---
+workflows
+
+.specify/integrations:
+opencode.manifest.json
+speckit.manifest.json
+
+.specify/memory:
+constitution.md
+
+.specify/scripts:
+bash
+
+.specify/scripts/bash:
+check-prerequisites.sh
+common.sh
+create-new-feature.sh
+resolve-template.sh
+setup-plan.sh
+setup-tasks.sh
+
+.specify/templates:
+checklist-template.md
+constitution-template.md
+plan-template.md
+spec-template.md
+tasks-template.md
+
+.specify/workflows:
+speckit
+workflow-registry.json
+
+.specify/workflows/speckit:
+workflow.yml
+---
+artifacts.md
+evidence.md
+navigation.md
+wave-execution.md
+workflow.md
+[0m
+[0m
+[0m$ [0mdate -u +%Y-%m-%dT%H:%M:%SZ
+2026-10-18T14:41:53Z
+[0m
+[0m← [0mEdit .sdd-toolbox/roadmap.json
+Index: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
+===================================================================
+--- /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
++++ /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
+@@ -77,15 +77,15 @@
+     "pnpm build succeeds.",
+     "At least one Playwright smoke test exists.",
+     "No backend integration is introduced."
+   ],
+-  "status": "pending",
+-  "attempts": 0,
++  "status": "in_progress",
++  "attempts": 1,
+   "spec_dir": null,
+   "commit": null,
+   "evidence": [],
+   "blocker": null,
+-  "started_at": null,
++  "started_at": "2026-10-18T14:41:53Z",
+   "completed_at": null
+ },
+ {
+   "id": "F003",
+
+[0m
+[0m← [0mEdit .sdd-toolbox/roadmap.json
+Index: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
+===================================================================
+--- /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
++++ /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
+@@ -2,9 +2,9 @@
+ "schema": 1,
+ "project": "otoweb",
+ "source": "docs/ROADMAP.md",
+ "created_at": "2026-10-18T14:15:57Z",
+-"updated_at": "2026-10-18T14:36:39Z",
++"updated_at": "2026-10-18T14:41:53Z",
+ "active_milestone": "M1",
+ "journal_dir": ".sdd-toolbox/journal",
+ "policy": {
+   "gates": "checkpoint-per-feature",
+
+[0m
+[0m← [0mEdit .sdd-toolbox/roadmap.json
+Index: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
+===================================================================
+--- /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
++++ /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/roadmap.json
+@@ -420,10 +420,10 @@
+       "completed_at": null
+     }
+   ],
+   "last_run": {
+-    "feature": null,
+-    "event": "init",
+-    "at": "2026-10-18T14:36:39Z",
+-    "detail": "Initialized 16-feature queue from docs/ROADMAP.md. F001 recorded as pre-completed; F002-F016 pending. Active milestone M1. No constitution bootstrap."
++    "feature": "F002",
++    "event": "dispatch",
++    "at": "2026-10-18T14:41:53Z",
++    "detail": "Dispatched F002 Engineering Foundation (attempt 1 of 2) to FeatureRunner."
+   }
+ }
+
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-144153-F002.md
+Wrote file successfully.
+[0m
+[0m• [0mRun roadmap feature F002[90m FeatureRunner Agent[0m
