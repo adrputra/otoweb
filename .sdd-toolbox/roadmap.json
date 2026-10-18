@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T18:12:43Z",
+  "updated_at": "2026-10-18T18:26:28Z",
   "active_milestone": "M2",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -63,6 +63,12 @@
       "feature": "F006",
       "decision": "auto-approve-checkpoint",
       "detail": "AUTO_CHECKPOINT marker: F006 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 181/181) passed; VISUAL_QA PASS with desktop/mobile evidence."
+    },
+    {
+      "at": "2026-10-18T18:26:28Z",
+      "feature": "F007",
+      "decision": "auto-approve-checkpoint",
+      "detail": "AUTO_CHECKPOINT marker: F007 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 213/213) passed; VISUAL_QA PASS with admin desktop/mobile evidence and e2e publish-to-public flow."
     }
   ],
   "features": [
@@ -294,14 +300,24 @@
         "Admin creates vehicle, the vehicle is stored, admin publishes, and the vehicle is visible publicly.",
         "No manual DB operations are required."
       ],
-      "status": "in_progress",
+      "status": "done",
       "attempts": 1,
-      "spec_dir": null,
-      "commit": null,
-      "evidence": [],
+      "spec_dir": "specs/006-admin-vehicle-crud",
+      "commit": "8b423e1a87d7a312e7e1d4e313d0218a3eca2149",
+      "evidence": [
+        "specs/006-admin-vehicle-crud",
+        ".sdd-toolbox/waves/006-admin-vehicle-crud.json",
+        "lib/admin",
+        "lib/validation/vehicle.ts",
+        "tests/unit/admin/vehicle-service.test.ts",
+        "tests/e2e/admin-vehicles.spec.ts",
+        "docs/ADMIN.md",
+        ".visual-qa/reports/f007-admin-vehicle-crud-visual-qa.md",
+        ".sdd-toolbox/journal/20261019-012628-F007-complete.md"
+      ],
       "blocker": null,
       "started_at": "2026-10-18T18:12:43Z",
-      "completed_at": null
+      "completed_at": "2026-10-18T18:26:28Z"
     },
     {
       "id": "F008",
@@ -527,8 +543,8 @@
   ],
   "last_run": {
     "feature": "F007",
-    "event": "dispatch",
-    "at": "2026-10-18T18:12:43Z",
-    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
+    "event": "complete",
+    "at": "2026-10-18T18:26:28Z",
+    "detail": "F007 done; committed 8b423e1."
   }
 }
