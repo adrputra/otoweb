@@ -1,0 +1,139 @@
+{
+  "baseUrl": "http://prima.otoweb.id:3100",
+  "capturedAt": "2026-10-18T18:47:56.775Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "admin-vehicles",
+      "path": "/admin/vehicles",
+      "heading": "Kendaraan"
+    },
+    {
+      "name": "admin-vehicle-new",
+      "path": "/admin/vehicles/new",
+      "heading": "Tambah kendaraan"
+    },
+    {
+      "name": "admin-vehicle-edit",
+      "path": "/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "heading": "Edit kendaraan",
+      "requiredTexts": [
+        "Foto kendaraan",
+        "Pilih foto",
+        "COVER"
+      ],
+      "minPhotos": 1
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/admin/vehicles",
+      "url": "http://prima.otoweb.id:3100/admin/vehicles",
+      "heading": "Kendaraan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "photoCount": 0,
+      "photosVisible": true,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/admin-vehicles.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/admin/vehicles/new",
+      "url": "http://prima.otoweb.id:3100/admin/vehicles/new",
+      "heading": "Tambah kendaraan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "photoCount": 0,
+      "photosVisible": true,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/admin-vehicle-new.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "url": "http://prima.otoweb.id:3100/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "heading": "Edit kendaraan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "photoCount": 1,
+      "photosVisible": true,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/admin-vehicle-edit.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/admin/vehicles",
+      "url": "http://prima.otoweb.id:3100/admin/vehicles",
+      "heading": "Kendaraan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "photoCount": 0,
+      "photosVisible": true,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/admin-vehicles.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/admin/vehicles/new",
+      "url": "http://prima.otoweb.id:3100/admin/vehicles/new",
+      "heading": "Tambah kendaraan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "photoCount": 0,
+      "photosVisible": true,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/admin-vehicle-new.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "url": "http://prima.otoweb.id:3100/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "heading": "Edit kendaraan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "photoCount": 1,
+      "photosVisible": true,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/admin-vehicle-edit.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

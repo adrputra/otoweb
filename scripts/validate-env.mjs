@@ -23,6 +23,36 @@ export const envSchema = z.object({
       'NEXT_PUBLIC_SHOWROOM_SLUG must be lowercase letters, digits, and hyphens',
     )
     .default('prima-auto-gallery'),
+  // Optional media configuration. Absent credentials select the local fake
+  // provider in development; production surfaces a clear runtime error when
+  // uploads are attempted without Cloudinary configured.
+  MEDIA_PROVIDER: z.enum(['cloudinary', 'fake']).optional(),
+  MEDIA_LOCAL_DIR: z.string().trim().optional(),
+  MEDIA_PUBLIC_PREFIX: z
+    .string()
+    .trim()
+    .startsWith('/', 'MEDIA_PUBLIC_PREFIX must start with "/"')
+    .optional(),
+  CLOUDINARY_CLOUD_NAME: z.string().trim().optional(),
+  CLOUDINARY_API_KEY: z.string().trim().optional(),
+  CLOUDINARY_API_SECRET: z.string().trim().optional(),
+  CLOUDINARY_UPLOAD_FOLDER: z.string().trim().optional(),
+}).superRefine((value, context) => {
+  const credentials = [
+    value.CLOUDINARY_CLOUD_NAME,
+    value.CLOUDINARY_API_KEY,
+    value.CLOUDINARY_API_SECRET,
+  ]
+  const present = credentials.filter(Boolean).length
+
+  if (present > 0 && present < credentials.length) {
+    context.addIssue({
+      code: 'custom',
+      path: ['CLOUDINARY_CLOUD_NAME'],
+      message:
+        'Cloudinary credentials must be set together: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.',
+    })
+  }
 })
 
 /**

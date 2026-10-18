@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T18:26:28Z",
+  "updated_at": "2026-10-18T18:26:38Z",
   "active_milestone": "M2",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -338,13 +338,13 @@
         "Thumbnails are optimized.",
         "Deleting a vehicle handles the media policy correctly."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T18:26:38Z",
       "completed_at": null
     },
     {
@@ -542,9 +542,9 @@
     }
   ],
   "last_run": {
-    "feature": "F007",
-    "event": "complete",
-    "at": "2026-10-18T18:26:28Z",
-    "detail": "F007 done; committed 8b423e1."
+    "feature": "F008",
+    "event": "dispatch",
+    "at": "2026-10-18T18:26:38Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }

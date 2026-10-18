@@ -18,6 +18,9 @@ coverage/
 playwright-report/
 test-results/
 
+# Local fake media provider output (development / E2E only)
+public/uploads/
+
 # Common ignores
 node_modules
 .next/

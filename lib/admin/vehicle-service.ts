@@ -3,6 +3,8 @@ import type { PgDatabase, PgQueryResultHKT } from 'drizzle-orm/pg-core'
 
 import { vehicleImages, vehicles } from '@/db/schema'
 import type * as schema from '@/db/schema'
+import { resolveMediaProviderOrNull } from '@/lib/media/provider'
+import type { MediaProvider } from '@/lib/media/types'
 import { getTenantVehicleById, listTenantVehicleImages } from '@/lib/tenant/scoped-queries'
 import { withTenantSession } from '@/lib/tenant/session'
 import {
@@ -14,6 +16,11 @@ import {
 } from '@/lib/validation/vehicle'
 import type { Vehicle } from '@/lib/types'
 
+import {
+  cleanupUnreferencedMedia,
+  type MediaCandidate,
+  type MediaCleanupSummary,
+} from './media-cleanup'
 import { groupVehicleImages, toAdminVehicle } from './vehicle-mapper'
 
 type Database = PgDatabase<PgQueryResultHKT, typeof schema>
@@ -406,24 +413,64 @@ export async function duplicateVehicle(
   })
 }
 
-/** Permanently remove a tenant vehicle. Image rows cascade. */
+/** Permanently remove a tenant vehicle. Image rows cascade; provider assets are
+ * cleaned up only when no remaining row references them. */
+export interface DeleteVehicleOptions {
+  readonly mediaProvider?: MediaProvider
+}
+
+export interface DeleteVehicleData {
+  readonly id: string
+  readonly media: MediaCleanupSummary
+}
+
 export async function deleteVehicle(
   db: Database,
   actor: TenantActor,
   vehicleId: unknown,
-): Promise<ServiceResult<{ id: string }>> {
+  options: DeleteVehicleOptions = {},
+): Promise<ServiceResult<DeleteVehicleData>> {
   const id = parseVehicleId(vehicleId)
   if (!id) return invalid({ id: ['ID kendaraan tidak valid'] })
 
-  return withTenantSession(db, actor, async (tx) => {
+  const removed = await withTenantSession<
+    | ServiceResult<{ id: string; candidates: MediaCandidate[] }>
+  >(db, actor, async (tx) => {
+    const rows = await listTenantVehicleImages(tx, actor.tenantId, id)
+
     const deleted = await tx
       .delete(vehicles)
       .where(and(eq(vehicles.tenantId, actor.tenantId), eq(vehicles.id, id)))
       .returning({ id: vehicles.id })
 
     if (deleted.length === 0) return notFound()
-    return { ok: true as const, data: { id: deleted[0].id } }
+
+    return {
+      ok: true as const,
+      data: {
+        id: deleted[0].id,
+        candidates: rows.map((row) => ({
+          provider: row.provider,
+          assetId: row.providerAssetId,
+        })),
+      },
+    }
   })
+
+  if (!removed.ok) return removed
+
+  let provider: MediaProvider | null = options.mediaProvider ?? null
+  if (!provider) {
+    try {
+      provider = resolveMediaProviderOrNull()
+    } catch {
+      provider = null
+    }
+  }
+
+  const media = await cleanupUnreferencedMedia(db, removed.data.candidates, provider)
+
+  return { ok: true as const, data: { id: removed.data.id, media } }
 }
 
 export { vehicleActionSchema }

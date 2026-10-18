@@ -82,7 +82,17 @@ export function VehicleTable({ initialVehicles }: { initialVehicles: Vehicle[] }
           return
         }
         setItems((current) => current.filter((vehicle) => vehicle.id !== id))
-        toast.success('Kendaraan dihapus.')
+        if (result.data.media.failed > 0) {
+          toast.warning(
+            `Kendaraan dihapus. ${result.data.media.failed} media gagal dibersihkan dan dapat dibersihkan ulang.`,
+          )
+        } else {
+          toast.success(
+            result.data.media.destroyed > 0
+              ? `Kendaraan dihapus. ${result.data.media.destroyed} media dibersihkan.`
+              : 'Kendaraan dihapus.',
+          )
+        }
       } else if (action === 'duplicate') {
         const result = await duplicateVehicleAction(id)
         if (!result.ok) {

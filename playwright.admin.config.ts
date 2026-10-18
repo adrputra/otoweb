@@ -6,7 +6,7 @@ const AUTH_URL = `http://127.0.0.1:${AUTH_PORT}`
 
 export default defineConfig({
   testDir: './tests/e2e',
-  testMatch: /admin-vehicles\.spec\.ts/,
+  testMatch: /admin-(vehicles|vehicle-images)\.spec\.ts/,
   fullyParallel: false,
   workers: 1,
   reporter: [['list'], ['html', { open: 'never' }]],
@@ -50,6 +50,7 @@ export default defineConfig({
         NEXT_PUBLIC_SHOWROOM_SLUG: 'prima-auto-gallery',
         NEXT_PUBLIC_SUPABASE_URL: AUTH_URL,
         NEXT_PUBLIC_SUPABASE_ANON_KEY: 'fake-anon-key',
+        MEDIA_PROVIDER: 'fake',
       },
     },
   ],

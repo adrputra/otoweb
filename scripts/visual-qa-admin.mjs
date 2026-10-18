@@ -30,6 +30,8 @@ const routes = [
     name: 'admin-vehicle-edit',
     path: `/admin/vehicles/${PRIMA_VEHICLE_ID}/edit`,
     heading: 'Edit kendaraan',
+    requiredTexts: ['Foto kendaraan', 'Pilih foto', 'COVER'],
+    minPhotos: 1,
   },
 ]
 
@@ -108,6 +110,10 @@ async function captureRoute(page, viewport, route) {
   const normalizedText = bodyText.toLowerCase()
   const tenantVisible = normalizedText.includes('prima auto gallery')
   const crossTenantLeak = normalizedText.includes('tenant b test showroom')
+  const requiredTexts = route.requiredTexts ?? []
+  const missingTexts = requiredTexts.filter((text) => !bodyText.includes(text))
+  const photoCount = await page.locator('[data-testid="vehicle-photo"]').count()
+  const photosVisible = !route.minPhotos || photoCount >= route.minPhotos
   const screenshot = `.visual-qa/screenshots/${viewport.name}/${route.name}.png`
 
   await page.screenshot({ path: screenshot, fullPage: true })
@@ -123,6 +129,9 @@ async function captureRoute(page, viewport, route) {
     tenantVisible,
     crossTenantLeak,
     horizontalOverflow,
+    photoCount,
+    photosVisible,
+    missingTexts,
     screenshot,
   }
 }
@@ -131,18 +140,18 @@ function renderReport(report) {
   const rows = report.results
     .map(
       (result) =>
-        `| ${result.viewport} | ${result.route} | ${result.headingVisible ? 'yes' : 'no'} | ${result.tenantVisible ? 'yes' : 'no'} | ${result.crossTenantLeak ? 'yes' : 'no'} | ${result.horizontalOverflow ? 'yes' : 'no'} | ${result.screenshot} |`,
+        `| ${result.viewport} | ${result.route} | ${result.headingVisible ? 'yes' : 'no'} | ${result.tenantVisible ? 'yes' : 'no'} | ${result.crossTenantLeak ? 'yes' : 'no'} | ${result.horizontalOverflow ? 'yes' : 'no'} | ${result.photoCount} | ${result.screenshot} |`,
     )
     .join('\n')
 
-  return `# F007 Admin Vehicle CRUD — Visual QA
+  return `# F008 Admin Image Management — Visual QA
 
 **Captured**: ${report.capturedAt}
 **Base URL**: ${report.baseUrl}
 **Verdict**: ${report.verdict}
 
-| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Screenshot |
-|---|---|---|---|---|---|---|
+| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Photos | Screenshot |
+|---|---|---|---|---|---|---|---|
 ${rows}
 
 ## Failures
@@ -151,13 +160,16 @@ ${report.failures.length === 0 ? 'None.' : report.failures.map((failure) => `- $
 
 ## Scope
 
-- Admin vehicle list, create form, and edit form.
+- Admin vehicle list, create form, and edit form, including the F008 image
+  manager (upload control, photo grid, cover badge, order controls).
 - Desktop 1440×900 and mobile 390×844.
 - Signed in through a QA-only fake GoTrue endpoint using the real
   \`@supabase/ssr\` cookie contract; the real Next proxy, admin layout, tenant
   resolver, RLS session, and database code all run.
-- The incumbent neutral/amber admin design is preserved; only data wiring and
-  the required form fields changed.
+- The edit route must show the photo manager, at least one stored seeded photo,
+  and the cover badge.
+- The incumbent neutral/amber admin design is preserved; only image management
+  controls were added inside the existing photo section.
 `
 }
 
@@ -233,7 +245,9 @@ async function main() {
           !result.headingVisible ||
           !result.tenantVisible ||
           result.crossTenantLeak ||
-          result.horizontalOverflow,
+          result.horizontalOverflow ||
+          !result.photosVisible ||
+          result.missingTexts.length > 0,
       )
       .map((result) => {
         const reasons = []
@@ -241,6 +255,10 @@ async function main() {
         if (!result.tenantVisible) reasons.push('tenant name missing')
         if (result.crossTenantLeak) reasons.push('cross-tenant name present')
         if (result.horizontalOverflow) reasons.push('horizontal overflow')
+        if (!result.photosVisible) reasons.push('image manager did not render stored photos')
+        if (result.missingTexts.length > 0) {
+          reasons.push(`missing text: ${result.missingTexts.join(', ')}`)
+        }
         return { ...result, reasons }
       })
 
@@ -255,10 +273,10 @@ async function main() {
     }
 
     await writeFile(
-      '.visual-qa/reports/f007-admin-capture.json',
+      '.visual-qa/reports/f008-admin-capture.json',
       `${JSON.stringify(report, null, 2)}\n`,
     )
-    await writeFile('.visual-qa/reports/f007-admin-vehicle-crud-visual-qa.md', renderReport(report))
+    await writeFile('.visual-qa/reports/f008-admin-image-management-visual-qa.md', renderReport(report))
 
     if (failures.length > 0) {
       console.error('Admin visual QA checks failed:', failures)

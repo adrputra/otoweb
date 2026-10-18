@@ -35,9 +35,12 @@ active membership. No tenant id is accepted from the browser.
 | `lib/admin/context.ts` | Request user + tenant context + database resolution |
 | `lib/admin/vehicle-mapper.ts` | DB row → admin `Vehicle` view model and image grouping |
 | `lib/admin/vehicle-queries.ts` | Tenant-scoped admin reads and dashboard stats |
-| `lib/admin/vehicle-service.ts` | Create, edit, lifecycle, duplicate, delete |
+| `lib/admin/vehicle-service.ts` | Create, edit, lifecycle, duplicate, delete with media policy |
+| `lib/admin/vehicle-image-service.ts` | Image upload, order, cover, and delete service |
+| `lib/admin/media-cleanup.ts` | Reference-counted provider asset cleanup |
 | `lib/admin/vehicle-actions.ts` | `'use server'` wrappers and path revalidation |
 | `components/admin/vehicle-table.tsx` | Client list, filters, and action wiring |
+| `components/admin/vehicle-image-manager.tsx` | Upload progress, DnD ordering, cover, delete |
 | `components/vehicle-form.tsx` | Shared schema + server actions, required fields |
 | `app/admin/vehicles/**` | Server-rendered list, create, and edit routes |
 | `app/admin/page.tsx` | Database vehicle counts and recent units |
@@ -83,9 +86,24 @@ defaults.
 
 ## Images
 
-F008 owns upload, ordering, cover selection, and deletion. F007 displays stored
-image URLs and copies image rows when duplicating. Newly selected browser
-previews are not persisted yet; the form states this above the photo picker.
+F008 owns upload, ordering, cover selection, and deletion. The photo section of
+the create/edit form is a real manager backed by
+`/api/admin/vehicles/{id}/images`:
+
+- JPEG/PNG/WebP uploads (10 MB, 640×480 minimum, 20 images per vehicle) show
+  per-file progress and retry transient failures.
+- Drag-and-drop and the up/down controls persist contiguous positions.
+- Exactly one photo is the cover; the public detail page always renders it
+  first.
+- Deleting a photo compacts positions and promotes a new cover when needed.
+- Deleting a vehicle cascades image rows and destroys provider-owned assets only
+  when no remaining row references them. Provider cleanup is best-effort and its
+  result is reported in the admin toast.
+
+New vehicles queue selected files in the browser, create the draft, then upload
+the queue; if a file still fails the admin is sent to the edit page to retry.
+Full provider configuration, limits, media policy, and optimization details are
+in `docs/MEDIA.md`.
 
 ## Verification
 
@@ -96,6 +114,10 @@ npm test
 npx playwright test --config playwright.admin.config.ts
 pnpm visual:qa:admin
 ```
+
+The admin Playwright project sets `MEDIA_PROVIDER=fake`, so the image workflow
+is exercised end-to-end without Cloudinary credentials. Production uses the
+Cloudinary provider described in `docs/MEDIA.md`.
 
 `playwright.admin.config.ts` and `scripts/visual-qa-admin.mjs` start a QA-only
 fake GoTrue endpoint (`scripts/fake-supabase-auth.mjs`) and a crafted

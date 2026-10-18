@@ -43,3 +43,40 @@ export async function requireAdminTenantContext(
 
   return { user, context: access.context, db: await getAppDatabase() }
 }
+
+export type AdminApiContext =
+  | { ok: true; user: AuthUser; context: TenantContext; db: AppDatabase }
+  | { ok: false; status: 401 | 403; message: string }
+
+/**
+ * API variant of the admin gate.
+ *
+ * Route handlers cannot call `redirect()` without turning an XHR into a
+ * cross-origin HTML navigation, so they receive a typed 401/403 instead. The
+ * same server-verified user, tenant resolution, and capability checks run.
+ */
+export async function requireAdminApiContext(
+  capability: TenantCapability = 'manage_vehicles',
+): Promise<AdminApiContext> {
+  assertServerOnly('lib/admin/context')
+
+  const user = await getCurrentUser()
+  if (!user) return { ok: false, status: 401, message: 'Sesi tidak valid. Silakan masuk kembali.' }
+
+  const result = await resolveRequestTenantContext(user)
+  if (!result.ok) {
+    return { ok: false, status: 403, message: 'Akses showroom ditolak.' }
+  }
+
+  const access = authorizeTenantAccess(result, result.context.tenant.id, capability)
+  if (!access.ok) {
+    return { ok: false, status: 403, message: 'Anda tidak memiliki izin mengelola kendaraan.' }
+  }
+
+  return {
+    ok: true,
+    user,
+    context: access.context,
+    db: await getAppDatabase(),
+  }
+}

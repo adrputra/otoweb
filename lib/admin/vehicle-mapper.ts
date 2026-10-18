@@ -1,4 +1,5 @@
 import type { VehicleImage } from '@/db/schema'
+import { thumbnailImageUrl } from '@/lib/media/urls'
 import type { Vehicle } from '@/lib/types'
 
 type VehicleRow = {
@@ -41,12 +42,18 @@ export function groupVehicleImages(rows: VehicleImage[]): Map<string, Vehicle['i
 
   for (const row of rows) {
     const list = grouped.get(row.vehicleId) ?? []
+    const url = normalizeImageUrl(row.url)
     list.push({
       id: row.id,
-      url: normalizeImageUrl(row.url),
+      url,
+      thumbnailUrl: thumbnailImageUrl(url, 480),
       alt: row.alt,
       order: row.position,
       isCover: row.isCover,
+      provider: row.provider,
+      providerAssetId: row.providerAssetId,
+      width: row.width,
+      height: row.height,
     })
     grouped.set(row.vehicleId, list)
   }

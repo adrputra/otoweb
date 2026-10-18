@@ -91,6 +91,13 @@ detail-page content; they do not add behaviour in this phase.
 vehicle. `alt` is retained for accessibility and because the mock images already
 carry it.
 
+F008 uses the table as-is (no migration). The service keeps `position`
+contiguous and exactly one `is_cover` per vehicle. `provider_asset_id` is the
+deterministic Cloudinary public id (or the fake provider path). On vehicle or
+photo deletion, only assets whose provider matches the active media provider are
+candidates, and an asset is destroyed only when no row in any tenant references
+it; see `docs/MEDIA.md` for the full policy.
+
 ## Enum and status mapping
 
 PostgreSQL enums: `tenant_status`, `tenant_domain_type`, `tenant_member_role`,

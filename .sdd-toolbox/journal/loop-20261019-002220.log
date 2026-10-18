@@ -1344,3 +1344,194 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F007): admin vehicle crud" && git log -1 --format='%H %s'
 8b423e1a87d7a312e7e1d4e313d0218a3eca2149 feat(F007): admin vehicle crud
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T18:26:28Z'; sha='8b423e1a87d7a312e7e1d4e313d0218a3eca2149'
+for f in d['features']:
+    if f['id']=='F007':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/006-admin-vehicle-crud'
+        f['evidence']=[
+          'specs/006-admin-vehicle-crud',
+          '.sdd-toolbox/waves/006-admin-vehicle-crud.json',
+          'lib/admin',
+          'lib/validation/vehicle.ts',
+          'tests/unit/admin/vehicle-service.test.ts',
+          'tests/e2e/admin-vehicles.spec.ts',
+          'docs/ADMIN.md',
+          '.visual-qa/reports/f007-admin-vehicle-crud-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-012628-F007-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F007','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F007 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 213/213) passed; VISUAL_QA PASS with admin desktop/mobile evidence and e2e publish-to-public flow.'})
+d['last_run']={'feature':'F007','event':'complete','at':now,'detail':'F007 done; committed 8b423e1.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-012628-F007-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `8b423e1a87d7a312e7e1d4e313d0218a3eca2149` — feat(F007): admin vehicle crud
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F007): record checkpoint commit" && git log --oneline -3
+7612c98 chore(F007): record checkpoint commit
+8b423e1 feat(F007): admin vehicle crud
+36f4011 chore(F006): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 50.'); j=s.find('# 51.'); print(s[i:j])
+EOF
+# 50. PHASE 8 — Image Management
+
+Integrate Cloudinary.
+
+Implement:
+
+```text
+upload
+multiple upload
+progress
+reordering
+cover selection
+deletion
+validation
+optimization
+```
+
+Test approximately:
+
+```text
+15 high-resolution images
+```
+
+in one vehicle workflow.
+
+Acceptance:
+
+```text
+[ ] upload reliable
+[ ] image ordering persists
+[ ] cover persists
+[ ] thumbnails optimized
+[ ] deleting vehicle handles media policy correctly
+```
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T18:26:38Z
+20261019-012638
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T18:26:38Z'
+for f in d['features']:
+    if f['id']=='F008':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F008','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-012638-F008.md <<'EOF'
+# F008 — Image Management
+
+- Timestamp: 2026-10-18T18:26:38Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M2
+- Roadmap source: `docs/ROADMAP.md`, `# 50. PHASE 8 — Image Management`
+- Dependencies: F007 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Cloudinary upload, multiple upload, progress, reordering, cover selection, deletion, validation, and optimization are implemented.
+2. Approximately 15 high-resolution images are tested in one vehicle workflow.
+3. Upload is reliable.
+4. Image ordering persists.
+5. Cover persists.
+6. Thumbnails are optimized.
+7. Deleting a vehicle handles the media policy correctly.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m$ [0mgrep -in "cloudinary" .env.example package.json 2>/dev/null | head; ls lib | head -30
+actions.ts
+admin
+auth
+db
+format.ts
+public
+repositories.ts
+supabase
+tenant
+types.ts
+utils.ts
+validation
+[0m
+[0m• [0mExecute roadmap feature F008[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F008[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -25 .visual-qa/reports/f008-admin-image-management-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f008-admin-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null; cat .visual-qa/reports/impeccable-detect-f008.json 2>/dev/null
+# F008 Admin Image Management — Visual QA
+
+**Captured**: 2026-10-18T18:47:56.775Z
+**Base URL**: http://prima.otoweb.id:3100
+**Verdict**: PASS
+
+| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Photos | Screenshot |
+|---|---|---|---|---|---|---|---|
+| desktop | /admin/vehicles | yes | yes | no | no | 0 | .visual-qa/screenshots/desktop/admin-vehicles.png |
+| desktop | /admin/vehicles/new | yes | yes | no | no | 0 | .visual-qa/screenshots/desktop/admin-vehicle-new.png |
+| desktop | /admin/vehicles/30000000-0000-4000-8000-000000000001/edit | yes | yes | no | no | 1 | .visual-qa/screenshots/desktop/admin-vehicle-edit.png |
+| mobile | /admin/vehicles | yes | yes | no | no | 0 | .visual-qa/screenshots/mobile/admin-vehicles.png |
+| mobile | /admin/vehicles/new | yes | yes | no | no | 0 | .visual-qa/screenshots/mobile/admin-vehicle-new.png |
+| mobile | /admin/vehicles/30000000-0000-4000-8000-000000000001/edit | yes | yes | no | no | 1 | .visual-qa/screenshots/mobile/admin-vehicle-edit.png |
+
+## Failures
+
+None.
+
+## Scope
+
+- Admin vehicle list, create form, and edit form, including the F008 image
+  manager (upload control, photo grid, cover badge, order controls).
+- Desktop 1440×900 and mobile 390×844.
+- Signed in through a QA-only fake GoTrue endpoint using the real
+---
+{'capturedAt': '2026-10-18T18:47:56.775Z', 'verdict': 'PASS', 'failures': []}
+[]
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  27 passed (27)
+      Tests  260 passed (260)
+   Start at  01:48:11
+   Duration  31.04s (tests 82%, environment 7%, import 7%, setup 3%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T18:48:44Z
+20261019-014844
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-014844-F008-complete.md
+Wrote file successfully.
+[0m

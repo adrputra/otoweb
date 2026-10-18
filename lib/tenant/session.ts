@@ -23,7 +23,7 @@ export interface TenantSessionValues {
   isPlatformAdmin?: boolean
 }
 
-export function isUuid(value: string | null | undefined): value is string {
+export function isUuid(value: unknown): value is string {
   return typeof value === 'string' && UUID_PATTERN.test(value)
 }
 

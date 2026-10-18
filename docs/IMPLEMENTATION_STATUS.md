@@ -33,7 +33,7 @@ in `docs/TENANCY.md`, `docs/PUBLIC_SITE.md`, and `docs/ADMIN.md`.
 | 5 | Multi-Tenant Security | `NOT_STARTED` | No tenancy, memberships, tenant context, or RLS |
 | 6 | Connect Public Website to Database | `MOCKED` | Public site works only from `data/index.ts` |
 | 7 | Admin Vehicle CRUD | `COMPLETE` | Tenant-scoped DB create/edit/publish/reserve/sell/archive/duplicate/delete with shared Zod validation; see `docs/ADMIN.md` |
-| 8 | Image Management | `UI_ONLY` | Photo manager UI exists; upload is fake |
+| 8 | Image Management | `COMPLETE` | Provider-backed upload/progress/retry, persisted order and cover, validated deletion with reference-counted media policy; see `docs/MEDIA.md` |
 | 9 | Showroom Settings | `UI_ONLY` | Form and preview exist; save is a no-op |
 | 10 | Lead Capture | `PARTIAL` | Mock lead dashboard and WhatsApp links; no capture |
 | 11 | SEO Productionization | `NOT_STARTED` | Only hard-coded root metadata |
@@ -213,24 +213,24 @@ Counts are calculated from the detailed capability map in §3.
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| Cloudinary integration | `NOT_STARTED` | No Cloudinary dependency/config |
-| Upload | `UI_ONLY` | Object URLs only; no network upload |
-| Multiple upload | `UI_ONLY` | File input accepts multiple; local only |
-| Upload progress | `UI_ONLY` | Simulated with `setTimeout` |
-| Drag/drop reordering | `UI_ONLY` | dnd-kit works locally; not persisted |
-| Cover image selection | `UI_ONLY` | Local `isCover` state only |
-| Delete image | `UI_ONLY` | Local state only |
-| Retry failed uploads | `NOT_STARTED` | No real upload, no retry |
-| File type validation | `PARTIAL` | `accept="image/*"` only |
-| File size validation | `NOT_STARTED` | No size check |
-| Number-of-files validation | `PARTIAL` | Hard-coded max 20 on the client |
-| Server-side media validation | `NOT_STARTED` | No server upload path |
-| Configurable maximum images | `PARTIAL` | Hard-coded 20; not configurable |
-| Responsive delivery/optimization | `NOT_STARTED` | `images.unoptimized: true` |
-| 15 high-resolution image workflow | `NOT_STARTED` | No real upload workflow |
-| Image ordering persists | `NOT_STARTED` | Order is local only |
-| Cover persists | `NOT_STARTED` | Cover is local only |
-| Deleting vehicle handles media policy | `NOT_STARTED` | No media storage or policy |
+| Cloudinary integration | `COMPLETE` | Signed REST provider behind `MediaProvider`; `docs/MEDIA.md` |
+| Upload | `COMPLETE` | `POST /api/admin/vehicles/{id}/images` + `VehicleImageManager` |
+| Multiple upload | `COMPLETE` | Sequential per-file uploads preserve selection order |
+| Upload progress | `COMPLETE` | XHR upload progress rendered per tile |
+| Drag/drop reordering | `COMPLETE` | dnd-kit + up/down controls persist contiguous positions |
+| Cover image selection | `COMPLETE` | Exactly one cover; public detail renders it first |
+| Delete image | `COMPLETE` | Row delete, position compaction, cover promotion |
+| Retry failed uploads | `COMPLETE` | Browser + provider transient retry, idempotent asset ids |
+| File type validation | `COMPLETE` | Server magic-byte inspection (JPEG/PNG/WebP) |
+| File size validation | `COMPLETE` | 10 MB server limit |
+| Number-of-files validation | `COMPLETE` | 20 per vehicle, enforced by the service |
+| Server-side media validation | `COMPLETE` | `lib/media/inspect.ts` before provider/database work |
+| Configurable maximum images | `PARTIAL` | Shared constant; not a runtime setting |
+| Responsive delivery/optimization | `COMPLETE` | Provider transformation URLs at 480/640/1600/2200 |
+| 15 high-resolution image workflow | `COMPLETE` | Unit integration + admin Playwright workflow |
+| Image ordering persists | `COMPLETE` | Reload + public read assertions |
+| Cover persists | `COMPLETE` | Reload + public cover-first assertions |
+| Deleting vehicle handles media policy | `COMPLETE` | Cascade + reference-counted best-effort cleanup |
 
 ### Phase 9 — Showroom Settings
 
@@ -478,7 +478,7 @@ items that block roadmap phases are:
 | TD-07 No tests/CI | Resolved in Phase 2 (Vitest, Testing Library, Playwright, GitHub Actions) |
 | TD-08 Build ignores TS errors | Resolved in Phase 2 (`typescript.ignoreBuildErrors` removed; build runs TypeScript) |
 | TD-09 No server validation | Phases 7, 9, 10 |
-| TD-10 Fake media upload | Phase 8 |
+| TD-10 Fake media upload | Resolved in Phase 8 (provider-backed uploads + media policy) |
 | TD-11 No SEO | Phase 11 |
 | TD-12 Hard-coded tenant strings | Phases 5, 6, 9, 13 |
 | TD-19 Broken admin navigation | Phases 7, 9 |

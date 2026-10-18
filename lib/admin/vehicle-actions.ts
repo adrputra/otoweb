@@ -12,6 +12,7 @@ import {
   reserveVehicle,
   sellVehicle,
   updateVehicle,
+  type DeleteVehicleData,
   type ServiceResult,
   type TenantActor,
 } from './vehicle-service'
@@ -131,7 +132,7 @@ export async function duplicateVehicleAction(vehicleId: string): Promise<Service
 
 export async function deleteVehicleAction(
   vehicleId: string,
-): Promise<ServiceResult<{ id: string }>> {
+): Promise<ServiceResult<DeleteVehicleData>> {
   const { db, actor } = await actorForRequest()
   const result = await deleteVehicle(db, actor, vehicleId)
 

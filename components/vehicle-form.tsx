@@ -1,29 +1,13 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core'
-import {
-  SortableContext,
-  arrayMove,
-  useSortable,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import {
-  Camera,
-  ChevronDown,
-  ChevronUp,
-  GripVertical,
-  ImagePlus,
-  Loader2,
-  Save,
-  Trash2,
-  X,
-} from 'lucide-react'
+import { Save, X } from 'lucide-react'
 import { toast } from 'sonner'
 
+import { VehicleImageManager, type VehicleImageManagerHandle } from '@/components/admin/vehicle-image-manager'
 import { brands, carCatalog, commonFeatures } from '@/data/car-catalog'
 import {
   createVehicleAction,
@@ -35,14 +19,6 @@ import {
   slugifyVehicle,
   type VehicleFormValues,
 } from '@/lib/validation/vehicle'
-
-type Photo = {
-  id: string
-  url: string
-  name: string
-  progress: number
-  isCover: boolean
-}
 
 const money = (value: number | string) =>
   new Intl.NumberFormat('id-ID').format(Number(value) || 0)
@@ -134,97 +110,6 @@ function FormSection({
   )
 }
 
-function PhotoItem({
-  photo,
-  onDelete,
-  onCover,
-  onMove,
-}: {
-  photo: Photo
-  onDelete: () => void
-  onCover: () => void
-  onMove: (direction: -1 | 1) => void
-}) {
-  const sortable = useSortable({ id: photo.id })
-
-  return (
-    <div
-      ref={sortable.setNodeRef}
-      style={{
-        transform: sortable.transform
-          ? `translate3d(${sortable.transform.x}px, ${sortable.transform.y}px, 0)`
-          : undefined,
-        transition: sortable.transition,
-      }}
-      className="group relative min-w-0 overflow-hidden rounded-lg border bg-white"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={photo.url}
-        alt={photo.name}
-        className="aspect-[4/3] w-full object-cover"
-      />
-      <div className="absolute left-2 top-2 flex gap-1">
-        <button
-          type="button"
-          {...sortable.attributes}
-          {...sortable.listeners}
-          className="rounded bg-white/90 p-1.5"
-          aria-label="Geser foto"
-        >
-          <GripVertical className="size-3.5" />
-        </button>
-        {photo.isCover && (
-          <span className="rounded bg-neutral-950 px-2 py-1 text-[10px] text-white">
-            COVER
-          </span>
-        )}
-      </div>
-      <div className="absolute right-2 top-2 flex gap-1 opacity-100 focus-within:opacity-100 md:opacity-0 md:group-hover:opacity-100">
-        <button
-          type="button"
-          onClick={() => onMove(-1)}
-          className="rounded bg-white p-1.5"
-          aria-label="Naik"
-        >
-          <ChevronUp className="size-3.5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => onMove(1)}
-          className="rounded bg-white p-1.5"
-          aria-label="Turun"
-        >
-          <ChevronDown className="size-3.5" />
-        </button>
-        <button
-          type="button"
-          onClick={onDelete}
-          className="rounded bg-white p-1.5 text-red-600"
-          aria-label="Hapus foto"
-        >
-          <Trash2 className="size-3.5" />
-        </button>
-      </div>
-      <button
-        type="button"
-        onClick={onCover}
-        className="absolute inset-x-2 bottom-2 min-h-11 rounded bg-white/90 py-1 text-[10px] opacity-100 focus:opacity-100 md:opacity-0 md:group-hover:opacity-100"
-      >
-        Jadikan cover
-      </button>
-      {photo.progress < 100 && (
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-neutral-200">
-          <div
-            className="h-full bg-neutral-950"
-            style={{ width: `${photo.progress}%` }}
-          />
-        </div>
-      )}
-    </div>
-  )
-}
-
 export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
   const router = useRouter()
   const defaults = vehicle ? toFormValues(vehicle) : emptyValues()
@@ -249,19 +134,14 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
   const year = useWatch({ control, name: 'year' })
   const mileage = useWatch({ control, name: 'mileageKm' })
 
-  const [photos, setPhotos] = useState<Photo[]>(
-    vehicle?.images?.map((image, index) => ({
-      id: image.id,
-      url: image.url,
-      name: image.alt,
-      progress: 100,
-      isCover: index === 0 || image.isCover,
-    })) ?? [],
+  const imageManager = useRef<VehicleImageManagerHandle>(null)
+  const [imageBusy, setImageBusy] = useState(false)
+  const [coverPreview, setCoverPreview] = useState<string | undefined>(
+    vehicle?.images?.find((image) => image.isCover)?.url ?? vehicle?.images?.[0]?.url,
   )
   const [features, setFeatures] = useState<string[]>(vehicle?.features ?? [])
   const [feature, setFeature] = useState('')
   const [step, setStep] = useState(0)
-  const [busy, setBusy] = useState(false)
 
   const slug = useMemo(
     () =>
@@ -283,39 +163,6 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
     window.addEventListener('beforeunload', warn)
     return () => window.removeEventListener('beforeunload', warn)
   }, [isDirty])
-
-  const addPhotos = (files: FileList | null) => {
-    if (!files) return
-
-    const incoming = Array.from(files).slice(0, 20 - photos.length)
-    if (!incoming.length) {
-      toast.error('Maksimal 20 foto')
-      return
-    }
-
-    setBusy(true)
-    const added = incoming.map((file, index) => ({
-      id: `${Date.now()}-${index}`,
-      url: URL.createObjectURL(file),
-      name: file.name,
-      progress: 0,
-      isCover: photos.length === 0 && index === 0,
-    }))
-
-    setPhotos((current) => [...current, ...added])
-    added.forEach((photo, index) =>
-      setTimeout(
-        () =>
-          setPhotos((items) =>
-            items.map((item) =>
-              item.id === photo.id ? { ...item, progress: 100 } : item,
-            ),
-          ),
-        300 + index * 120,
-      ),
-    )
-    setTimeout(() => setBusy(false), 700)
-  }
 
   const submit = async (
     values: VehicleFormValues,
@@ -353,6 +200,19 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
     )
 
     if (!vehicle) {
+      const manager = imageManager.current
+      if (manager?.hasPendingUploads()) {
+        const upload = await manager.uploadPending(result.data.id)
+        if (upload.failures.length > 0) {
+          toast.error(
+            `${upload.failures.length} foto gagal diunggah. Coba lagi dari halaman edit.`,
+          )
+          router.push(`/admin/vehicles/${result.data.id}/edit`)
+          router.refresh()
+          return
+        }
+      }
+
       router.push('/admin/vehicles')
       router.refresh()
       return
@@ -360,18 +220,6 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
 
     reset({ ...payload, publication: result.data.publication })
     router.refresh()
-  }
-
-  const drag = (event: DragEndEvent) => {
-    if (event.over && event.active.id !== event.over.id) {
-      setPhotos((current) =>
-        arrayMove(
-          current,
-          current.findIndex((photo) => photo.id === event.active.id),
-          current.findIndex((photo) => photo.id === event.over?.id),
-        ),
-      )
-    }
   }
 
   const err = (key: keyof VehicleFormValues) =>
@@ -411,80 +259,13 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
       <div className="grid gap-6 lg:grid-cols-[1fr_220px]">
         <div className="flex flex-col gap-6">
           <FormSection visible={step === 0} title="Foto kendaraan">
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <p className="text-xs text-neutral-500">
-                  {photos.length}/20 foto · pertama menjadi cover default
-                </p>
-                <p className="mt-1 text-[11px] text-neutral-400">
-                  Unggahan foto tersimpan pada tahap pengelolaan media.
-                </p>
-              </div>
-              <label className="flex cursor-pointer items-center gap-2 rounded-md bg-neutral-950 px-3 py-2 text-xs font-semibold text-white">
-                <Camera className="size-3.5" />
-                Pilih foto
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="sr-only"
-                  onChange={(event) => addPhotos(event.target.files)}
-                />
-              </label>
-            </div>
-            <DndContext
-              id="vehicle-photo-sortable"
-              collisionDetection={closestCenter}
-              onDragEnd={drag}
-            >
-              <SortableContext
-                items={photos.map((photo) => photo.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {photos.map((photo, index) => (
-                    <PhotoItem
-                      key={photo.id}
-                      photo={photo}
-                      onDelete={() =>
-                        setPhotos(photos.filter((item) => item.id !== photo.id))
-                      }
-                      onCover={() =>
-                        setPhotos(
-                          photos.map((item) => ({
-                            ...item,
-                            isCover: item.id === photo.id,
-                          })),
-                        )
-                      }
-                      onMove={(direction) => {
-                        const next = index + direction
-                        if (next >= 0 && next < photos.length) {
-                          setPhotos(arrayMove(photos, index, next))
-                        }
-                      }}
-                    />
-                  ))}
-                  <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed text-neutral-400">
-                    <ImagePlus className="size-6" />
-                    <span className="text-xs">Tambah foto</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      className="sr-only"
-                      onChange={(event) => addPhotos(event.target.files)}
-                    />
-                  </label>
-                </div>
-              </SortableContext>
-            </DndContext>
-            {busy && (
-              <p className="mt-3 flex items-center gap-2 text-xs text-neutral-500">
-                <Loader2 className="size-3.5 animate-spin" />
-                Menyiapkan pratinjau foto...
-              </p>
-            )}
+            <VehicleImageManager
+              ref={imageManager}
+              vehicleId={vehicle?.id}
+              initialImages={vehicle?.images ?? []}
+              onBusyChange={setImageBusy}
+              onCoverPreviewChange={setCoverPreview}
+            />
           </FormSection>
 
           <FormSection visible={step === 1} title="Dasar kendaraan">
@@ -704,10 +485,10 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">
               Live preview
             </p>
-            {photos[0] ? (
+            {coverPreview ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={photos[0].url}
+                src={coverPreview}
                 alt="Preview kendaraan"
                 className="aspect-[4/3] w-full rounded-lg object-cover"
               />
@@ -734,7 +515,7 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
       <div className="fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-30 flex justify-end gap-2 border-t bg-white/95 px-5 py-3 backdrop-blur md:bottom-0 lg:left-64">
         <button
           type="button"
-          disabled={isSubmitting || busy}
+          disabled={isSubmitting || imageBusy}
           onClick={handleSubmit((values) => submit(values, 'draft'))}
           className="flex h-10 items-center gap-2 border px-4 text-sm font-semibold"
         >
@@ -743,7 +524,7 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
         </button>
         <button
           type="button"
-          disabled={isSubmitting || busy}
+          disabled={isSubmitting || imageBusy}
           onClick={handleSubmit((values) => submit(values, 'published'))}
           className="h-10 bg-neutral-950 px-5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
         >

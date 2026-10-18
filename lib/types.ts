@@ -1,5 +1,20 @@
 export type Availability = 'available' | 'reserved' | 'sold'
 export type Publication = 'draft' | 'published' | 'archived'
+
+export interface VehicleImage {
+  id: string
+  url: string
+  alt: string
+  order: number
+  isCover: boolean
+  /** Smaller provider transformation used by grids and cards. */
+  thumbnailUrl?: string
+  provider?: string
+  providerAssetId?: string | null
+  width?: number | null
+  height?: number | null
+}
+
 export interface Vehicle {
   id: string
   slug: string
@@ -21,7 +36,7 @@ export interface Vehicle {
   documents: { stnk: boolean; bpkb: boolean }
   features: string[]
   description: string
-  images: { id: string; url: string; alt: string; order: number; isCover: boolean }[]
+  images: VehicleImage[]
   availability: Availability
   publication: Publication
   featured: boolean

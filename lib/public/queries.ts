@@ -3,6 +3,7 @@ import type { PgDatabase, PgQueryResultHKT } from 'drizzle-orm/pg-core'
 
 import { vehicleImages, vehicles } from '@/db/schema'
 import type * as schema from '@/db/schema'
+import { optimizedImageUrl, thumbnailImageUrl } from '@/lib/media/urls'
 import {
   getShowroomSettings,
   listTenantVehicleImages,
@@ -105,23 +106,19 @@ function vehicleOrder(filters: VehicleFilters = {}) {
   }
 }
 
-function normalizeUnsplash(url: string, width: number): string {
-  if (!url.includes('images.unsplash.com') || url.includes('?')) return url
-  return `${url}?auto=format&fit=crop&w=${width}&q=85`
+function absoluteImageUrl(url: string): string {
+  if (url.startsWith('/') || url.startsWith('http')) return url
+  return `https://images.unsplash.com/${url}`
 }
 
 function normalizeImageUrl(url: string | null | undefined): string {
   if (!url) return '/placeholder.jpg'
-  if (url.startsWith('/')) return url
-  if (url.startsWith('http')) return normalizeUnsplash(url, 1200)
-  return normalizeUnsplash(`https://images.unsplash.com/${url}`, 1200)
+  return optimizedImageUrl(absoluteImageUrl(url), 1600)
 }
 
 function normalizeHeroImageUrl(url: string | null | undefined): string {
   if (!url) return '/placeholder.jpg'
-  if (url.startsWith('/')) return url
-  if (url.startsWith('http')) return normalizeUnsplash(url, 2200)
-  return normalizeUnsplash(`https://images.unsplash.com/${url}`, 2200)
+  return optimizedImageUrl(absoluteImageUrl(url), 2200)
 }
 
 type VehicleRow = typeof vehicles.$inferSelect
@@ -133,12 +130,18 @@ function groupImages(rows: VehicleImageRow[]): Map<string, VehicleImages> {
 
   for (const row of rows) {
     const list = grouped.get(row.vehicleId) ?? []
+    const url = normalizeImageUrl(row.url)
     list.push({
       id: row.id,
-      url: normalizeImageUrl(row.url),
+      url,
+      thumbnailUrl: thumbnailImageUrl(url, 640),
       alt: row.alt,
       order: row.position,
       isCover: row.isCover,
+      provider: row.provider,
+      providerAssetId: row.providerAssetId,
+      width: row.width,
+      height: row.height,
     })
     grouped.set(row.vehicleId, list)
   }
@@ -147,8 +150,12 @@ function groupImages(rows: VehicleImageRow[]): Map<string, VehicleImages> {
 }
 
 function toVehicle(row: VehicleRow, images: VehicleImages = []): Vehicle {
+  // The chosen cover is the public hero regardless of its stored position.
   const orderedImages = [...images].sort(
-    (a, b) => a.order - b.order || a.id.localeCompare(b.id),
+    (a, b) =>
+      Number(b.isCover) - Number(a.isCover) ||
+      a.order - b.order ||
+      a.id.localeCompare(b.id),
   )
 
   return {
