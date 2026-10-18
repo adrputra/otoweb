@@ -16,10 +16,7 @@ import { isUuid } from './session'
 
 type Database = PgDatabase<PgQueryResultHKT, typeof schema>
 
-export type TenantScopeErrorCode =
-  | 'missing_tenant_id'
-  | 'invalid_tenant_id'
-  | 'invalid_vehicle_id'
+export type TenantScopeErrorCode = 'missing_tenant_id' | 'invalid_tenant_id' | 'invalid_vehicle_id'
 
 export class TenantScopeError extends Error {
   constructor(readonly code: TenantScopeErrorCode) {
@@ -41,11 +38,7 @@ export function requireTenantId(tenantId: string | null | undefined): string {
 export async function getTenantById(db: Database, tenantId: string) {
   const id = requireTenantId(tenantId)
 
-  const rows = await db
-    .select()
-    .from(tenants)
-    .where(eq(tenants.id, id))
-    .limit(1)
+  const rows = await db.select().from(tenants).where(eq(tenants.id, id)).limit(1)
 
   return rows[0] ?? null
 }
@@ -82,11 +75,7 @@ export async function listTenantVehicles(db: Database, tenantId: string) {
     .orderBy(desc(vehicles.createdAt), asc(vehicles.slug))
 }
 
-export async function getTenantVehicleBySlug(
-  db: Database,
-  tenantId: string,
-  slug: string,
-) {
+export async function getTenantVehicleBySlug(db: Database, tenantId: string, slug: string) {
   const id = requireTenantId(tenantId)
   if (!slug) return null
 
@@ -99,11 +88,20 @@ export async function getTenantVehicleBySlug(
   return rows[0] ?? null
 }
 
-export async function listTenantVehicleImages(
-  db: Database,
-  tenantId: string,
-  vehicleId?: string,
-) {
+export async function getTenantVehicleById(db: Database, tenantId: string, vehicleId: string) {
+  const id = requireTenantId(tenantId)
+  if (!isUuid(vehicleId)) throw new TenantScopeError('invalid_vehicle_id')
+
+  const rows = await db
+    .select()
+    .from(vehicles)
+    .where(and(eq(vehicles.tenantId, id), eq(vehicles.id, vehicleId)))
+    .limit(1)
+
+  return rows[0] ?? null
+}
+
+export async function listTenantVehicleImages(db: Database, tenantId: string, vehicleId?: string) {
   const id = requireTenantId(tenantId)
   if (vehicleId !== undefined && !isUuid(vehicleId)) {
     throw new TenantScopeError('invalid_vehicle_id')

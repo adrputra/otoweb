@@ -1,7 +1,7 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { getDatabase } from '@/db/client'
+import { getAppDatabase } from '@/lib/db/runtime'
 
 import { resolveTenantContext } from './context'
 import { createTenantDirectory, type TenantDirectory } from './directory'
@@ -15,9 +15,7 @@ export interface TenantServerDependencies {
 /** Refuse to run server-only tenant code in a browser-like environment. */
 export function assertServerOnly(moduleName: string = 'lib/tenant'): void {
   if (typeof window !== 'undefined') {
-    throw new Error(
-      `${moduleName} is server-only and must never be imported by browser code.`,
-    )
+    throw new Error(`${moduleName} is server-only and must never be imported by browser code.`)
   }
 }
 
@@ -45,7 +43,7 @@ export async function resolveRequestTenantContext(
   if (!user) return { ok: false, error: 'unauthenticated' }
 
   try {
-    const directory = deps.directory ?? createTenantDirectory(getDatabase())
+    const directory = deps.directory ?? createTenantDirectory(await getAppDatabase())
     const hostname = await readHostname(deps)
 
     const hostnameResult = await directory.findTenantByHostname(hostname)

@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T18:12:34Z",
+  "updated_at": "2026-10-18T18:12:43Z",
   "active_milestone": "M2",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -294,13 +294,13 @@
         "Admin creates vehicle, the vehicle is stored, admin publishes, and the vehicle is visible publicly.",
         "No manual DB operations are required."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T18:12:43Z",
       "completed_at": null
     },
     {
@@ -526,9 +526,9 @@
     }
   ],
   "last_run": {
-    "feature": "F006",
-    "event": "complete",
-    "at": "2026-10-18T18:12:34Z",
-    "detail": "F006 done; committed f447738."
+    "feature": "F007",
+    "event": "dispatch",
+    "at": "2026-10-18T18:12:43Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }

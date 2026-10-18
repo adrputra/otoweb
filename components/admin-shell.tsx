@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { useFormStatus } from 'react-dom'
+import { Toaster } from 'sonner'
 
 import { logoutAction } from '@/lib/auth/actions'
 import type { AuthUser } from '@/lib/auth/types'
@@ -155,6 +156,7 @@ export function AdminShell({
           </Link>
         ))}
       </nav>
+      <Toaster position="top-center" toastOptions={{ className: 'text-sm' }} />
     </div>
   )
 }

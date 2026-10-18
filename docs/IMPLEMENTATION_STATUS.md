@@ -17,7 +17,8 @@ This document maps every roadmap capability to exactly one status:
 | `BLOCKED` | Cannot be completed until a dependency or decision is resolved |
 
 Status is about the **capability**, not the visual polish. A screen can look
-finished and still be `UI_ONLY` or `MOCKED`.
+finished and still be `UI_ONLY` or `MOCKED`. Phase-specific as-built notes live
+in `docs/TENANCY.md`, `docs/PUBLIC_SITE.md`, and `docs/ADMIN.md`.
 
 ---
 
@@ -31,7 +32,7 @@ finished and still be `UI_ONLY` or `MOCKED`.
 | 4 | Authentication | `COMPLETE` | Supabase Auth sign-in/out, password reset, proxy-protected admin routes, cookie session refresh, and fake-backend/Playwright verification delivered |
 | 5 | Multi-Tenant Security | `NOT_STARTED` | No tenancy, memberships, tenant context, or RLS |
 | 6 | Connect Public Website to Database | `MOCKED` | Public site works only from `data/index.ts` |
-| 7 | Admin Vehicle CRUD | `PARTIAL` | Some in-memory actions; create and persistence missing |
+| 7 | Admin Vehicle CRUD | `COMPLETE` | Tenant-scoped DB create/edit/publish/reserve/sell/archive/duplicate/delete with shared Zod validation; see `docs/ADMIN.md` |
 | 8 | Image Management | `UI_ONLY` | Photo manager UI exists; upload is fake |
 | 9 | Showroom Settings | `UI_ONLY` | Form and preview exist; save is a no-op |
 | 10 | Lead Capture | `PARTIAL` | Mock lead dashboard and WhatsApp links; no capture |
