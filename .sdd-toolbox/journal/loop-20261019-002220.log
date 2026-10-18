@@ -1538,3 +1538,177 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F008): image management" && git log -1 --format='%H %s'
 7d112e3ee8d1760052941d170ba569625d1d2523 feat(F008): image management
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T18:48:44Z'; sha='7d112e3ee8d1760052941d170ba569625d1d2523'
+for f in d['features']:
+    if f['id']=='F008':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/007-image-management'
+        f['evidence']=[
+          'specs/007-image-management',
+          '.sdd-toolbox/waves/007-image-management.json',
+          'lib/media',
+          'lib/admin/vehicle-image-service.ts',
+          'tests/unit/media',
+          'tests/e2e/admin-vehicle-images.spec.ts',
+          'docs/MEDIA.md',
+          '.visual-qa/reports/f008-admin-image-management-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-014844-F008-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F008','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F008 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 260/260) passed; VISUAL_QA PASS with admin desktop/mobile evidence; 15-image workflow verified.'})
+d['last_run']={'feature':'F008','event':'complete','at':now,'detail':'F008 done; committed 7d112e3.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-014844-F008-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `7d112e3ee8d1760052941d170ba569625d1d2523` — feat(F008): image management
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F008): record checkpoint commit" && git log --oneline -3
+9ae1b28 chore(F008): record checkpoint commit
+7d112e3 feat(F008): image management
+7612c98 chore(F007): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 51.'); j=s.find('# 52.'); print(s[i:j])
+EOF
+# 51. PHASE 9 — Showroom Settings
+
+Connect showroom settings administration.
+
+Editable:
+
+```text
+name
+tagline
+description
+logo
+hero image
+colors
+contact details
+address
+social links
+opening hours
+SEO fields
+```
+
+All changes must be tenant scoped.
+
+Acceptance:
+
+```text
+admin updates showroom
+↓
+public website reflects configuration
+```
+
+without deployment.
+
+This is a key white-label requirement.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T18:48:53Z
+20261019-014853
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T18:48:53Z'
+for f in d['features']:
+    if f['id']=='F009':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F009','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-014853-F009.md <<'EOF'
+# F009 — Showroom Settings
+
+- Timestamp: 2026-10-18T18:48:53Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M2
+- Roadmap source: `docs/ROADMAP.md`, `# 51. PHASE 9 — Showroom Settings`
+- Dependencies: F008 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Name, tagline, description, logo, hero image, colors, contact details, address, social links, opening hours, and SEO fields are editable.
+2. All changes are tenant scoped.
+3. Admin updates showroom and the public website reflects the configuration.
+4. Changes take effect without deployment.
+5. The white-label requirement is satisfied.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F009[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F009[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -25 .visual-qa/reports/f009-showroom-settings-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f009-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null; cat .visual-qa/reports/f009-impeccable-detect.json 2>/dev/null
+# F009 Showroom Settings — Visual QA
+
+**Captured**: 2026-10-18T19:05:21.456Z
+**Base URL**: http://prima.otoweb.id:3100
+**Verdict**: PASS
+
+| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Primary (expected / actual) | Screenshot |
+|---|---|---|---|---|---|---|---|
+| desktop | prima.otoweb.id/ | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/desktop/public-home.png |
+| desktop | prima.otoweb.id/cars | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/desktop/public-inventory.png |
+| desktop | prima.otoweb.id/cars/toyota-fortuner-2021-1 | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/desktop/public-detail.png |
+| desktop | tenant-b.otoweb.id/ | yes | yes | no | no | #0f766e / #0f766e | .visual-qa/screenshots/desktop/tenant-b-home.png |
+| desktop | prima.otoweb.id/admin/settings/showroom | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/desktop/admin-showroom-settings.png |
+| mobile | prima.otoweb.id/ | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/mobile/public-home.png |
+| mobile | prima.otoweb.id/cars | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/mobile/public-inventory.png |
+| mobile | prima.otoweb.id/cars/toyota-fortuner-2021-1 | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/mobile/public-detail.png |
+| mobile | tenant-b.otoweb.id/ | yes | yes | no | no | #0f766e / #0f766e | .visual-qa/screenshots/mobile/tenant-b-home.png |
+| mobile | prima.otoweb.id/admin/settings/showroom | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/mobile/admin-showroom-settings.png |
+| desktop | prima.otoweb.id/ (after save) | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/desktop/public-home-after-save.png |
+| mobile | prima.otoweb.id/ (after save) | yes | yes | no | no | #b88a44 / #b88a44 | .visual-qa/screenshots/mobile/public-home-after-save.png |
+
+## Save-without-deploy proof
+
+- Changed the Prima tagline and SEO title in the admin editor and saved.
+- Public home then rendered the new tagline and document title without a
+---
+{'capturedAt': '2026-10-18T19:05:21.456Z', 'verdict': 'PASS', 'failures': []}
+[]
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  33 passed (33)
+      Tests  300 passed (300)
+   Start at  02:06:27
+   Duration  33.16s (tests 83%, environment 7%, import 6%, setup 4%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:07:02Z
+20261019-020702
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-020702-F009-complete.md
+Wrote file successfully.
+[0m

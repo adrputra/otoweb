@@ -6,8 +6,8 @@ Status: implemented in Phase 6 (F006). Source of intent:
 The public home, inventory, vehicle detail, related vehicles, featured units,
 and showroom settings read from PostgreSQL. Public runtime modules do not import
 the legacy `data/index.ts` catalogue. That file remains the deterministic
-development seed and database-test fixture (and the still-unmigrated admin
-screens scheduled for F007/F009/F010).
+development seed and database-test fixture (and the still-unmigrated lead/admin
+screens scheduled for F010).
 
 ## Request flow
 
@@ -68,10 +68,24 @@ tiebreaker.
 ## Showroom mapping
 
 `showroom_settings` supplies the public name, tagline, description, logo, hero
-image, colours, contact details, address, map link, social links, opening hours,
-and SEO fields. The existing hero object is derived: headline from the display
-name, subheadline from the description, and the existing CTA label. The F003
-schema has no hero-copy columns, and F009 does not make them editable.
+image, colours, contact details, address (street, city, province, postal code,
+map link), social links, opening hours, and SEO fields. F009 makes every one of
+these fields editable in `/admin/settings/showroom`; the public routes read the
+saved row on each request. The existing hero object is derived: headline from
+the display name, subheadline from the description, and the existing CTA label.
+
+The page root carries CSS variables derived from the tenant's primary and
+secondary colours. `lib/theme.ts` darkens the primary until small text meets
+4.5:1 on white and chooses a readable foreground for filled surfaces, so the
+incumbent neutral/amber layout is preserved while each tenant gets a distinct
+accent. The saved logo renders in the public header; social links and full
+address details render in the contact/footer area.
+
+Public metadata comes from `showroomMetadata()` in `lib/public/metadata.ts`:
+the home title/description use the stored SEO fields, inventory/detail keep
+contextual titles, and empty values fall back to the showroom identity. Full
+canonical, OpenGraph, sitemap, robots, and structured-data productionization is
+F011.
 
 ## Development runtime
 

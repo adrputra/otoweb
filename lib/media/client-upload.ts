@@ -42,6 +42,8 @@ export interface UploadFileOptions {
   readonly url: string
   readonly file: File
   readonly alt?: string
+  /** Additional multipart fields for non-image specific upload contracts. */
+  readonly fields?: Readonly<Record<string, string>>
   /** Additional attempts after the first. Default 2. */
   readonly retries?: number
   /** Abort a stalled request. Default 60 seconds. */
@@ -95,6 +97,9 @@ function attempt<T>(
     const form = new FormData()
     form.append('file', options.file, options.file.name)
     if (options.alt) form.append('alt', options.alt)
+    for (const [key, value] of Object.entries(options.fields ?? {})) {
+      if (key !== 'file') form.append(key, value)
+    }
 
     xhr.upload.onprogress = (event) => {
       const percent =

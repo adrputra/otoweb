@@ -44,6 +44,10 @@ active membership. No tenant id is accepted from the browser.
 | `components/vehicle-form.tsx` | Shared schema + server actions, required fields |
 | `app/admin/vehicles/**` | Server-rendered list, create, and edit routes |
 | `app/admin/page.tsx` | Database vehicle counts and recent units |
+| `lib/admin/showroom-settings-service.ts` | Tenant-scoped showroom profile read/update |
+| `lib/admin/showroom-settings-actions.ts` | Settings save action and revalidation |
+| `lib/admin/showroom-media-service.ts` | Logo/hero upload through the F008 provider |
+| `components/admin/showroom-settings-form.tsx` | Showroom editor, uploads, and live preview |
 
 ## Status model
 
@@ -105,10 +109,27 @@ the queue; if a file still fails the admin is sent to the edit page to retry.
 Full provider configuration, limits, media policy, and optimization details are
 in `docs/MEDIA.md`.
 
+## Showroom settings
+
+F009 owns the tenant profile editor at `/admin/settings/showroom`. The route
+requires `manage_settings`, loads the stored `showroom_settings` row, and saves
+the complete form through a server action. The editor covers name, tagline,
+description, logo, hero image, colors, contact details, address, opening hours,
+social links, and SEO fields; logo/hero uploads reuse the F008 media provider
+rather than a second upload path. The admin shell and page header display the
+active tenant name instead of hard-coded Prima copy.
+
+Saving revalidates the public home, inventory, and detail routes. The public
+site renders the new values on the next request with no deployment. Tenant
+colors become CSS accent variables while the incumbent neutral layout and admin
+design language stay intact. See `docs/SHOWROOM_SETTINGS.md` for the full
+contract and verification matrix.
+
 ## Verification
 
 ```bash
 npx vitest run tests/unit/validation tests/unit/admin
+npx playwright test --config playwright.admin.config.ts tests/e2e/admin-showroom-settings.spec.ts
 npx tsc --noEmit
 npm test
 npx playwright test --config playwright.admin.config.ts

@@ -69,6 +69,10 @@ description, logo/favicon/hero URLs, primary/secondary colours, phone, WhatsApp,
 email, address, city, province, postal code, Google Maps URL, Instagram/TikTok/
 Facebook URLs, opening hours, SEO title, SEO description, and timestamps.
 
+F009 (Phase 9) adds no column: the settings editor, logo/hero uploads, public
+theming, and SEO metadata consume these existing fields. `favicon_url` remains
+unused because the roadmap does not list it as editable.
+
 ### `vehicles`
 
 `id`, `tenant_id`, `slug`, `brand`, `model`, `variant`, `year`,
@@ -229,6 +233,9 @@ local PostgreSQL server, or network access.
   and showroom data read tenant-scoped rows. Public runtime modules no longer
   import `data/index.ts`. See `docs/PUBLIC_SITE.md`. The F003 tables and seed
   shape are unchanged.
+- **Showroom settings administration** (Phase 9): implemented in
+  `specs/008-showroom-settings/`, `lib/admin/showroom-settings-*`,
+  `lib/theme.ts`, and the public routes. No schema change.
 - **Leads** (Phase 10): not in this feature's explicit table list.
 - **Cloudinary upload lifecycle** (Phase 8): `vehicle_images` stores provider
   metadata, but upload is not implemented.

@@ -335,7 +335,7 @@ function fallbackShowroom(tenant: TenantIdentity): Showroom {
     heroImageUrl: '/placeholder.jpg',
     colors: { primary: '#b88a44', secondary: '#171717' },
     contact: { phone: '', whatsapp: '', email: '' },
-    address: { street: '', city: '', mapUrl: '', openingHours: '' },
+    address: { street: '', city: '', province: '', postalCode: '', mapUrl: '', openingHours: '' },
     social: {},
     seo: { title: tenant.name, description: '' },
     hero: {
@@ -376,6 +376,8 @@ export async function getShowroomForTenant(
     address: {
       street: settings.address ?? '',
       city: settings.city ?? '',
+      province: settings.province ?? '',
+      postalCode: settings.postalCode ?? '',
       mapUrl: settings.googleMapsUrl ?? '',
       openingHours: settings.openingHours ?? '',
     },

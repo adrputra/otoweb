@@ -54,7 +54,14 @@ export interface Showroom {
   heroImageUrl: string
   colors: { primary: string; secondary: string }
   contact: { phone: string; whatsapp: string; email: string }
-  address: { street: string; city: string; mapUrl: string; openingHours: string }
+  address: {
+    street: string
+    city: string
+    province: string
+    postalCode: string
+    mapUrl: string
+    openingHours: string
+  }
   social: { instagram?: string; tiktok?: string; facebook?: string }
   seo: { title: string; description: string }
   hero: { headline: string; subheadline: string; ctaLabel: string }

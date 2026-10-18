@@ -20,6 +20,8 @@ export const showroom: Showroom = {
   address: {
     street: 'Jl. TB Simatupang No. 18',
     city: 'Jakarta Selatan',
+    province: 'DKI Jakarta',
+    postalCode: '12430',
     mapUrl: 'https://maps.google.com/?q=Prima+Auto+Gallery',
     openingHours: 'Senin–Sabtu, 08.00–18.00',
   },
