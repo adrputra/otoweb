@@ -217,8 +217,11 @@ local PostgreSQL server, or network access.
   `db/migrations/0001_tenant-isolation.sql`, `lib/tenant/`, and
   `tests/unit/tenant/`; see `docs/TENANCY.md`. The F003 tables and seed shape are
   unchanged.
-- **Public database reads** (Phase 6): the UI continues to read `data/index.ts`;
-  no presentation file was changed.
+- **Public database reads** (Phase 6): implemented in `lib/public/` and
+  `lib/repositories.ts`; the public home, inventory, detail, related, featured,
+  and showroom data read tenant-scoped rows. Public runtime modules no longer
+  import `data/index.ts`. See `docs/PUBLIC_SITE.md`. The F003 tables and seed
+  shape are unchanged.
 - **Leads** (Phase 10): not in this feature's explicit table list.
 - **Cloudinary upload lifecycle** (Phase 8): `vehicle_images` stores provider
   metadata, but upload is not implemented.

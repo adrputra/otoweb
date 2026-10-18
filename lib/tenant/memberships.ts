@@ -5,7 +5,13 @@ import { tenantMembers, tenants } from '@/db/schema'
 import type * as schema from '@/db/schema'
 
 import { isUuid } from './session'
-import type { TenantIdentity, TenantMembership, TenantRole, TenantStatus } from './types'
+import {
+  isUsableTenantStatus,
+  type TenantIdentity,
+  type TenantMembership,
+  type TenantRole,
+  type TenantStatus,
+} from './types'
 
 type Database = PgDatabase<PgQueryResultHKT, typeof schema>
 
@@ -92,4 +98,40 @@ export async function findTenantById(
   if (!row) return null
 
   return { ...row, status: row.status as TenantStatus }
+}
+
+/**
+ * Resolve a public tenant by its stable slug.
+ *
+ * This is intentionally a global lookup (a slug is public identity), but it
+ * still only returns tenants that may serve requests. Unknown or
+ * suspended/disabled tenants return null. Callers must scope every subsequent
+ * query by the returned tenant id.
+ */
+export async function findTenantBySlug(
+  db: Database,
+  slug: string | null | undefined,
+): Promise<TenantIdentity | null> {
+  const value = typeof slug === 'string' ? slug.trim().toLowerCase() : ''
+  if (!value) return null
+
+  const rows = await db
+    .select({
+      id: tenants.id,
+      name: tenants.name,
+      slug: tenants.slug,
+      status: tenants.status,
+      plan: tenants.plan,
+    })
+    .from(tenants)
+    .where(eq(tenants.slug, value))
+    .limit(1)
+
+  const row = rows[0]
+  if (!row) return null
+
+  const status = row.status as TenantStatus
+  if (!isUsableTenantStatus(status)) return null
+
+  return { ...row, status }
 }

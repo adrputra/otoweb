@@ -875,3 +875,280 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F005): multi-tenant security" && git log -1 --format='%H %s'
 b01ccc1a4b3ffe2ee65769d21e963e7b3fb5cc28 feat(F005): multi-tenant security
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T17:49:14Z'; sha='b01ccc1a4b3ffe2ee65769d21e963e7b3fb5cc28'
+for f in d['features']:
+    if f['id']=='F005':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/004-multi-tenant-security'
+        f['evidence']=[
+          'specs/004-multi-tenant-security',
+          '.sdd-toolbox/waves/004-multi-tenant-security.json',
+          'lib/tenant',
+          'db/migrations/0001_tenant-isolation.sql',
+          'tests/unit/tenant',
+          'docs/TENANCY.md',
+          '.sdd-toolbox/journal/20261019-004914-F005-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F005','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F005 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 152/152) passed; tenant isolation 101/101 passing.'})
+d['last_run']={'feature':'F005','event':'complete','at':now,'detail':'F005 done; committed b01ccc1.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-004914-F005-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `b01ccc1a4b3ffe2ee65769d21e963e7b3fb5cc28` — feat(F005): multi-tenant security
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F005): record checkpoint commit" && git log --oneline -3
+832f259 chore(F005): record checkpoint commit
+b01ccc1 feat(F005): multi-tenant security
+c09af0c chore(F004): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 48.'); j=s.find('# 49.'); print(s[i:j])
+EOF
+# 48. PHASE 6 — Connect Public Website to Database
+
+Replace:
+
+```text
+data/mock-vehicles
+```
+
+with database queries.
+
+Convert:
+
+```text
+homepage featured units
+inventory page
+vehicle detail
+related vehicles
+showroom data
+```
+
+to real tenant-scoped data.
+
+Preserve existing visual design.
+
+Acceptance:
+
+```text
+[ ] no public vehicle data comes from hard-coded mock arrays
+[ ] featured vehicles are DB-driven
+[ ] filtering works
+[ ] sorting works
+[ ] vehicle detail works
+[ ] tenant showroom settings render
+```
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T17:49:23Z
+20261019-004923
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T17:49:23Z'
+d['active_milestone']='M2'
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':None,'decision':'advance-milestone','detail':'MILESTONE-ADVANCE pre-approved: M1 complete (F001-F005 done). Activated M2 (F006-F010 pending).'})
+d['last_run']={'feature':None,'event':'milestone-advance','at':now,'detail':'M1 complete; activated M2.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-004923-M1-milestone.md <<'EOF'
+# Milestone M1 — complete
+
+- Timestamp: 2026-10-18T17:49:23Z
+- Event: milestone completion + advance
+- Features done: F001 Repository Production Audit, F002 Engineering Foundation, F003 Database Foundation, F004 Authentication, F005 Multi-Tenant Security.
+- Commits: F002 `f40ec46`, F003 `552d5ea`, F004 `36e9a20`, F005 `b01ccc1` (plus checkpoint chore commits).
+- MILESTONE-ADVANCE pre-approved: active milestone switched M1 -> M2.
+- Next: F006 Connect Public Website to Database (deps F005 done).
+EOF
+echo done
+done
+[0m
+[0m$ [0mls .opencode/context/design/ 2>/dev/null; ls app components data 2>/dev/null
+app:
+admin
+auth
+cars
+forgot-password
+globals.css
+layout.tsx
+login
+page.tsx
+reset-password
+
+components:
+admin-shell.tsx
+auth
+showroom.tsx
+ui
+vehicle-form.tsx
+
+data:
+car-catalog.ts
+index.ts
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T17:49:23Z'
+for f in d['features']:
+    if f['id']=='F006':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F006','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run; M2 active.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-004923-F006.md <<'EOF'
+# F006 — Connect Public Website to Database
+
+- Timestamp: 2026-10-18T17:49:23Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M2
+- Roadmap source: `docs/ROADMAP.md`, `# 48. PHASE 6 — Connect Public Website to Database`
+- Dependencies: F005 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Homepage featured units, inventory, vehicle detail, related vehicles, and showroom data are database-driven.
+2. No public vehicle data comes from hard-coded mock arrays.
+3. Featured vehicles are database-driven.
+4. Filtering works.
+5. Sorting works.
+6. Vehicle detail works.
+7. Tenant showroom settings render.
+8. Existing visual design is preserved.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F006[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F006[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mcat .visual-qa/reports/f006-public-database-visual-qa.md 2>/dev/null | head -60; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})"; echo ---; ls .visual-qa/screenshots/desktop .visual-qa/screenshots/mobile
+# F006 Public Site Visual QA
+
+**Captured**: 2026-10-18T18:11:23.897Z
+**Base URL**: http://127.0.0.1:3100
+**Verdict**: PASS
+
+| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Screenshot |
+|---|---|---|---|---|---|---|
+| desktop | prima.otoweb.id/ | yes | yes | no | no | .visual-qa/screenshots/desktop/home.png |
+| desktop | prima.otoweb.id/cars | yes | yes | no | no | .visual-qa/screenshots/desktop/inventory.png |
+| desktop | prima.otoweb.id/cars/toyota-fortuner-2021-1 | yes | yes | no | no | .visual-qa/screenshots/desktop/vehicle-detail.png |
+| desktop | tenant-b.otoweb.id/ | yes | yes | no | no | .visual-qa/screenshots/desktop/tenant-b-home.png |
+| mobile | prima.otoweb.id/ | yes | yes | no | no | .visual-qa/screenshots/mobile/home.png |
+| mobile | prima.otoweb.id/cars | yes | yes | no | no | .visual-qa/screenshots/mobile/inventory.png |
+| mobile | prima.otoweb.id/cars/toyota-fortuner-2021-1 | yes | yes | no | no | .visual-qa/screenshots/mobile/vehicle-detail.png |
+| mobile | tenant-b.otoweb.id/ | yes | yes | no | no | .visual-qa/screenshots/mobile/tenant-b-home.png |
+
+## Failures
+
+None.
+
+## Scope
+
+- Public home, inventory, vehicle detail, and Tenant B home.
+- Desktop 1440×900 and mobile 390×844.
+- Hostnames are resolved through Chromium host-resolver rules, so the capture
+  exercises the same verified-domain public tenant resolution as production.
+- The incumbent neutral/amber visual design is preserved; only tenant-derived
+  data and the minimum component wiring changed.
+---
+{'capturedAt': '2026-10-18T18:11:23.897Z', 'verdict': 'PASS', 'failures': []}
+---
+.visual-qa/screenshots/desktop:
+forgot-password.png
+home.png
+inventory.png
+login.png
+reset-password-invalid.png
+tenant-b-home.png
+vehicle-detail.png
+
+.visual-qa/screenshots/mobile:
+forgot-password.png
+home.png
+inventory.png
+login.png
+reset-password-invalid.png
+tenant-b-home.png
+vehicle-detail.png
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  18 passed (18)
+      Tests  181 passed (181)
+   Start at  01:12:04
+   Duration  29.17s (tests 85%, import 6%, environment 4%, setup 3%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"; git status --short | head -40
+2026-10-18T18:12:34Z
+20261019-011234
+ M .env.example
+ M .sdd-toolbox/journal/loop-20261019-002220.log
+ M .sdd-toolbox/roadmap.json
+ M .visual-qa/reports/capture.json
+ M app/admin/page.tsx
+ M app/cars/[slug]/page.tsx
+ M app/cars/page.tsx
+ M app/page.tsx
+ M components/showroom.tsx
+ M docs/DATABASE.md
+ M lib/repositories.ts
+ M lib/tenant/memberships.ts
+ M next.config.mjs
+ M playwright.config.ts
+ M scripts/validate-env.mjs
+ M scripts/visual-qa.mjs
+ M tests/e2e/home.spec.ts
+?? .sdd-toolbox/journal/20261019-004923-F006.md
+?? .sdd-toolbox/journal/20261019-004923-M1-milestone.md
+?? .sdd-toolbox/waves/005-public-website-database.json
+?? .visual-qa/reports/f006-public-database-visual-qa.md
+?? .visual-qa/screenshots/desktop/home.png
+?? .visual-qa/screenshots/desktop/inventory.png
+?? .visual-qa/screenshots/desktop/tenant-b-home.png
+?? .visual-qa/screenshots/desktop/vehicle-detail.png
+?? .visual-qa/screenshots/mobile/home.png
+?? .visual-qa/screenshots/mobile/inventory.png
+?? .visual-qa/screenshots/mobile/tenant-b-home.png
+?? .visual-qa/screenshots/mobile/vehicle-detail.png
+?? docs/PUBLIC_SITE.md
+?? lib/db/
+?? lib/public/
+?? specs/005-public-website-database/
+?? tests/unit/public/
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-011234-F006-complete.md
+Wrote file successfully.
+[0m

@@ -4,6 +4,11 @@ validateEnv()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // PGlite ships WASM and filesystem assets; keep it as a server external so
+  // the development-only database fallback is not bundled into chunks.
+  serverExternalPackages: ['@electric-sql/pglite'],
+  // Visual QA reaches the dev server through the seeded tenant hostnames.
+  allowedDevOrigins: ['prima.otoweb.id', 'tenant-b.otoweb.id'],
   async headers() {
     return [
       {

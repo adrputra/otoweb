@@ -22,7 +22,7 @@ export const envSchema = z.object({
       /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
       'NEXT_PUBLIC_SHOWROOM_SLUG must be lowercase letters, digits, and hyphens',
     )
-    .default('prima'),
+    .default('prima-auto-gallery'),
 })
 
 /**

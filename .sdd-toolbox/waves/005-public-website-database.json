@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "feature": "005-public-website-database",
+  "source_tasks_sha256": "10875fdc1b5fa4616a75032d5d21defcc9707c721d8f8ac7abcddb375290dbb7",
+  "strategy": "auto",
+  "waves": [
+    {
+      "n": 1,
+      "tasks": [
+        "T001",
+        "T002",
+        "T003"
+      ]
+    },
+    {
+      "n": 2,
+      "tasks": [
+        "T004",
+        "T005"
+      ]
+    },
+    {
+      "n": 3,
+      "tasks": [
+        "T006",
+        "T013"
+      ]
+    },
+    {
+      "n": 4,
+      "tasks": [
+        "T007",
+        "T008",
+        "T009",
+        "T010",
+        "T011"
+      ]
+    },
+    {
+      "n": 5,
+      "tasks": [
+        "T012",
+        "T014",
+        "T015"
+      ]
+    },
+    {
+      "n": 6,
+      "tasks": [
+        "T016",
+        "T017",
+        "T018"
+      ]
+    },
+    {
+      "n": 7,
+      "tasks": [
+        "T019"
+      ]
+    },
+    {
+      "n": 8,
+      "tasks": [
+        "T020"
+      ]
+    }
+  ],
+  "generated_at": "2026-10-18T17:53:29Z"
+}
