@@ -90,3 +90,57 @@ describe('public tenant resolution', () => {
     ).resolves.toBeNull()
   })
 })
+
+describe('public wildcard and development host resolution', () => {
+  it('resolves wildcard slug hosts without exact domain rows', async () => {
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'prima-auto-gallery.otoweb.id' }),
+    ).resolves.toMatchObject({ id: prima.tenantId })
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'tenant-b-test-showroom.otoweb.id' }),
+    ).resolves.toMatchObject({ id: tenantB.tenantId })
+  })
+
+  it('returns no tenant for an unknown wildcard host', async () => {
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'unknown-showroom.otoweb.id' }),
+    ).resolves.toBeNull()
+  })
+
+  it('resolves short localhost aliases in development', async () => {
+    vi.stubEnv('NODE_ENV', 'development')
+
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'prima.localhost:3000' }),
+    ).resolves.toMatchObject({ id: prima.tenantId })
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'tenant-b.localhost:3000' }),
+    ).resolves.toMatchObject({ id: tenantB.tenantId })
+  })
+
+  it('does not apply the default showroom to an unknown local subdomain', async () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    vi.stubEnv('NEXT_PUBLIC_SHOWROOM_SLUG', 'prima-auto-gallery')
+
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'unknown.localhost:3000' }),
+    ).resolves.toBeNull()
+  })
+
+  it('keeps the default showroom for a bare loopback host', async () => {
+    vi.stubEnv('NODE_ENV', 'development')
+    vi.stubEnv('NEXT_PUBLIC_SHOWROOM_SLUG', 'prima-auto-gallery')
+
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: '127.0.0.1:3000' }),
+    ).resolves.toMatchObject({ id: prima.tenantId })
+  })
+
+  it('never accepts localhost aliases in production', async () => {
+    vi.stubEnv('NODE_ENV', 'production')
+
+    await expect(
+      resolvePublicTenant({ db: database.db, hostname: 'prima.localhost' }),
+    ).resolves.toBeNull()
+  })
+})

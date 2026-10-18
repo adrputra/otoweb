@@ -2,7 +2,7 @@ import { cache } from 'react'
 import { headers } from 'next/headers'
 
 import { getAppDatabase, type AppDatabase } from '@/lib/db/runtime'
-import { findTenantByHostname } from '@/lib/tenant/hostname'
+import { findTenantByHostname, isLoopbackHostname } from '@/lib/tenant/hostname'
 import { findTenantBySlug } from '@/lib/tenant/memberships'
 import { assertServerOnly } from '@/lib/tenant/server'
 import type { TenantIdentity } from '@/lib/tenant/types'
@@ -26,9 +26,11 @@ async function readHostname(deps: PublicTenantDependencies): Promise<string | nu
 /**
  * Resolve the tenant that owns a public request.
  *
- * The verified hostname is authoritative. In development only, an unmatched
- * local hostname falls back to the configured showroom slug so `next dev` works
- * without host mapping. Production never falls back to another tenant.
+ * The hostname resolver handles exact registered domains, wildcard
+ * `<slug>.<platform-root>` hosts, and development `*.localhost` aliases. In
+ * development only, a bare loopback host (`localhost`/`127.0.0.1`) may fall
+ * back to the configured showroom slug so `next dev` works without host
+ * mapping. Named or production hosts never fall back to another tenant.
  */
 export async function resolvePublicTenant(
   deps: PublicTenantDependencies = {},
@@ -42,7 +44,7 @@ export async function resolvePublicTenant(
     const result = await findTenantByHostname(db, hostname)
     if (result.ok) return result.tenant
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' && isLoopbackHostname(hostname)) {
       const slug = process.env.NEXT_PUBLIC_SHOWROOM_SLUG?.trim() || DEFAULT_DEVELOPMENT_SLUG
       return findTenantBySlug(db, slug)
     }

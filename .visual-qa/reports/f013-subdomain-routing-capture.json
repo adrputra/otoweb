@@ -1,0 +1,184 @@
+{
+  "baseUrl": "http://127.0.0.1:3101",
+  "capturedAt": "2026-10-18T19:52:49.316Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "prima-otoweb-home",
+      "host": "prima.otoweb.id",
+      "path": "/"
+    },
+    {
+      "name": "tenant-b-otoweb-home",
+      "host": "tenant-b.otoweb.id",
+      "path": "/"
+    },
+    {
+      "name": "prima-otoweb-inventory",
+      "host": "prima.otoweb.id",
+      "path": "/cars"
+    },
+    {
+      "name": "tenant-b-otoweb-inventory",
+      "host": "tenant-b.otoweb.id",
+      "path": "/cars"
+    },
+    {
+      "name": "prima-localhost-home",
+      "host": "prima.localhost",
+      "path": "/"
+    },
+    {
+      "name": "tenant-b-localhost-home",
+      "host": "tenant-b.localhost",
+      "path": "/"
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "url": "http://prima.otoweb.id:3101/",
+      "tenant": "Prima Auto Gallery",
+      "screenshot": ".visual-qa/screenshots/desktop/f013-prima-otoweb-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.otoweb.id",
+      "route": "/",
+      "url": "http://tenant-b.otoweb.id:3101/",
+      "tenant": "Tenant B Test Showroom",
+      "screenshot": ".visual-qa/screenshots/desktop/f013-tenant-b-otoweb-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/cars",
+      "url": "http://prima.otoweb.id:3101/cars",
+      "tenant": "Prima Auto Gallery",
+      "screenshot": ".visual-qa/screenshots/desktop/f013-prima-otoweb-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.otoweb.id",
+      "route": "/cars",
+      "url": "http://tenant-b.otoweb.id:3101/cars",
+      "tenant": "Tenant B Test Showroom",
+      "screenshot": ".visual-qa/screenshots/desktop/f013-tenant-b-otoweb-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.localhost",
+      "route": "/",
+      "url": "http://prima.localhost:3101/",
+      "tenant": "Prima Auto Gallery",
+      "screenshot": ".visual-qa/screenshots/desktop/f013-prima-localhost-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.localhost",
+      "route": "/",
+      "url": "http://tenant-b.localhost:3101/",
+      "tenant": "Tenant B Test Showroom",
+      "screenshot": ".visual-qa/screenshots/desktop/f013-tenant-b-localhost-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "url": "http://prima.otoweb.id:3101/",
+      "tenant": "Prima Auto Gallery",
+      "screenshot": ".visual-qa/screenshots/mobile/f013-prima-otoweb-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.otoweb.id",
+      "route": "/",
+      "url": "http://tenant-b.otoweb.id:3101/",
+      "tenant": "Tenant B Test Showroom",
+      "screenshot": ".visual-qa/screenshots/mobile/f013-tenant-b-otoweb-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/cars",
+      "url": "http://prima.otoweb.id:3101/cars",
+      "tenant": "Prima Auto Gallery",
+      "screenshot": ".visual-qa/screenshots/mobile/f013-prima-otoweb-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.otoweb.id",
+      "route": "/cars",
+      "url": "http://tenant-b.otoweb.id:3101/cars",
+      "tenant": "Tenant B Test Showroom",
+      "screenshot": ".visual-qa/screenshots/mobile/f013-tenant-b-otoweb-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.localhost",
+      "route": "/",
+      "url": "http://prima.localhost:3101/",
+      "tenant": "Prima Auto Gallery",
+      "screenshot": ".visual-qa/screenshots/mobile/f013-prima-localhost-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.localhost",
+      "route": "/",
+      "url": "http://tenant-b.localhost:3101/",
+      "tenant": "Tenant B Test Showroom",
+      "screenshot": ".visual-qa/screenshots/mobile/f013-tenant-b-localhost-home.png",
+      "reasons": [],
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

@@ -92,7 +92,12 @@ Input is a full hostname such as `prima.otoweb.id`. It is trimmed, lowercased,
 and stripped of a numeric port and one trailing dot, then validated as DNS
 labels. The hostname is stored with `type = 'platform_subdomain'`, status
 `active`, and `verified_at` set. Another tenant's hostname is a conflict.
-Wildcard routing itself is F013; custom-domain verification is F014.
+
+Wildcard routing is implemented in F013 and documented in
+[`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md): a tenant is also reachable as
+`<slug>.<TENANT_ROOT_DOMAIN>` without a per-host row, and `*.localhost` provides
+development aliases. Custom-domain registration, verification, DNS
+instructions, and SSL provisioning remain F014.
 
 ### Disable
 
@@ -167,5 +172,6 @@ denial, including under the restricted RLS role.
 - Never authorize platform actions from a showroom role or a resolved tenant
   context alone.
 - Never weaken the tenant isolation suite to make a platform change pass.
-- No billing integration, invite email, wildcard routing, or custom-domain
-  verification in this feature.
+- No billing integration, invite email, or custom-domain verification in this
+  feature. Wildcard subdomain routing lives in F013; this surface only manages
+  the explicit platform subdomain.

@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "feature": "012-subdomain-routing",
+  "source_tasks_sha256": "3ba151cf09d89ff17a7adea6abf8fc0f64d7c78bd2a2a8caa931567214461125",
+  "strategy": "auto",
+  "waves": [
+    { "n": 1, "tasks": ["T001"] },
+    { "n": 2, "tasks": ["T002"] },
+    { "n": 3, "tasks": ["T003"] },
+    { "n": 4, "tasks": ["T004"] },
+    { "n": 5, "tasks": ["T005", "T006", "T007", "T008", "T009"] },
+    { "n": 6, "tasks": ["T010", "T011"] },
+    { "n": 7, "tasks": ["T012"] },
+    { "n": 8, "tasks": ["T013", "T014"] },
+    { "n": 9, "tasks": ["T015"] },
+    { "n": 10, "tasks": ["T016"] }
+  ],
+  "generated_at": "2026-10-18T19:47:00Z"
+}

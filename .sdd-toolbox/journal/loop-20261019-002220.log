@@ -2215,3 +2215,176 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F012): platform administration" && git log -1 --format='%H %s'
 0f2a0432356c1c87a10ba15be2559258c165b616 feat(F012): platform administration
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:43:29Z'; sha='0f2a0432356c1c87a10ba15be2559258c165b616'
+for f in d['features']:
+    if f['id']=='F012':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/011-platform-administration'
+        f['evidence']=[
+          'specs/011-platform-administration',
+          '.sdd-toolbox/waves/011-platform-administration.json',
+          'app/platform',
+          'lib/platform',
+          'tests/unit/platform',
+          'tests/e2e/platform.spec.ts',
+          'docs/PLATFORM.md',
+          '.visual-qa/reports/f012-platform-administration-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-024329-F012-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F012','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F012 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 399/399) passed; VISUAL_QA PASS; showroom-owner denial covered by unit+e2e.'})
+d['last_run']={'feature':'F012','event':'complete','at':now,'detail':'F012 done; committed 0f2a043.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-024329-F012-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `0f2a0432356c1c87a10ba15be2559258c165b616` — feat(F012): platform administration
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F012): record checkpoint commit" && git log --oneline -3
+da2d30f chore(F012): record checkpoint commit
+0f2a043 feat(F012): platform administration
+89a9f90 chore(F011): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 55.'); j=s.find('# 56.'); print(s[i:j])
+EOF
+# 55. PHASE 13 — Subdomain Routing
+
+Production host example:
+
+```text
+prima.otoweb.id
+```
+
+Implement wildcard tenant routing.
+
+Development must support easy tenant testing.
+
+Possible development mechanism:
+
+```text
+prima.localhost
+tenant-b.localhost
+```
+
+or an equivalent documented strategy.
+
+Acceptance:
+
+Two hostnames display different:
+
+```text
+showroom branding
+inventory
+contact details
+```
+
+from one deployment.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:43:38Z
+20261019-024338
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:43:38Z'
+for f in d['features']:
+    if f['id']=='F013':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F013','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-024338-F013.md <<'EOF'
+# F013 — Subdomain Routing
+
+- Timestamp: 2026-10-18T19:43:38Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M3
+- Roadmap source: `docs/ROADMAP.md`, `# 55. PHASE 13 — Subdomain Routing`
+- Dependencies: F012 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Wildcard tenant routing is implemented.
+2. Development supports easy tenant testing.
+3. Two hostnames display different showroom branding, inventory, and contact details from one deployment.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F013[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F013[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -22 .visual-qa/reports/f013-subdomain-routing-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f013-subdomain-routing-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null; ls .visual-qa/screenshots/desktop | grep f013
+# F013 Subdomain Routing Visual QA
+
+**Captured**: 2026-10-18T19:52:49.316Z
+**Base URL**: http://127.0.0.1:3101
+**Verdict**: PASS
+
+| Viewport | Route | Result | Findings | Screenshot |
+|---|---|---|---|---|
+| desktop | prima.otoweb.id/ | PASS | — | .visual-qa/screenshots/desktop/f013-prima-otoweb-home.png |
+| desktop | tenant-b.otoweb.id/ | PASS | — | .visual-qa/screenshots/desktop/f013-tenant-b-otoweb-home.png |
+| desktop | prima.otoweb.id/cars | PASS | — | .visual-qa/screenshots/desktop/f013-prima-otoweb-inventory.png |
+| desktop | tenant-b.otoweb.id/cars | PASS | — | .visual-qa/screenshots/desktop/f013-tenant-b-otoweb-inventory.png |
+| desktop | prima.localhost/ | PASS | — | .visual-qa/screenshots/desktop/f013-prima-localhost-home.png |
+| desktop | tenant-b.localhost/ | PASS | — | .visual-qa/screenshots/desktop/f013-tenant-b-localhost-home.png |
+| mobile | prima.otoweb.id/ | PASS | — | .visual-qa/screenshots/mobile/f013-prima-otoweb-home.png |
+| mobile | tenant-b.otoweb.id/ | PASS | — | .visual-qa/screenshots/mobile/f013-tenant-b-otoweb-home.png |
+| mobile | prima.otoweb.id/cars | PASS | — | .visual-qa/screenshots/mobile/f013-prima-otoweb-inventory.png |
+| mobile | tenant-b.otoweb.id/cars | PASS | — | .visual-qa/screenshots/mobile/f013-tenant-b-otoweb-inventory.png |
+| mobile | prima.localhost/ | PASS | — | .visual-qa/screenshots/mobile/f013-prima-localhost-home.png |
+| mobile | tenant-b.localhost/ | PASS | — | .visual-qa/screenshots/mobile/f013-tenant-b-localhost-home.png |
+
+## Coverage
+---
+{'capturedAt': '2026-10-18T19:52:49.316Z', 'verdict': 'PASS', 'failures': []}
+f013-prima-localhost-home.png
+f013-prima-otoweb-home.png
+f013-prima-otoweb-inventory.png
+f013-tenant-b-localhost-home.png
+f013-tenant-b-otoweb-home.png
+f013-tenant-b-otoweb-inventory.png
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  46 passed (46)
+      Tests  429 passed (429)
+   Start at  02:59:38
+   Duration  56.85s (tests 90%, import 5%, environment 3%, setup 2%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T20:00:37Z
+20261019-030037
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-030037-F013-complete.md
+Wrote file successfully.
+[0m

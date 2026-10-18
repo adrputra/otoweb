@@ -88,15 +88,24 @@ remain ambiguous.
 
 `normalizeHostname` trims, lowercases, strips one trailing dot and a numeric
 port, and rejects paths, queries, userinfo, IPv6 literals, malformed labels, and
-values over 253 characters. `findTenantByHostname` requires:
+values over 253 characters. `findTenantByHostname` resolves in this order:
 
-- a matching `tenant_domains.hostname`,
-- `tenant_domains.status = 'active'`,
-- a non-null `verified_at`,
-- a tenant in `active` or `trial`.
+1. **Exact registered domain** — a matching `tenant_domains.hostname` with
+   `status = 'active'`, a non-null `verified_at`, and a tenant in `active` or
+   `trial`.
+2. **Wildcard tenant host** — a single-label subdomain of
+   `TENANT_ROOT_DOMAIN` (default `otoweb.id`) resolves by tenant slug, for
+   example `prima-auto-gallery.otoweb.id`. This requires no per-host row.
+3. **Development alias** — outside production, a `*.localhost` label resolves
+   from an active, verified platform subdomain whose first label matches
+   (`prima.localhost`) or from the tenant slug.
 
-Unknown, unverified, inactive, or malformed hosts resolve to no tenant. There is
-no default-tenant fallback.
+Unknown, unverified, inactive, multi-label, suffix-spoofed, or malformed hosts
+resolve to no tenant. An exact inactive/unverified domain does **not** fall
+through to wildcard inference. There is no default-tenant fallback.
+
+Development host behavior is documented in
+[`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md).
 
 ## Permission matrix
 
@@ -233,6 +242,7 @@ If any tenant isolation test fails, do not proceed: fix the isolation first.
   [`PLATFORM.md`](./PLATFORM.md). It requires an explicit active
   `platform_admin` membership, re-checked inside a platform RLS transaction.
   Showroom owner/staff roles never grant it.
-- Wildcard subdomain routing and custom-domain verification are later phases
-  (F013–F014); this feature provides the resolver and RLS substrate they build
+- Wildcard subdomain routing is implemented in F013 and documented in
+  [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md). Custom-domain verification
+  remains F014; this feature provides the resolver and RLS substrate it builds
   on.

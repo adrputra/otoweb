@@ -14,8 +14,12 @@ screens scheduled for F010).
 ```text
 request Host header
   -> resolvePublicTenant()
-     -> findTenantByHostname()   (verified tenant_domains row, active/trial tenant)
-     -> development only: findTenantBySlug(NEXT_PUBLIC_SHOWROOM_SLUG)
+     -> findTenantByHostname()
+          -> exact active/verified tenant_domains row
+          -> wildcard <slug>.<TENANT_ROOT_DOMAIN>
+          -> development-only *.localhost alias
+     -> development only, bare localhost/127.0.0.1:
+          findTenantBySlug(NEXT_PUBLIC_SHOWROOM_SLUG)
   -> tenant id
   -> tenant-scoped query (requireTenantId + tenant_id predicate)
   -> DB row -> existing Showroom / Vehicle view type
@@ -25,7 +29,8 @@ request Host header
 Production never substitutes a default tenant for an unknown hostname. A page
 with no resolved tenant renders not-found. The three public routes declare
 `dynamic = 'force-dynamic'`: they depend on the request host and the database,
-so they must not be prerendered at build time.
+so they must not be prerendered at build time. Wildcard and development host
+behavior is documented in [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md).
 
 ## Modules
 
@@ -114,6 +119,10 @@ admin dashboard.
   seed. This keeps `next dev`, Playwright, and Visual QA runnable without Docker.
 - In production, a missing `DATABASE_URL` is an explicit error. PGlite is never
   a production fallback.
+- Tenant hosts in development are `prima.localhost` and `tenant-b.localhost`
+  (plus `<slug>.localhost`). Bare `localhost`/`127.0.0.1` keeps the configured
+  default showroom; unknown named local subdomains render not-found. See
+  [`SUBDOMAIN_ROUTING.md`](./SUBDOMAIN_ROUTING.md).
 
 ## Verification
 
@@ -122,8 +131,10 @@ npx vitest run tests/unit/public
 npx tsc --noEmit
 npm test
 npx playwright test tests/e2e/home.spec.ts
+npx playwright test tests/e2e/subdomain-routing.spec.ts
 npx playwright test --config playwright.admin.config.ts tests/e2e/admin-leads.spec.ts
 pnpm visual:qa
+npm run visual:qa:subdomain
 ```
 
 `pnpm visual:qa` starts `next dev`, resolves `prima.otoweb.id` and

@@ -16,6 +16,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "visual:qa": "node scripts/visual-qa.mjs",
+    "visual:qa:subdomain": "node scripts/visual-qa-subdomain.mjs",
     "visual:qa:admin": "node scripts/visual-qa-admin.mjs",
     "validate:env": "node scripts/validate-env.mjs",
     "db:generate": "drizzle-kit generate",

@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T19:43:29Z",
+  "updated_at": "2026-10-18T19:43:38Z",
   "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -545,13 +545,13 @@
         "Development supports easy tenant testing.",
         "Two hostnames display different showroom branding, inventory, and contact details from one deployment."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T19:43:38Z",
       "completed_at": null
     },
     {
@@ -627,9 +627,9 @@
     }
   ],
   "last_run": {
-    "feature": "F012",
-    "event": "complete",
-    "at": "2026-10-18T19:43:29Z",
-    "detail": "F012 done; committed 0f2a043."
+    "feature": "F013",
+    "event": "dispatch",
+    "at": "2026-10-18T19:43:38Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }
