@@ -1,0 +1,659 @@
+== roadmap loop ==
+mode: auto-checkpoint=true advance-milestone=true through=none
+milestone M1:
+  F001  done
+  F002  done
+  F003  done
+  F004  in_progress
+  F005  pending
+log: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/journal/loop-20261019-002220.log
+
+-- iteration 1/51 --
+[0m
+> roadmap-driver · deepseek-flash
+[0m
+[0m→ [0mRead .opencode/context/roadmap/loop-protocol.md
+[0m→ [0mRead .sdd-toolbox/roadmap.json
+[0m→ [0mRead .sdd-toolbox/config.json
+[0m
+[0m$ [0mls -la .sdd-toolbox/journal/ && ls -la specs/ && ls -la .sdd-toolbox/waves/ 2>/dev/null
+total 92
+drwxr-xr-x 2 adrputra adrputra  4096 Oct 19 00:22 .
+drwxr-xr-x 4 adrputra adrputra  4096 Oct 18 21:46 ..
+-rw-r--r-- 1 adrputra adrputra  2257 Oct 18 21:36 20261018-143639-init.md
+-rw-r--r-- 1 adrputra adrputra   753 Oct 18 21:41 20261018-144153-F002.md
+-rw-r--r-- 1 adrputra adrputra  1103 Oct 18 21:42 20261018-144243-F002-aborted.md
+-rw-r--r-- 1 adrputra adrputra   803 Oct 18 21:43 20261018-144331-F002.md
+-rw-r--r-- 1 adrputra adrputra  2622 Oct 18 21:53 20261018-145340-F002-complete.md
+-rw-r--r-- 1 adrputra adrputra  2697 Oct 18 22:02 20261018-150229-F003-complete.md
+-rw-r--r-- 1 adrputra adrputra  1061 Oct 18 21:54 20261018-215432-F003.md
+-rw-r--r-- 1 adrputra adrputra   631 Oct 18 22:02 20261018-220239-F004.md
+-rw-r--r-- 1 adrputra adrputra 10501 Oct 18 21:42 loop-20261018-214140.log
+-rw-r--r-- 1 adrputra adrputra 32408 Oct 18 22:02 loop-20261018-214317.log
+-rw-r--r-- 1 adrputra adrputra   474 Oct 19 00:22 loop-20261019-002220.log
+total 20
+drwxr-xr-x  5 adrputra adrputra 4096 Oct 18 22:04 .
+drwxr-xr-x 23 adrputra adrputra 4096 Oct 18 22:13 ..
+drwxr-xr-x  3 adrputra adrputra 4096 Oct 18 21:51 001-engineering-foundation
+drwxr-xr-x  3 adrputra adrputra 4096 Oct 18 21:57 002-database-foundation
+drwxr-xr-x  4 adrputra adrputra 4096 Oct 18 22:06 003-authentication
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:06 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 21:46 ..
+-rw-r--r-- 1 adrputra adrputra  961 Oct 18 21:52 001-engineering-foundation.json
+-rw-r--r-- 1 adrputra adrputra 1695 Oct 18 21:58 002-database-foundation.json
+-rw-r--r-- 1 adrputra adrputra 2062 Oct 18 22:06 003-authentication.json
+[0m
+[0m$ [0mgit status --short && git log --oneline -8
+M .env.example
+ M .opencode/agent/subagents/code/build-agent.md
+ M .opencode/agent/subagents/code/coder-agent.md
+ M .opencode/agent/subagents/code/reviewer.md
+ M .opencode/agent/subagents/code/tester.md
+ M .opencode/agent/subagents/core/batch-executor.md
+ M .opencode/agent/subagents/core/contextscout.md
+ M .opencode/agent/subagents/core/documentation.md
+ M .opencode/agent/subagents/core/externalscout.md
+ M .opencode/agent/subagents/core/feature-runner.md
+ M .opencode/agent/subagents/core/task-manager.md
+ M .sdd-toolbox/journal/loop-20261018-214317.log
+ M .sdd-toolbox/roadmap.json
+ M app/admin/layout.tsx
+ M components/admin-shell.tsx
+ M docs/IMPLEMENTATION_STATUS.md
+ M next-env.d.ts
+ M package.json
+ M pnpm-lock.yaml
+ M supabase/config.toml
+?? .sdd-toolbox/journal/20261018-220239-F004.md
+?? .sdd-toolbox/journal/loop-20261019-002220.log
+?? .sdd-toolbox/waves/003-authentication.json
+?? .visual-qa/
+?? app/auth/
+?? app/forgot-password/
+?? app/login/
+?? app/reset-password/
+?? components/auth/
+?? docs/AUTH.md
+?? lib/auth/
+?? proxy.ts
+?? scripts/visual-qa.mjs
+?? specs/003-authentication/
+?? tests/e2e/auth.spec.ts
+?? tests/unit/auth/
+b666de0 chore(F003): record checkpoint commit
+552d5ea feat(F003): database foundation
+50aff64 chore(F002): record checkpoint commit
+f40ec46 feat(F002): engineering foundation
+b8d5ed5 chore: initialize roadmap workflow and phase 1 audit
+4a4e744 Merge pull request #2 from adrputra/v0/restore-as-built-docs
+0becb67 docs: restore as-built documentation
+c8b6b45 Merge pull request #1 from adrputra/v0/as-built-documentation
+[0m
+[0m→ [0mRead .sdd-toolbox/journal/20261018-220239-F004.md
+[0m→ [0mRead .sdd-toolbox/waves/003-authentication.json
+[0m
+[0m$ [0mfind specs/003-authentication -type f | sort && ls -la app/auth app/login app/forgot-password app/reset-password lib/auth components/auth tests/unit/auth
+specs/003-authentication/checklists/requirements.md
+specs/003-authentication/contracts/auth-backend.md
+specs/003-authentication/data-model.md
+specs/003-authentication/plan.md
+specs/003-authentication/quickstart.md
+specs/003-authentication/research.md
+specs/003-authentication/spec.md
+specs/003-authentication/tasks.md
+app/auth:
+total 12
+drwxr-xr-x 3 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 callback
+
+app/forgot-password:
+total 16
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+-rw-r--r-- 1 adrputra adrputra 3326 Oct 18 22:08 forgot-password-form.tsx
+-rw-r--r-- 1 adrputra adrputra  728 Oct 18 22:08 page.tsx
+
+app/login:
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:07 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+-rw-r--r-- 1 adrputra adrputra 4586 Oct 18 22:07 login-form.tsx
+-rw-r--r-- 1 adrputra adrputra 1487 Oct 18 22:07 page.tsx
+
+app/reset-password:
+total 16
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+-rw-r--r-- 1 adrputra adrputra 1659 Oct 18 22:08 page.tsx
+-rw-r--r-- 1 adrputra adrputra 4044 Oct 18 22:08 reset-password-form.tsx
+
+components/auth:
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:07 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:07 ..
+-rw-r--r-- 1 adrputra adrputra 1012 Oct 18 22:07 auth-message.tsx
+-rw-r--r-- 1 adrputra adrputra 2635 Oct 18 22:13 auth-shell.tsx
+-rw-r--r-- 1 adrputra adrputra 1245 Oct 18 22:13 form-field.tsx
+
+lib/auth:
+total 64
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:06 ..
+-rw-r--r-- 1 adrputra adrputra 3308 Oct 18 22:06 actions.ts
+-rw-r--r-- 1 adrputra adrputra 1500 Oct 18 22:06 admin-proxy.ts
+-rw-r--r-- 1 adrputra adrputra 1258 Oct 18 22:06 paths.ts
+-rw-r--r-- 1 adrputra adrputra  845 Oct 18 22:06 server.ts
+-rw-r--r-- 1 adrputra adrputra 1963 Oct 18 22:06 service.ts
+-rw-r--r-- 1 adrputra adrputra  919 Oct 18 22:06 session.ts
+-rw-r--r-- 1 adrputra adrputra  431 Oct 18 22:06 site-url.ts
+-rw-r--r-- 1 adrputra adrputra  834 Oct 18 22:06 supabase-env.ts
+-rw-r--r-- 1 adrputra adrputra 1699 Oct 18 22:06 supabase-proxy.ts
+-rw-r--r-- 1 adrputra adrputra  871 Oct 18 22:08 supabase-route.ts
+-rw-r--r-- 1 adrputra adrputra 3311 Oct 18 22:06 supabase-server.ts
+-rw-r--r-- 1 adrputra adrputra  602 Oct 18 22:06 supabase-user.ts
+-rw-r--r-- 1 adrputra adrputra 1581 Oct 18 22:06 types.ts
+-rw-r--r-- 1 adrputra adrputra 1088 Oct 18 22:06 validation.ts
+
+tests/unit/auth:
+total 40
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:07 ..
+-rw-r--r-- 1 adrputra adrputra 4979 Oct 18 22:07 admin-proxy.test.ts
+-rw-r--r-- 1 adrputra adrputra 4650 Oct 18 22:07 auth-flow.test.ts
+-rw-r--r-- 1 adrputra adrputra 4637 Oct 18 22:07 fake-auth.ts
+-rw-r--r-- 1 adrputra adrputra 2322 Oct 18 22:08 no-registration.test.ts
+-rw-r--r-- 1 adrputra adrputra 1559 Oct 18 22:07 session.test.ts
+[0m
+[0m$ [0mcat .sdd-toolbox/journal/loop-20261019-002220.log; echo ---; tail -40 .sdd-toolbox/journal/loop-20261018-214317.log
+== roadmap loop ==
+mode: auto-checkpoint=true advance-milestone=true through=none
+milestone M1:
+  F001  done
+  F002  done
+  F003  done
+  F004  in_progress
+  F005  pending
+log: /home/adrputra/Documents/Private/otoweb/.sdd-toolbox/journal/loop-20261019-002220.log
+
+-- iteration 1/51 --
+[0m
+> roadmap-driver · deepseek-flash
+[0m
+[0m→ [0mRead .opencode/context/roadmap/loop-protocol.md
+[0m→ [0mRead .sdd-toolbox/roadmap.json
+[0m→ [0mRead .sdd-toolbox/config.json
+[0m
+[0m$ [0mls -la .sdd-toolbox/journal/ && ls -la specs/ && ls -la .sdd-toolbox/waves/ 2>/dev/null
+total 92
+drwxr-xr-x 2 adrputra adrputra  4096 Oct 19 00:22 .
+drwxr-xr-x 4 adrputra adrputra  4096 Oct 18 21:46 ..
+-rw-r--r-- 1 adrputra adrputra  2257 Oct 18 21:36 20261018-143639-init.md
+-rw-r--r-- 1 adrputra adrputra   753 Oct 18 21:41 20261018-144153-F002.md
+-rw-r--r-- 1 adrputra adrputra  1103 Oct 18 21:42 20261018-144243-F002-aborted.md
+-rw-r--r-- 1 adrputra adrputra   803 Oct 18 21:43 20261018-144331-F002.md
+-rw-r--r-- 1 adrputra adrputra  2622 Oct 18 21:53 20261018-145340-F002-complete.md
+-rw-r--r-- 1 adrputra adrputra  2697 Oct 18 22:02 20261018-150229-F003-complete.md
+-rw-r--r-- 1 adrputra adrputra  1061 Oct 18 21:54 20261018-215432-F003.md
+-rw-r--r-- 1 adrputra adrputra   631 Oct 18 22:02 20261018-220239-F004.md
+-rw-r--r-- 1 adrputra adrputra 10501 Oct 18 21:42 loop-20261018-214140.log
+-rw-r--r-- 1 adrputra adrputra 32408 Oct 18 22:02 loop-20261018-214317.log
+-rw-r--r-- 1 adrputra adrputra   474 Oct 19 00:22 loop-20261019-002220.log
+total 20
+drwxr-xr-x  5 adrputra adrputra 4096 Oct 18 22:04 .
+drwxr-xr-x 23 adrputra adrputra 4096 Oct 18 22:13 ..
+drwxr-xr-x  3 adrputra adrputra 4096 Oct 18 21:51 001-engineering-foundation
+drwxr-xr-x  3 adrputra adrputra 4096 Oct 18 21:57 002-database-foundation
+drwxr-xr-x  4 adrputra adrputra 4096 Oct 18 22:06 003-authentication
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:06 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 21:46 ..
+-rw-r--r-- 1 adrputra adrputra  961 Oct 18 21:52 001-engineering-foundation.json
+-rw-r--r-- 1 adrputra adrputra 1695 Oct 18 21:58 002-database-foundation.json
+-rw-r--r-- 1 adrputra adrputra 2062 Oct 18 22:06 003-authentication.json
+[0m
+[0m$ [0mgit status --short && git log --oneline -8
+M .env.example
+ M .opencode/agent/subagents/code/build-agent.md
+ M .opencode/agent/subagents/code/coder-agent.md
+ M .opencode/agent/subagents/code/reviewer.md
+ M .opencode/agent/subagents/code/tester.md
+ M .opencode/agent/subagents/core/batch-executor.md
+ M .opencode/agent/subagents/core/contextscout.md
+ M .opencode/agent/subagents/core/documentation.md
+ M .opencode/agent/subagents/core/externalscout.md
+ M .opencode/agent/subagents/core/feature-runner.md
+ M .opencode/agent/subagents/core/task-manager.md
+ M .sdd-toolbox/journal/loop-20261018-214317.log
+ M .sdd-toolbox/roadmap.json
+ M app/admin/layout.tsx
+ M components/admin-shell.tsx
+ M docs/IMPLEMENTATION_STATUS.md
+ M next-env.d.ts
+ M package.json
+ M pnpm-lock.yaml
+ M supabase/config.toml
+?? .sdd-toolbox/journal/20261018-220239-F004.md
+?? .sdd-toolbox/journal/loop-20261019-002220.log
+?? .sdd-toolbox/waves/003-authentication.json
+?? .visual-qa/
+?? app/auth/
+?? app/forgot-password/
+?? app/login/
+?? app/reset-password/
+?? components/auth/
+?? docs/AUTH.md
+?? lib/auth/
+?? proxy.ts
+?? scripts/visual-qa.mjs
+?? specs/003-authentication/
+?? tests/e2e/auth.spec.ts
+?? tests/unit/auth/
+b666de0 chore(F003): record checkpoint commit
+552d5ea feat(F003): database foundation
+50aff64 chore(F002): record checkpoint commit
+f40ec46 feat(F002): engineering foundation
+b8d5ed5 chore: initialize roadmap workflow and phase 1 audit
+4a4e744 Merge pull request #2 from adrputra/v0/restore-as-built-docs
+0becb67 docs: restore as-built documentation
+c8b6b45 Merge pull request #1 from adrputra/v0/as-built-documentation
+[0m
+[0m→ [0mRead .sdd-toolbox/journal/20261018-220239-F004.md
+[0m→ [0mRead .sdd-toolbox/waves/003-authentication.json
+[0m
+[0m$ [0mfind specs/003-authentication -type f | sort && ls -la app/auth app/login app/forgot-password app/reset-password lib/auth components/auth tests/unit/auth
+specs/003-authentication/checklists/requirements.md
+specs/003-authentication/contracts/auth-backend.md
+specs/003-authentication/data-model.md
+specs/003-authentication/plan.md
+specs/003-authentication/quickstart.md
+specs/003-authentication/research.md
+specs/003-authentication/spec.md
+specs/003-authentication/tasks.md
+app/auth:
+total 12
+drwxr-xr-x 3 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 callback
+
+app/forgot-password:
+total 16
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+-rw-r--r-- 1 adrputra adrputra 3326 Oct 18 22:08 forgot-password-form.tsx
+-rw-r--r-- 1 adrputra adrputra  728 Oct 18 22:08 page.tsx
+
+app/login:
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:07 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+-rw-r--r-- 1 adrputra adrputra 4586 Oct 18 22:07 login-form.tsx
+-rw-r--r-- 1 adrputra adrputra 1487 Oct 18 22:07 page.tsx
+
+app/reset-password:
+total 16
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 8 adrputra adrputra 4096 Oct 18 22:08 ..
+-rw-r--r-- 1 adrputra adrputra 1659 Oct 18 22:08 page.tsx
+-rw-r--r-- 1 adrputra adrputra 4044 Oct 18 22:08 reset-password-form.tsx
+
+components/auth:
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:07 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:07 ..
+-rw-r--r-- 1 adrputra adrputra 1012 Oct 18 22:07 auth-message.tsx
+-rw-r--r-- 1 adrputra adrputra 2635 Oct 18 22:13 auth-shell.tsx
+-rw-r--r-- 1 adrputra adrputra 1245 Oct 18 22:13 form-field.tsx
+
+lib/auth:
+total 64
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:06 ..
+-rw-r--r-- 1 adrputra adrputra 3308 Oct 18 22:06 actions.ts
+-rw-r--r-- 1 adrputra adrputra 1500 Oct 18 22:06 admin-proxy.ts
+-rw-r--r-- 1 adrputra adrputra 1258 Oct 18 22:06 paths.ts
+-rw-r--r-- 1 adrputra adrputra  845 Oct 18 22:06 server.ts
+-rw-r--r-- 1 adrputra adrputra 1963 Oct 18 22:06 service.ts
+-rw-r--r-- 1 adrputra adrputra  919 Oct 18 22:06 session.ts
+-rw-r--r-- 1 adrputra adrputra  431 Oct 18 22:06 site-url.ts
+-rw-r--r-- 1 adrputra adrputra  834 Oct 18 22:06 supabase-env.ts
+-rw-r--r-- 1 adrputra adrputra 1699 Oct 18 22:06 supabase-proxy.ts
+-rw-r--r-- 1 adrputra adrputra  871 Oct 18 22:08 supabase-route.ts
+-rw-r--r-- 1 adrputra adrputra 3311 Oct 18 22:06 supabase-server.ts
+-rw-r--r-- 1 adrputra adrputra  602 Oct 18 22:06 supabase-user.ts
+-rw-r--r-- 1 adrputra adrputra 1581 Oct 18 22:06 types.ts
+-rw-r--r-- 1 adrputra adrputra 1088 Oct 18 22:06 validation.ts
+
+tests/unit/auth:
+total 40
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 18 22:08 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:07 ..
+-rw-r--r-- 1 adrputra adrputra 4979 Oct 18 22:07 admin-proxy.test.ts
+-rw-r--r-- 1 adrputra adrputra 4650 Oct 18 22:07 auth-flow.test.ts
+-rw-r--r-- 1 adrputra adrputra 4637 Oct 18 22:07 fake-auth.ts
+-rw-r--r-- 1 adrputra adrputra 2322 Oct 18 22:08 no-registration.test.ts
+-rw-r--r-- 1 adrputra adrputra 1559 Oct 18 22:07 session.test.ts
+[0m
+---
+552d5eae43ee617f527bd6cae6c4289b001fa9a8
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+for f in d['features']:
+    if f['id']=='F003': f['commit']='552d5eae43ee617f527bd6cae6c4289b001fa9a8'
+d['updated_at']='2026-10-18T15:02:50Z'
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+printf '\n- Commit: `552d5eae43ee617f527bd6cae6c4289b001fa9a8` — feat(F003): database foundation\n' >> .sdd-toolbox/journal/20261018-150229-F003-complete.md
+git add .sdd-toolbox/roadmap.json .sdd-toolbox/journal/20261018-150229-F003-complete.md
+git commit -q -m "chore(F003): record checkpoint commit"
+git log --oneline -3
+b666de0 chore(F003): record checkpoint commit
+552d5ea feat(F003): database foundation
+50aff64 chore(F002): record checkpoint commit
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T15:02:39Z
+20261018-220239
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T15:02:39Z'
+for f in d['features']:
+    if f['id']=='F004':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F004','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+(no output)
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-220239-F004.md
+Wrote file successfully.
+[0m
+[0m• [0mExecute roadmap feature F004[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mgrep -n '^\- \[ \]\|^\- \[x\]' specs/003-authentication/tasks.md | head -50; echo; grep -c '^\- \[x\]' specs/003-authentication/tasks.md; grep -c '^\- \[ \]' specs/003-authentication/tasks.md
+42:- [x] T001 Install `@supabase/ssr@0.12.7` as a dependency and update `package.json` and `pnpm-lock.yaml`.
+43:- [x] T002 [P] Extend `.env.example` with placeholder-only `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` auth guidance (no service-role key, no real credential) and confirm `NEXT_PUBLIC_SITE_URL` is documented.
+44:- [x] T003 [P] Add an `[auth]` section to `supabase/config.toml` with the local site URL, `/auth/callback` redirect allow-list, refresh-token rotation, and public signup disabled for operator-invited accounts.
+56:- [x] T004 [P] Create `lib/auth/types.ts` with `AuthUser`, `AuthErrorCode`, `AuthResult`, `AuthBackend`, `AuthResolution`, and server-action state types per `contracts/auth-backend.md`.
+57:- [x] T005 [P] Create `lib/auth/paths.ts` with `safeNextPath` (same-origin `/admin` or `/admin/*` only) and `loginUrlFor` preserving the original admin path and query.
+58:- [x] T006 [P] Create `lib/auth/session.ts` with pure `isSessionActive({ user, expiresAt }, now)` and `resolveSessionUser(auth)` helpers that treat thrown errors as anonymous.
+59:- [x] T007 [P] Create `lib/auth/validation.ts` with Zod schemas for email, sign-in, password-reset request, and new-password confirmation (minimum 8 characters, max 72, confirmation match).
+60:- [x] T008 [P] Create `lib/auth/supabase-env.ts` (URL/anon-key reader with no Node-only imports), `lib/auth/supabase-user.ts` (Supabase `User` -> `AuthUser` mapper), and `lib/auth/site-url.ts` (safe callback base URL).
+61:- [x] T009 Create `lib/auth/supabase-server.ts` with a fresh `@supabase/ssr` server client per call (async `cookies()` adapter) implementing `AuthBackend` with `getUser`, `signInWithPassword`, `signOut`, `requestPasswordReset`, and `updatePassword` (depends on T004, T008).
+62:- [x] T010 Create `lib/auth/supabase-proxy.ts` with the edge-safe Supabase resolver that reads `NextRequest` cookies, collects refreshed cookies and cache headers from `setAll`, and returns an `AuthResolution`; missing env or provider errors fail closed (depends on T004, T008).
+63:- [x] T011 Create `lib/auth/service.ts` with `signInWithPassword`, `signOut`, `requestPasswordReset`, and `updatePassword` orchestration over `AuthBackend`, including generic reset responses and session-required password updates (depends on T004).
+64:- [x] T012 Create `lib/auth/admin-proxy.ts` (testable `createAdminProxy` factory with injected resolver, fail-closed redirect, and refreshed-cookie application) and the root `proxy.ts` entry with the `/admin/:path*` matcher (depends on T005, T010).
+65:- [x] T013 Create `lib/auth/server.ts` with `getCurrentUser()` (returns null on any failure) and `requireAdminUser()` (redirects to `/login?next=/admin` when absent) using the Supabase server backend (depends on T009).
+66:- [x] T014 Create `lib/auth/actions.ts` server actions for sign-in, sign-out, reset request, and password update; validate with the shared schemas, catch configuration/provider failures into user-facing states, and redirect only to `safeNextPath` destinations (depends on T005, T007, T008, T009, T011).
+86:- [x] T015 [P] [US1] Create `components/auth/auth-shell.tsx` (responsive split brand/form frame), `components/auth/form-field.tsx` (label/input/hint/error primitives), and `components/auth/auth-message.tsx` (`role="status"`/`role="alert"` messaging) using the incumbent neutral/amber design system and existing fonts.
+87:- [x] T016 [US1] Create `app/login/page.tsx` (authenticated-user redirect, safe `next`, logout/callback notices) and `app/login/login-form.tsx` (email/password, show-password control, pending state, error state, "Lupa kata sandi?" link, no registration link) (depends on T014, T015).
+88:- [x] T017 [US1] Update `app/admin/layout.tsx` to call `requireAdminUser()` and pass the user to `AdminShell`; keep the existing admin presentation intact (depends on T013).
+89:- [x] T018 [US1] Update `components/admin-shell.tsx` to accept the authenticated user and display a safe display name/email with initials in the existing header; add no visual redesign (depends on T017).
+90:- [x] T019 [P] [US1] Create `tests/unit/auth/fake-auth.ts` (controlled users, active/expired/invalid sessions, call recording) and `tests/unit/auth/session.test.ts` covering active, expired, invalid, and thrown-error session states (depends on T004, T006).
+91:- [x] T020 [US1] Create `tests/unit/auth/admin-proxy.test.ts` proving anonymous `/admin` and nested/query requests redirect to `/login` with the full safe `next`, authenticated requests pass, resolver failures fail closed, and refreshed cookies are applied (depends on T012, T019).
+92:- [x] T021 [US1] Create `tests/unit/auth/auth-flow.test.ts` proving valid sign-in establishes a session, invalid credentials do not, and `getUser` returns the signed-in identity through the service layer (depends on T011, T019).
+110:- [x] T022 [US2] Add a "Keluar" server-action form to `components/admin-shell.tsx` wired to `logoutAction`; ensure it clears cookies through the Supabase backend and redirects to `/login` (depends on T014, T018).
+111:- [x] T023 [US2] Extend `tests/unit/auth/auth-flow.test.ts` to prove sign-out clears the session and that a signed-out user is anonymous, plus expired and invalid session rejection (depends on T021).
+112:- [x] T024 [US2] Add a focused assertion to `tests/unit/auth/admin-proxy.test.ts` that a signed-out/expired session cannot reach admin and that refresh headers/cookies are attached to the allow response (depends on T020, T023).
+132:- [x] T025 [P] [US3] Create `app/forgot-password/page.tsx` and `app/forgot-password/forgot-password-form.tsx` with a single email field, generic non-enumerating success message, pending state, and a link back to sign-in (depends on T014, T015).
+133:- [x] T026 [US3] Create `app/reset-password/page.tsx` (recovery-session check with invalid-link state) and `app/reset-password/reset-password-form.tsx` (new password + confirmation, pending/error/success states) (depends on T013, T014, T015).
+134:- [x] T027 [US3] Create `app/auth/callback/route.ts` to exchange a Supabase `code` (PKCE) or `token_hash`/`type` (email OTP) for a session, apply cookies/headers to the response, and redirect to the safe `next` or `/login?error=callback` (depends on T005, T008, T009).
+135:- [x] T028 [US3] Extend `tests/unit/auth/auth-flow.test.ts` to prove reset requests carry `<site>/auth/callback?next=/reset-password`, update-password succeeds only with a session, and the generic reset response is identical for unknown emails (depends on T023, T025, T026, T027).
+153:- [x] T029 [US4] Create `tests/unit/auth/no-registration.test.ts` that walks `app/` and asserts no `register`, `signup`, `sign-up`, or `daftar` route segment exists, and that `/login`, `/forgot-password`, and `/reset-password` pages are present (depends on T016, T025, T026).
+154:- [x] T030 [US4] Create `tests/e2e/auth.spec.ts` covering unauthenticated `/admin` redirect to `/login` with `next`, login-page fields and the forgot-password link, absence of registration copy/links, and 404 responses for `/register` and `/signup` (depends on T012, T016, T025).
+166:- [x] T031 [P] Create `docs/AUTH.md` documenting the routes, Supabase setup, environment variables, session/refresh behavior, safe redirects, password reset, operator-invited accounts, the fake-backend test strategy, and the deferred F005 tenant/role work.
+167:- [x] T032 [P] Update the Phase 4 authentication rows in `docs/IMPLEMENTATION_STATUS.md` (and the Phase 3 row already delivered by F003) with the delivered capabilities and evidence paths.
+168:- [x] T033 Create `scripts/visual-qa.mjs` and a `visual:qa` script in `package.json` that starts the app, captures `/login`, `/forgot-password`, and `/reset-password` at 1440×900 and 390×844 into `.visual-qa/screenshots/`, and writes detector/report artifacts under `.visual-qa/reports/` (depends on T016, T025, T026).
+169:- [ ] T034 Run `pnpm visual:qa`, inspect the desktop and mobile screenshots, run `impeccable detect` on the changed auth UI, and write a `PASS`/`FAIL` report to `.visual-qa/reports/auth-visual-qa.md`; fix only visual defects found, then confirm once (depends on T033).
+170:- [ ] T035 Run the full configured and roadmap gates fresh: `npx tsc --noEmit`, `npm test`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`; fix only auth/test issues and never weaken a check (depends on T024, T028, T030, T031, T032, T034).
+171:- [ ] T036 Run `pnpm exec prettier --write` on the new auth, test, script, and documentation files only, then re-run the affected checks (depends on T035).
+172:- [ ] T037 Run the converge assessment against `spec.md`, `plan.md`, and `tasks.md`; append no tasks if authentication is fully satisfied (depends on T036).
+
+33
+4
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T17:22:34Z
+20261019-002234
+[0m
+[0m→ [0mRead .opencode/context/spec-kit/evidence.md
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+now='2026-10-18T17:22:34Z'
+for f in d['features']:
+    if f['id']=='F004':
+        f['status']='in_progress'
+        f['attempts']=2
+        f['spec_dir']='specs/003-authentication'
+        f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F004','event':'resume','at':now,'detail':'Resumed FeatureRunner (attempt 2 of 2) from T034 after interrupted run under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2)
+open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261018-220239-F004.md <<'EOF'
+
+## Resume — 2026-10-18T17:22:34Z
+
+- Event: resume dispatch (attempt 2 of 2)
+- Reason: prior FeatureRunner run was interrupted after T033; T001-T033 ticked, T034-T037 pending.
+- Spec dir: `specs/003-authentication`
+- Wave plan: `.sdd-toolbox/waves/003-authentication.json`
+- Next task: T034 (VisualQA), then T035 validation, T036 formatting, T037 converge.
+EOF
+echo updated
+updated
+[0m
+[0m$ [0mpython3 - <<'EOF'
+p='docs/ROADMAP.md'
+s=open(p).read()
+i=s.find('# 46.')
+j=s.find('# 47.')
+print(s[i:j])
+EOF
+# 46. PHASE 4 — Authentication
+
+Implement Supabase Auth.
+
+Required:
+
+```text
+login
+logout
+password reset
+authenticated admin routes
+session handling
+```
+
+Do not implement public registration.
+
+Showroom accounts should initially be created/invited by platform operators.
+
+Acceptance:
+
+```text
+[ ] unauthenticated admin access blocked
+[ ] authenticated owner can access admin
+[ ] logout works
+[ ] expired sessions handled
+```
+
+---
+[0m
+[0m• [0mExecute roadmap feature F004[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F004[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -25; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  8 passed (8)
+      Tests  51 passed (51)
+   Start at  00:34:41
+   Duration  2.03s (environment 40%, tests 29%, setup 17%, import 11%, transform 3%, worker 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mls -la .visual-qa/reports/ .visual-qa/screenshots/desktop/ .visual-qa/screenshots/mobile/ 2>/dev/null; echo ---; cat .visual-qa/reports/auth-visual-qa.md; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})"
+.visual-qa/reports/:
+total 20
+drwxr-xr-x 2 adrputra adrputra 4096 Oct 19 00:28 .
+drwxr-xr-x 4 adrputra adrputra 4096 Oct 18 22:09 ..
+-rw-r--r-- 1 adrputra adrputra 2554 Oct 19 00:30 auth-visual-qa.md
+-rw-r--r-- 1 adrputra adrputra 2278 Oct 19 00:30 capture.json
+-rw-r--r-- 1 adrputra adrputra    3 Oct 19 00:30 impeccable-detect.json
+-rw-r--r-- 1 adrputra adrputra    0 Oct 19 00:30 impeccable-detect.stderr.txt
+
+.visual-qa/screenshots/desktop/:
+total 596
+drwxr-xr-x 2 adrputra adrputra   4096 Oct 18 22:09 .
+drwxr-xr-x 4 adrputra adrputra   4096 Oct 18 22:09 ..
+-rw-r--r-- 1 adrputra adrputra 197229 Oct 19 00:30 forgot-password.png
+-rw-r--r-- 1 adrputra adrputra 207507 Oct 19 00:30 login.png
+-rw-r--r-- 1 adrputra adrputra 190599 Oct 19 00:30 reset-password-invalid.png
+
+.visual-qa/screenshots/mobile/:
+total 252
+drwxr-xr-x 2 adrputra adrputra  4096 Oct 18 22:09 .
+drwxr-xr-x 4 adrputra adrputra  4096 Oct 18 22:09 ..
+-rw-r--r-- 1 adrputra adrputra 80597 Oct 19 00:30 forgot-password.png
+-rw-r--r-- 1 adrputra adrputra 87992 Oct 19 00:30 login.png
+-rw-r--r-- 1 adrputra adrputra 76285 Oct 19 00:30 reset-password-invalid.png
+---
+# F004 Authentication — Visual QA Report
+
+- **Date:** 2026-10-19 (Asia/Jakarta)
+- **Feature:** F004 — Authentication
+- **Spec dir:** `specs/003-authentication`
+- **Surfaces:** `/login`, `/forgot-password`, `/reset-password` (invalid-link state)
+- **Viewports:** desktop 1440×900, mobile 390×844
+- **Capture command:** `pnpm visual:qa`
+- **Detector command:** `impeccable detect --json app/login app/forgot-password app/reset-password components/auth components/admin-shell.tsx app/admin/layout.tsx`
+
+## Verdict: PASS
+
+## Capture evidence
+
+`pnpm visual:qa` ran fresh at 2026-10-19T00:30:44+07:00 (capture file timestamp
+2026-10-19T00:30:44+07:00, after the final Prettier pass) and wrote
+`.visual-qa/reports/capture.json`.
+
+| Viewport | Route | Heading visible | Horizontal overflow | Registration links |
+|---|---|---|---|---|
+| desktop 1440×900 | `/login` | yes | none | 0 |
+| desktop 1440×900 | `/forgot-password` | yes | none | 0 |
+| desktop 1440×900 | `/reset-password` | yes | none | 0 |
+| mobile 390×844 | `/login` | yes | none | 0 |
+| mobile 390×844 | `/forgot-password` | yes | none | 0 |
+| mobile 390×844 | `/reset-password` | yes | none | 0 |
+
+`capture.json` reports `"failures": []` and `"verdict": "PASS"`.
+
+Screenshots inspected:
+
+- `.visual-qa/screenshots/desktop/login.png`
+- `.visual-qa/screenshots/desktop/forgot-password.png`
+- `.visual-qa/screenshots/desktop/reset-password-invalid.png`
+- `.visual-qa/screenshots/mobile/login.png`
+- `.visual-qa/screenshots/mobile/forgot-password.png`
+- `.visual-qa/screenshots/mobile/reset-password-invalid.png`
+
+## Manual inspection
+
+- The split brand/form layout holds at desktop; the brand panel collapses above
+  the form at mobile with no clipping, overlap, or horizontal scroll.
+- Typography hierarchy is clear: one page heading per surface, supporting copy,
+  labeled fields, and a single primary action.
+- Form fields, labels, password reveal control, and inline link ("Lupa kata
+  sandi?") are aligned and legible at both viewports.
+- Invalid reset-link state communicates the state and offers one clear recovery
+  action.
+- No registration or sign-up link/copy appears on any captured surface.
+- Focus/hover affordances on inputs, buttons, and text links are visible.
+
+## Detector output
+
+`impeccable detect` exited 0 and returned an empty findings array:
+
+```json
+[]
+```
+
+Raw output: `.visual-qa/reports/impeccable-detect.json` (stderr:
+`.visual-qa/reports/impeccable-detect.stderr.txt`, empty).
+
+## Fixes
+
+No visual defects were found, so no UI code was changed for this pass.
+---
+{'capturedAt': '2026-10-18T17:30:44.626Z', 'verdict': 'PASS', 'failures': []}
+[0m
+[0m$ [0mgrep -c '^\- \[x\]' specs/003-authentication/tasks.md; grep -c '^\- \[ \]' specs/003-authentication/tasks.md; ls tests/unit/auth/; git status --short | head -50
+39
+0
+admin-proxy.test.ts
+auth-flow.test.ts
+callback.test.ts
+fake-auth.ts
+no-registration.test.ts
+session.test.ts
+ M .env.example
+ M .opencode/agent/subagents/code/build-agent.md
+ M .opencode/agent/subagents/code/coder-agent.md
+ M .opencode/agent/subagents/code/reviewer.md
+ M .opencode/agent/subagents/code/tester.md
+ M .opencode/agent/subagents/core/batch-executor.md
+ M .opencode/agent/subagents/core/contextscout.md
+ M .opencode/agent/subagents/core/documentation.md
+ M .opencode/agent/subagents/core/externalscout.md
+ M .opencode/agent/subagents/core/feature-runner.md
+ M .opencode/agent/subagents/core/task-manager.md
+ M .sdd-toolbox/journal/loop-20261018-214317.log
+ M .sdd-toolbox/roadmap.json
+ M app/admin/layout.tsx
+ M components/admin-shell.tsx
+ M docs/IMPLEMENTATION_STATUS.md
+ M package.json
+ M pnpm-lock.yaml
+ M supabase/config.toml
+?? .sdd-toolbox/journal/20261018-220239-F004.md
+?? .sdd-toolbox/journal/loop-20261019-002220.log
+?? .sdd-toolbox/waves/003-authentication.json
+?? .visual-qa/
+?? app/auth/
+?? app/forgot-password/
+?? app/login/
+?? app/reset-password/
+?? components/auth/
+?? docs/AUTH.md
+?? lib/auth/
+?? proxy.ts
+?? scripts/visual-qa.mjs
+?? specs/003-authentication/
+?? tests/e2e/auth.spec.ts
+?? tests/unit/auth/
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T17:34:49Z
+20261019-003449
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-003449-F004-complete.md
+Wrote file successfully.
+[0m

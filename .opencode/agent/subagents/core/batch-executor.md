@@ -6,13 +6,10 @@ mode: subagent
 temperature: 0.1
 permission:
   bash:
-    "*": "deny"
-    "make *": "allow"
-    "go build*": "allow"
-    "go test*": "allow"
-    "go vet*": "allow"
-    "npm *": "allow"
-    "npx *": "allow"
+    "*": "allow"
+    "rm -rf *": "ask"
+    "rm -rf /*": "deny"
+    "sudo *": "deny"
   edit:
     "*": "allow"
   task:

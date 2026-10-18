@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T15:02:50Z",
+  "updated_at": "2026-10-18T17:22:34Z",
   "active_milestone": "M1",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -161,13 +161,13 @@
         "Logout works.",
         "Expired sessions are handled."
       ],
-      "status": "pending",
-      "attempts": 0,
-      "spec_dir": null,
+      "status": "in_progress",
+      "attempts": 2,
+      "spec_dir": "specs/003-authentication",
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T15:02:39Z",
       "completed_at": null
     },
     {
@@ -476,9 +476,9 @@
     }
   ],
   "last_run": {
-    "feature": "F003",
-    "event": "complete",
-    "at": "2026-10-18T15:02:29Z",
-    "detail": "FeatureRunner COMPLETE; outer validation passed; auto-approved under AUTO_CHECKPOINT."
+    "feature": "F004",
+    "event": "resume",
+    "at": "2026-10-18T17:22:34Z",
+    "detail": "Resumed FeatureRunner (attempt 2 of 2) from T034 after interrupted run under AUTO_CHECKPOINT run."
   }
 }

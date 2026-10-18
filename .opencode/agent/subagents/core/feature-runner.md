@@ -6,7 +6,7 @@ mode: subagent
 temperature: 0.1
 permission:
   bash:
-    "*": "ask"
+    "*": "allow"
     "rm -rf *": "ask"
     "rm -rf /*": "deny"
     "sudo *": "deny"

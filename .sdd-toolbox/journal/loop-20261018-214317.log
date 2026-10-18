@@ -989,3 +989,60 @@ CREATE TABLE "vehicles"
 [0m← [0mWrite .sdd-toolbox/journal/20261018-150229-F003-complete.md
 Wrote file successfully.
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+now='2026-10-18T15:02:29Z'
+for f in d['features']:
+    if f['id']=='F003':
+        f['status']='done'; f['completed_at']=now
+        f['spec_dir']='specs/002-database-foundation'
+        f['evidence']=['specs/002-database-foundation','.sdd-toolbox/waves/002-database-foundation.json','db/migrations','tests/unit/db/database-foundation.test.ts','docs/DATABASE.md','.sdd-toolbox/journal/20261018-150229-F003-complete.md']
+        f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F003','event':'complete','at':now,'detail':'FeatureRunner COMPLETE; outer validation passed; auto-approved under AUTO_CHECKPOINT.'}
+d['owner_decisions'].append({'at':now,'feature':'F003','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F003 checkpoint auto-approved. tsc, npm test, db:verify, lint, build all passed.'})
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+git add -A && git commit -q -m "feat(F003): database foundation" && git rev-parse HEAD
+552d5eae43ee617f527bd6cae6c4289b001fa9a8
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+for f in d['features']:
+    if f['id']=='F003': f['commit']='552d5eae43ee617f527bd6cae6c4289b001fa9a8'
+d['updated_at']='2026-10-18T15:02:50Z'
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+printf '\n- Commit: `552d5eae43ee617f527bd6cae6c4289b001fa9a8` — feat(F003): database foundation\n' >> .sdd-toolbox/journal/20261018-150229-F003-complete.md
+git add .sdd-toolbox/roadmap.json .sdd-toolbox/journal/20261018-150229-F003-complete.md
+git commit -q -m "chore(F003): record checkpoint commit"
+git log --oneline -3
+b666de0 chore(F003): record checkpoint commit
+552d5ea feat(F003): database foundation
+50aff64 chore(F002): record checkpoint commit
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T15:02:39Z
+20261018-220239
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T15:02:39Z'
+for f in d['features']:
+    if f['id']=='F004':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F004','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+(no output)
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-220239-F004.md
+Wrote file successfully.
+[0m
+[0m• [0mExecute roadmap feature F004[90m FeatureRunner Agent[0m

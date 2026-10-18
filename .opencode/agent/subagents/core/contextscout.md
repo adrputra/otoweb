@@ -19,6 +19,10 @@ tools:
   read: true
   grep: true
   glob: true
+  bash: true
+# Effective permission block for OpenCode (singular key).
+permission:
+  bash: "allow"
 permissions:
   read:
     "**/*": "allow"

@@ -1,6 +1,19 @@
-# Minimal Supabase CLI configuration for the OtoWeb database foundation.
-# Auth, storage, and other services are configured in later roadmap phases.
+# Supabase CLI configuration for OtoWeb.
+# The database foundation is delivered; authentication is configured here for
+# local development. Storage and other services remain later roadmap phases.
 project_id = "otoweb"
+
+[auth]
+enabled = true
+# Local application origin used by email confirmation and recovery links.
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+# Public self-service registration stays closed. Platform operators create or
+# invite showroom accounts from the Supabase dashboard/Admin API.
+enable_signup = false
 
 [api]
 enabled = true

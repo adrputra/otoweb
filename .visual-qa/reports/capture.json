@@ -1,0 +1,91 @@
+{
+  "baseUrl": "http://127.0.0.1:3100",
+  "capturedAt": "2026-10-18T17:30:44.626Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "login",
+      "path": "/login",
+      "heading": "Masuk ke akun Anda"
+    },
+    {
+      "name": "forgot-password",
+      "path": "/forgot-password",
+      "heading": "Pulihkan akses akun"
+    },
+    {
+      "name": "reset-password-invalid",
+      "path": "/reset-password",
+      "heading": "Tautan pemulihan tidak valid"
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "route": "/login",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "registrationLinks": 0,
+      "screenshot": ".visual-qa/screenshots/desktop/login.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "route": "/forgot-password",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "registrationLinks": 0,
+      "screenshot": ".visual-qa/screenshots/desktop/forgot-password.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "route": "/reset-password",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "registrationLinks": 0,
+      "screenshot": ".visual-qa/screenshots/desktop/reset-password-invalid.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "route": "/login",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "registrationLinks": 0,
+      "screenshot": ".visual-qa/screenshots/mobile/login.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "route": "/forgot-password",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "registrationLinks": 0,
+      "screenshot": ".visual-qa/screenshots/mobile/forgot-password.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "route": "/reset-password",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "registrationLinks": 0,
+      "screenshot": ".visual-qa/screenshots/mobile/reset-password-invalid.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

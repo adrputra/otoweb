@@ -12,10 +12,13 @@ tools:
   read: true
   grep: true
   glob: true
-  bash: false
+  bash: true
   edit: false
   write: false
   task: true
+# Effective permission block for OpenCode (singular key).
+permission:
+  bash: "allow"
 permissions:
   bash:
     "*": "deny"

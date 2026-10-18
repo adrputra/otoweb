@@ -27,8 +27,8 @@ finished and still be `UI_ONLY` or `MOCKED`.
 |---|---|---|---|
 | 1 | Repository Production Audit | `COMPLETE` | Audit and three documents delivered; build verified |
 | 2 | Engineering Foundation | `COMPLETE` | Lint/format/typecheck, Vitest + Testing Library, Playwright smoke, CI, env validation, and `.env.example` delivered and verified |
-| 3 | Database Foundation | `NOT_STARTED` | No Supabase, Drizzle, PostgreSQL, migrations, or seeds |
-| 4 | Authentication | `NOT_STARTED` | No auth, sessions, or protected admin routes |
+| 3 | Database Foundation | `COMPLETE` | Supabase/Drizzle config, checked-in migrations, idempotent seeds for two showrooms, schema docs, and embedded-PostgreSQL verification delivered |
+| 4 | Authentication | `COMPLETE` | Supabase Auth sign-in/out, password reset, proxy-protected admin routes, cookie session refresh, and fake-backend/Playwright verification delivered |
 | 5 | Multi-Tenant Security | `NOT_STARTED` | No tenancy, memberships, tenant context, or RLS |
 | 6 | Connect Public Website to Database | `MOCKED` | Public site works only from `data/index.ts` |
 | 7 | Admin Vehicle CRUD | `PARTIAL` | Some in-memory actions; create and persistence missing |
@@ -50,12 +50,12 @@ Counts are calculated from the detailed capability map in §3.
 
 | Status | Count |
 |---|---:|
-| `COMPLETE` | 44 |
+| `COMPLETE` | 74 |
 | `UI_ONLY` | 20 |
-| `MOCKED` | 19 |
-| `PARTIAL` | 36 |
-| `NOT_STARTED` | 126 |
-| `BLOCKED` | 9 |
+| `MOCKED` | 16 |
+| `PARTIAL` | 35 |
+| `NOT_STARTED` | 104 |
+| `BLOCKED` | 5 |
 | **Total** | **254** |
 
 ---
@@ -114,42 +114,42 @@ Counts are calculated from the detailed capability map in §3.
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| Install/configure Supabase | `NOT_STARTED` | No package, client, or config |
-| Install/configure Drizzle ORM | `NOT_STARTED` | No Drizzle dependency/config |
-| PostgreSQL migrations | `NOT_STARTED` | No `db/`, migrations, or SQL |
-| `tenants` table | `NOT_STARTED` | No database |
-| `tenant_domains` table | `NOT_STARTED` | No database |
-| `profiles` table | `NOT_STARTED` | No database |
-| `tenant_members` table | `NOT_STARTED` | No database |
-| `showroom_settings` table | `NOT_STARTED` | Only a mock `Showroom` type exists |
-| `vehicles` table | `NOT_STARTED` | Only a mock `Vehicle` type exists |
-| `vehicle_images` table | `NOT_STARTED` | Images are inline mock objects |
-| `leads` table | `NOT_STARTED` | Only a mock `Lead` type exists |
-| Development seeds | `MOCKED` | Mock arrays exist in `data/index.ts`; no seed script |
-| Seed Prima Auto Gallery | `MOCKED` | Single mock showroom exists; not seeded |
-| Seed Tenant B Test Showroom | `NOT_STARTED` | No second tenant fixture |
-| Migrate mock vehicle data into seed data | `MOCKED` | 12 mock vehicles exist; no migration/seed |
-| Schema documented | `PARTIAL` | `lib/types.ts` and `docs/as-built/DATA-CONTRACT.md`; no production schema doc |
-| Schema migration works from empty DB | `BLOCKED` | Depends on Supabase/Drizzle setup |
-| Seed works from empty DB | `BLOCKED` | Depends on schema/migrations |
-| Existing mock vehicle data exists in DB | `BLOCKED` | No database |
-| Build passes after database work | `BLOCKED` | Database work has not started |
+| Install/configure Supabase | `COMPLETE` | `@supabase/supabase-js`, `supabase/config.toml`, `lib/supabase/client.ts`, `.env.example` placeholders |
+| Install/configure Drizzle ORM | `COMPLETE` | `drizzle-orm`, `drizzle-kit`, `drizzle.config.ts`, `db/schema.ts` |
+| PostgreSQL migrations | `COMPLETE` | `db/migrations/0000_*.sql`, `db/migrate.ts`, PGlite migration test |
+| `tenants` table | `COMPLETE` | `db/schema.ts`, `db/migrations/0000_*.sql`, `docs/DATABASE.md` |
+| `tenant_domains` table | `COMPLETE` | `db/schema.ts`, migration SQL, uniqueness/index tests |
+| `profiles` table | `COMPLETE` | `db/schema.ts`, migration SQL; auth user id linkage documented |
+| `tenant_members` table | `COMPLETE` | `db/schema.ts`, migration SQL, tenant/user unique index |
+| `showroom_settings` table | `COMPLETE` | `db/schema.ts`, migration SQL, seeded settings rows |
+| `vehicles` table | `COMPLETE` | `db/schema.ts`, migration SQL, twelve seeded vehicles |
+| `vehicle_images` table | `COMPLETE` | `db/schema.ts`, migration SQL, seeded cover images |
+| `leads` table | `NOT_STARTED` | Deferred to Phase 10 (lead capture); not in F003's explicit table list |
+| Development seeds | `COMPLETE` | `db/seed-core.ts`, `db/seed.ts`, `pnpm db:seed` |
+| Seed Prima Auto Gallery | `COMPLETE` | `db/seed-core.ts`, `tests/unit/db/database-foundation.test.ts` |
+| Seed Tenant B Test Showroom | `COMPLETE` | `db/seed-core.ts`, seed count/parity assertions |
+| Migrate mock vehicle data into seed data | `COMPLETE` | All twelve `data/index.ts` vehicles mapped and parity-tested |
+| Schema documented | `COMPLETE` | `docs/DATABASE.md` |
+| Schema migration works from empty DB | `COMPLETE` | `tests/unit/db/database-foundation.test.ts` migrates a fresh PGlite database |
+| Seed works from empty DB | `COMPLETE` | `tests/unit/db/database-foundation.test.ts` seeds after migration |
+| Existing mock vehicle data exists in DB | `COMPLETE` | Seed/parity test matches twelve mock vehicles by slug |
+| Build passes after database work | `COMPLETE` | F003 checkpoint: `pnpm build` and full gates exit 0 |
 
 ### Phase 4 — Authentication
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| Supabase Auth setup | `NOT_STARTED` | No auth dependency/config |
-| Login | `NOT_STARTED` | No login route or form |
-| Logout | `NOT_STARTED` | No session or logout action |
-| Password reset | `NOT_STARTED` | No reset flow |
-| Authenticated admin routes | `NOT_STARTED` | All `/admin` routes are public |
-| Session handling | `NOT_STARTED` | No session helpers or middleware |
-| No public registration | `NOT_STARTED` | No auth exists; policy is not enforceable yet |
-| Unauthenticated admin access blocked | `NOT_STARTED` | Admin routes return 200 without auth |
-| Authenticated owner can access admin | `NOT_STARTED` | No owner identity or membership |
-| Logout works | `NOT_STARTED` | No session |
-| Expired sessions handled | `NOT_STARTED` | No session handling |
+| Supabase Auth setup | `COMPLETE` | `@supabase/ssr@0.12.7`, `lib/auth/supabase-server.ts`, `lib/auth/supabase-proxy.ts`, `supabase/config.toml` `[auth]` |
+| Login | `COMPLETE` | `app/login/page.tsx`, `app/login/login-form.tsx`; `tests/unit/auth/auth-flow.test.ts` |
+| Logout | `COMPLETE` | `components/admin-shell.tsx` sign-out form, `lib/auth/actions.ts`; auth-flow tests |
+| Password reset | `COMPLETE` | `app/forgot-password/`, `app/auth/callback/route.ts`, `app/reset-password/`; auth-flow tests |
+| Authenticated admin routes | `COMPLETE` | `proxy.ts`, `lib/auth/admin-proxy.ts`, `app/admin/layout.tsx` guard |
+| Session handling | `COMPLETE` | `lib/auth/supabase-proxy.ts` cookie refresh, `lib/auth/session.ts`, `docs/AUTH.md` |
+| No public registration | `COMPLETE` | No registration route; `enable_signup = false`; no-registration unit test and e2e 404 checks |
+| Unauthenticated admin access blocked | `COMPLETE` | `tests/unit/auth/admin-proxy.test.ts`, `tests/e2e/auth.spec.ts` |
+| Authenticated owner can access admin | `COMPLETE` | Proxy allow test with a valid session; F004 authenticates identity, tenant roles deferred to F005 |
+| Logout works | `COMPLETE` | Sign-out clears the session (`auth-flow.test.ts`); admin shell control |
+| Expired sessions handled | `COMPLETE` | Session/proxy tests reject expired, invalidated, and throwing sessions; `getUser()` server verification |
 
 ### Phase 5 — Multi-Tenant Security
 

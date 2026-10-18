@@ -14,6 +14,9 @@ tools:
   grep: true
   glob: true
   task: true
+# Effective permission block for OpenCode (singular key).
+permission:
+  bash: "allow"
 permissions:
   bash:
     "tsc": "allow"

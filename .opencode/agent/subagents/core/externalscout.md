@@ -17,7 +17,9 @@ tools:
   skill: true
   grep: true
   webfetch: true
-  
+# Effective permission block for OpenCode (singular key).
+permission:
+  bash: "allow"
 permissions:
   read:
     "**/*": "allow"

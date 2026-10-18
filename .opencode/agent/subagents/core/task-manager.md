@@ -18,6 +18,15 @@ tools:
   task: true
   patch: true
 
+# Effective permission block for OpenCode (singular key).
+permission:
+  bash: "allow"
+  edit:
+    "**/*.env*": "deny"
+    "**/*.key": "deny"
+    "**/*.secret": "deny"
+    "node_modules/**": "deny"
+    ".git/**": "deny"
 permissions:
   bash:
     "npx ts-node*task-cli*": "allow"

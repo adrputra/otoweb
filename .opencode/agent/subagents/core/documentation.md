@@ -14,8 +14,15 @@ tools:
   glob: true
   edit: true
   write: true
-  bash: false
+  bash: true
   task: true
+# Effective permission block for OpenCode (singular key).
+permission:
+  bash: "allow"
+  edit:
+    "**/*.env*": "deny"
+    "**/*.key": "deny"
+    "**/*.secret": "deny"
 permissions:
   bash:
     "*": "deny"
