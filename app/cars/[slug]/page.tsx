@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, Check, MapPin, Share2 } from 'lucide-react'
 
 import { PublicFooter } from '@/components/public-footer'
 import { VehicleCard } from '@/components/showroom'
-import { formatDate, formatKm, formatRupiah, whatsappLink } from '@/lib/format'
+import { formatDate, formatKm, formatRupiah } from '@/lib/format'
 import { showroomMetadata } from '@/lib/public/metadata'
 import { getRelatedVehicles, getShowroom, getVehicleBySlug } from '@/lib/repositories'
 import { showroomThemeStyle } from '@/lib/theme'
@@ -35,7 +35,6 @@ export default async function Detail({ params }: { params: Promise<{ slug: strin
 
   const related = await getRelatedVehicles(vehicle.id, vehicle.bodyType)
   const sold = vehicle.availability === 'sold'
-  const message = `Halo ${showroom.name}, saya tertarik dengan ${vehicle.brand} ${vehicle.model} ${vehicle.variant} (${vehicle.year}) seharga ${formatRupiah(vehicle.price)}. Apakah masih tersedia?`
 
   return (
     <main className="min-h-screen bg-[#faf9f7]" style={showroomThemeStyle(showroom.colors)}>
@@ -89,7 +88,7 @@ export default async function Detail({ params }: { params: Promise<{ slug: strin
               Harga terbaik, transparan.
             </p>
             <a
-              href={whatsappLink(showroom.contact.whatsapp, message)}
+              href={`/api/public/whatsapp?vehicle=${encodeURIComponent(vehicle.slug)}`}
               target="_blank"
               rel="noreferrer"
               className="mt-8 flex h-14 items-center justify-center bg-[#25D366] font-semibold text-white"

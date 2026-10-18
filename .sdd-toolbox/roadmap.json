@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T19:07:02Z",
+  "updated_at": "2026-10-18T19:07:11Z",
   "active_milestone": "M2",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -419,13 +419,13 @@
         "No advanced CRM features are created.",
         "Customer inquiry becomes a tenant lead and appears in the admin dashboard."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T19:07:11Z",
       "completed_at": null
     },
     {
@@ -573,9 +573,9 @@
     }
   ],
   "last_run": {
-    "feature": "F009",
-    "event": "complete",
-    "at": "2026-10-18T19:07:02Z",
-    "detail": "F009 done; committed 9bfa174."
+    "feature": "F010",
+    "event": "dispatch",
+    "at": "2026-10-18T19:07:11Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }

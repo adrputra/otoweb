@@ -1,6 +1,5 @@
 import { Mail, MapPin, Phone } from 'lucide-react'
 
-import { whatsappLink } from '@/lib/format'
 import type { Showroom } from '@/lib/types'
 
 /**
@@ -108,10 +107,7 @@ export function PublicFooter({ showroom }: { showroom: Showroom }) {
           © {new Date().getFullYear()} {showroom.name}
         </p>
         <a
-          href={whatsappLink(
-            showroom.contact.whatsapp,
-            `Halo ${showroom.name}, saya ingin bertanya tentang mobil yang tersedia.`,
-          )}
+          href="/api/public/whatsapp"
           target="_blank"
           rel="noreferrer"
           className="inline-flex w-fit items-center justify-center bg-[#25D366] px-4 py-2 text-xs font-semibold text-white opacity-100"

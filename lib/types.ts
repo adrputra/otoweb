@@ -66,15 +66,21 @@ export interface Showroom {
   seo: { title: string; description: string }
   hero: { headline: string; subheadline: string; ctaLabel: string }
 }
+export type LeadSource = 'contact_form' | 'whatsapp' | 'phone' | 'manual'
+export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'won' | 'lost'
+
 export interface Lead {
   id: string
   name: string
   phone: string
+  email: string
   vehicleId?: string
-  source: 'whatsapp' | 'form' | 'phone'
+  vehicleLabel?: string
+  source: LeadSource
   message: string
-  status: 'new' | 'contacted' | 'closed'
+  status: LeadStatus
   createdAt: string
+  updatedAt: string
 }
 export interface StaffMember {
   id: string

@@ -2,24 +2,27 @@ import Link from 'next/link'
 
 import { PageHeader } from '@/components/admin-shell'
 import { requireAdminTenantContext } from '@/lib/admin/context'
+import { getAdminLeadStats, listAdminLeads } from '@/lib/admin/lead-queries'
 import { getAdminVehicleStats, listAdminVehicles } from '@/lib/admin/vehicle-queries'
-import { leads } from '@/data'
 import { formatDate, formatRupiah } from '@/lib/format'
+import { LEAD_STATUS_LABELS } from '@/lib/validation/lead'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminPage() {
   const { context, db } = await requireAdminTenantContext('view')
-  const [stats, vehicles] = await Promise.all([
+  const [stats, vehicles, leadStats, recentLeads] = await Promise.all([
     getAdminVehicleStats(db, context.tenant.id),
     listAdminVehicles(db, context.tenant.id),
+    getAdminLeadStats(db, context.tenant.id),
+    listAdminLeads(db, context.tenant.id),
   ])
 
   const cards = [
     ['Tersedia', stats.available, 'unit'],
     ['Dipesan', stats.reserved, 'unit'],
     ['Terjual', stats.sold, 'unit'],
-    ['Lead baru', leads.filter((lead) => lead.status === 'new').length, 'orang'],
+    ['Lead baru', leadStats.new, 'orang'],
   ] as const
 
   return (
@@ -87,18 +90,28 @@ export default async function AdminPage() {
             </Link>
           </div>
           <div className="divide-y divide-neutral-100">
-            {leads.slice(0, 5).map((lead) => (
+            {recentLeads.length === 0 && (
+              <p className="p-4 text-sm text-neutral-500">
+                Belum ada lead masuk. Lead dari formulir kontak dan WhatsApp akan
+                muncul di sini.
+              </p>
+            )}
+            {recentLeads.slice(0, 5).map((lead) => (
               <div
                 key={lead.id}
                 className="flex items-center justify-between gap-3 p-4"
               >
-                <div>
-                  <p className="text-sm font-semibold">{lead.name}</p>
-                  <p className="mt-1 text-xs text-neutral-500">{lead.message}</p>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold">
+                    {lead.name || 'Tanpa nama'}
+                  </p>
+                  <p className="mt-1 line-clamp-1 text-xs text-neutral-500">
+                    {lead.message}
+                  </p>
                 </div>
-                <div className="text-right">
+                <div className="shrink-0 text-right">
                   <span className="text-xs font-medium text-neutral-500">
-                    {lead.status}
+                    {LEAD_STATUS_LABELS[lead.status]}
                   </span>
                   <p className="mt-1 text-[11px] text-neutral-400">
                     {formatDate(lead.createdAt)}

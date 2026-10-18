@@ -1,4 +1,4 @@
-import type { Showroom, Vehicle, Lead, StaffMember } from '@/lib/types'
+import type { Showroom, Vehicle, StaffMember } from '@/lib/types'
 const img = (id: string, alt: string) => ({
   id,
   url: `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=85`,
@@ -136,18 +136,6 @@ export const vehicles: Vehicle[] = cars.map((c, i) => ({
   location: 'Jakarta Selatan',
   createdAt: `2026-10-${String(18 - i).padStart(2, '0')}`,
   updatedAt: '2026-10-18',
-}))
-export const leads: Lead[] = Array.from({ length: 6 }, (_, i) => ({
-  id: `lead-${i}`,
-  name: ['Rizky Pratama', 'Amanda Putri', 'Budi Santoso', 'Nadia Aulia', 'Kevin Tan', 'Sari Dewi'][
-    i
-  ],
-  phone: '0812 9900 1122',
-  vehicleId: vehicles[i].id,
-  source: 'whatsapp',
-  message: 'Halo, saya tertarik dengan unit ini.',
-  status: i < 2 ? 'new' : i < 4 ? 'contacted' : 'closed',
-  createdAt: '2026-10-17',
 }))
 export const staff: StaffMember[] = [
   { id: '1', name: 'Aditya Pranata', email: 'aditya@primaauto.id', role: 'owner', active: true },

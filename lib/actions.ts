@@ -1,11 +1,5 @@
 'use server'
-import { leads, staff } from '@/data'
-
-export async function updateLead(id: string, status: (typeof leads)[number]['status']) {
-  const lead = leads.find((item) => item.id === id)
-  if (lead) lead.status = status
-  return lead
-}
+import { staff } from '@/data'
 
 export async function inviteStaff(email: string, role: (typeof staff)[number]['role']) {
   const member = {

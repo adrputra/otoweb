@@ -87,6 +87,24 @@ contextual titles, and empty values fall back to the showroom identity. Full
 canonical, OpenGraph, sitemap, robots, and structured-data productionization is
 F011.
 
+## Contact form and WhatsApp leads
+
+F010 adds inquiry capture to the public surfaces:
+
+- The home contact section renders `components/public-contact-form.tsx`. Name,
+  phone, and message are required; email is optional. The server action resolves
+  the tenant from the verified hostname and writes a `contact_form` lead with
+  status `new` for that tenant.
+- The vehicle-detail WhatsApp action points at
+  `/api/public/whatsapp?vehicle=<slug>`; the footer action uses the same route
+  without a vehicle. The route records an anonymous `whatsapp` lead and then
+  redirects to the tenant's configured `wa.me` number. A missing number returns
+  the visitor to the contact area instead of inventing a number.
+
+No tenant id is accepted from the browser, and a foreign vehicle slug cannot be
+attached to the lead. See `docs/LEADS.md` for the full contract, statuses, and
+admin dashboard.
+
 ## Development runtime
 
 - With `DATABASE_URL`, the normal PostgreSQL/Supabase connection is used.
@@ -103,6 +121,7 @@ npx vitest run tests/unit/public
 npx tsc --noEmit
 npm test
 npx playwright test tests/e2e/home.spec.ts
+npx playwright test --config playwright.admin.config.ts tests/e2e/admin-leads.spec.ts
 pnpm visual:qa
 ```
 
@@ -116,6 +135,8 @@ markdown report.
 - No public runtime import of `data/index.ts`.
 - No unscoped vehicle/settings query. A missing or malformed tenant id throws
   before SQL.
-- No admin CRUD, image upload, settings editing, lead capture, SEO
-  productionization, or subdomain routing beyond the F005 resolver.
+- No admin CRUD, image upload, settings editing, SEO productionization, or
+  subdomain routing beyond the F005 resolver. Lead capture is documented in
+  `docs/LEADS.md`; contact submissions and WhatsApp actions are the only public
+  writes.
 - The service role and database credentials never reach the browser.

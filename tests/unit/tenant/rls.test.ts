@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { eq } from 'drizzle-orm'
 
-import { showroomSettings, tenantMembers, vehicles } from '@/db/schema'
+import { leads, showroomSettings, tenantMembers, vehicles } from '@/db/schema'
 
 import { prima, tenantB, tenantBVehicle } from './fixtures'
 import {
@@ -26,9 +26,28 @@ const crossTenantInsert = {
   variant: 'Cross tenant',
 }
 
+const PRIMA_LEAD_ID = '66666666-6666-4666-8666-666666666601'
+const TENANT_B_LEAD_ID = '66666666-6666-4666-8666-666666666602'
+
 beforeEach(async () => {
   harness = await createTenantTestDatabase()
   await harness.db.insert(vehicles).values(tenantBVehicle)
+  await harness.db.insert(leads).values([
+    {
+      id: PRIMA_LEAD_ID,
+      tenantId: prima.tenantId,
+      name: 'Prima lead',
+      phone: '081299001122',
+      message: 'Prima inquiry',
+    },
+    {
+      id: TENANT_B_LEAD_ID,
+      tenantId: tenantB.tenantId,
+      name: 'Tenant B lead',
+      phone: '081299001133',
+      message: 'Tenant B inquiry',
+    },
+  ])
 }, 30_000)
 
 afterEach(async () => {
@@ -58,6 +77,7 @@ describe('row-level security configuration', () => {
     'showroom_settings',
     'vehicles',
     'vehicle_images',
+    'leads',
   ])('enables and forces RLS on %s', async (table) => {
     await expect(tableRlsState(harness.db, table)).resolves.toEqual({
       enabled: true,
@@ -275,5 +295,68 @@ describe('row-level security tenant isolation', () => {
 
     // prima is an owner, not a platform_admin, so the flag alone grants nothing.
     expect(count).toBe(0)
+  })
+})
+
+describe('lead capture isolation', () => {
+  it('shows only the session tenant leads', async () => {
+    await expect(countRows(primaAccess, 'leads')).resolves.toBe(1)
+    await expect(countRows(tenantBAccess, 'leads')).resolves.toBe(1)
+    await expect(countRows(noAccess, 'leads')).resolves.toBe(0)
+  })
+
+  it('cannot select another tenant lead by id', async () => {
+    const rows = await harness.asTenant(primaAccess, (db) =>
+      db.select({ id: leads.id }).from(leads).where(eq(leads.id, TENANT_B_LEAD_ID)),
+    )
+
+    expect(rows).toHaveLength(0)
+  })
+
+  it('cannot update another tenant lead', async () => {
+    const rows = await harness.asTenant(primaAccess, (db) =>
+      db
+        .update(leads)
+        .set({ status: 'won' })
+        .where(eq(leads.id, TENANT_B_LEAD_ID))
+        .returning({ id: leads.id }),
+    )
+
+    expect(rows).toHaveLength(0)
+    await expect(
+      harness.asOwner((db) =>
+        db.select().from(leads).where(eq(leads.id, TENANT_B_LEAD_ID)),
+      ),
+    ).resolves.toMatchObject([{ status: 'new' }])
+  })
+
+  it('cannot insert a lead for another tenant', async () => {
+    await expect(
+      harness.asTenant(primaAccess, (db) =>
+        db.insert(leads).values({
+          tenantId: tenantB.tenantId,
+          name: 'Injected',
+          message: 'Cross tenant insert',
+        }),
+      ),
+    ).rejects.toThrow()
+
+    const tenantBRows = await harness.asOwner((db) =>
+      db.select().from(leads).where(eq(leads.tenantId, tenantB.tenantId)),
+    )
+    expect(tenantBRows.map((row) => row.name)).toEqual(['Tenant B lead'])
+  })
+
+  it('cannot delete another tenant lead', async () => {
+    const rows = await harness.asTenant(primaAccess, (db) =>
+      db.delete(leads).where(eq(leads.id, TENANT_B_LEAD_ID)).returning({ id: leads.id }),
+    )
+
+    expect(rows).toHaveLength(0)
+    await expect(
+      harness.asOwner((db) =>
+        db.select().from(leads).where(eq(leads.id, TENANT_B_LEAD_ID)),
+      ),
+    ).resolves.toHaveLength(1)
   })
 })

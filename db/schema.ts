@@ -40,6 +40,21 @@ export const vehicleStatus = pgEnum('vehicle_status', [
   'archived',
 ])
 
+export const leadSource = pgEnum('lead_source', [
+  'contact_form',
+  'whatsapp',
+  'phone',
+  'manual',
+])
+
+export const leadStatus = pgEnum('lead_status', [
+  'new',
+  'contacted',
+  'qualified',
+  'won',
+  'lost',
+])
+
 export const tenants = pgTable(
   'tenants',
   {
@@ -207,11 +222,36 @@ export const vehicleImages = pgTable(
   ],
 )
 
+export const leads = pgTable(
+  'leads',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    tenantId: uuid('tenant_id')
+      .notNull()
+      .references(() => tenants.id, { onDelete: 'cascade' }),
+    vehicleId: uuid('vehicle_id').references(() => vehicles.id, { onDelete: 'set null' }),
+    name: text('name'),
+    phone: text('phone'),
+    email: text('email'),
+    message: text('message'),
+    source: leadSource('source').notNull().default('contact_form'),
+    status: leadStatus('status').notNull().default('new'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('leads_tenant_id_idx').on(table.tenantId),
+    index('leads_status_idx').on(table.status),
+    index('leads_vehicle_id_idx').on(table.vehicleId),
+  ],
+)
+
 export const tenantsRelations = relations(tenants, ({ many, one }) => ({
   domains: many(tenantDomains),
   members: many(tenantMembers),
   settings: one(showroomSettings),
   vehicles: many(vehicles),
+  leads: many(leads),
 }))
 
 export const tenantDomainsRelations = relations(tenantDomains, ({ one }) => ({
@@ -249,6 +289,7 @@ export const vehiclesRelations = relations(vehicles, ({ many, one }) => ({
     references: [tenants.id],
   }),
   images: many(vehicleImages),
+  leads: many(leads),
 }))
 
 export const vehicleImagesRelations = relations(vehicleImages, ({ one }) => ({
@@ -258,6 +299,17 @@ export const vehicleImagesRelations = relations(vehicleImages, ({ one }) => ({
   }),
   vehicle: one(vehicles, {
     fields: [vehicleImages.vehicleId],
+    references: [vehicles.id],
+  }),
+}))
+
+export const leadsRelations = relations(leads, ({ one }) => ({
+  tenant: one(tenants, {
+    fields: [leads.tenantId],
+    references: [tenants.id],
+  }),
+  vehicle: one(vehicles, {
+    fields: [leads.vehicleId],
     references: [vehicles.id],
   }),
 }))
@@ -276,3 +328,5 @@ export type Vehicle = typeof vehicles.$inferSelect
 export type NewVehicle = typeof vehicles.$inferInsert
 export type VehicleImage = typeof vehicleImages.$inferSelect
 export type NewVehicleImage = typeof vehicleImages.$inferInsert
+export type Lead = typeof leads.$inferSelect
+export type NewLead = typeof leads.$inferInsert

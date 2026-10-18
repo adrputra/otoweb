@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowRight, Check, Mail, MapPin, Phone } from 'lucide-react'
 
+import { PublicContactForm } from '@/components/public-contact-form'
 import { PublicFooter } from '@/components/public-footer'
 import { Header, QuickSearch, VehicleCard } from '@/components/showroom'
 import { showroomMetadata } from '@/lib/public/metadata'
@@ -163,9 +164,7 @@ export default async function Page() {
             </a>
           )}
         </div>
-        <div className="flex min-h-64 items-center justify-center bg-neutral-100 text-sm text-neutral-500">
-          <MapPin className="mr-2 size-5" /> Peta lokasi showroom
-        </div>
+        <PublicContactForm />
       </section>
 
       <PublicFooter showroom={showroom} />

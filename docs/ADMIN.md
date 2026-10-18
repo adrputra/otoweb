@@ -125,6 +125,22 @@ colors become CSS accent variables while the incumbent neutral layout and admin
 design language stay intact. See `docs/SHOWROOM_SETTINGS.md` for the full
 contract and verification matrix.
 
+## Lead capture
+
+F010 owns the tenant lead dashboard at `/admin/leads`. The route requires
+`manage_leads` (owner, staff, or platform admin) and lists only the active
+tenant's inquiries, newest first. The table supports search, status and source
+filters, a desktop table plus mobile cards, an empty state, WhatsApp reply links,
+and status updates across the five roadmap statuses (`new`, `contacted`,
+`qualified`, `won`, `lost`).
+
+Status changes go through a server action, re-check the capability, and run in
+`withTenantSession` with `WHERE id = $lead AND tenant_id = $actorTenant`. The
+admin home now reads the real new-lead count and recent leads; the legacy mock
+lead array is gone. Public contact submissions and WhatsApp actions create the
+leads, so no manual data entry is required. See `docs/LEADS.md` for the public
+flows and the full contract.
+
 ## Verification
 
 ```bash

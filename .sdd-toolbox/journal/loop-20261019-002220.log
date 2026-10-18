@@ -1715,3 +1715,160 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F009): showroom settings" && git log -1 --format='%H %s'
 9bfa1749e57c63ac150ce9c8a5b250c54f7cf210 feat(F009): showroom settings
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:07:02Z'; sha='9bfa1749e57c63ac150ce9c8a5b250c54f7cf210'
+for f in d['features']:
+    if f['id']=='F009':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/008-showroom-settings'
+        f['evidence']=[
+          'specs/008-showroom-settings',
+          '.sdd-toolbox/waves/008-showroom-settings.json',
+          'lib/admin/showroom-settings-service.ts',
+          'components/admin/showroom-settings-form.tsx',
+          'tests/e2e/admin-showroom-settings.spec.ts',
+          'docs/SHOWROOM_SETTINGS.md',
+          '.visual-qa/reports/f009-showroom-settings-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-020702-F009-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F009','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F009 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 300/300) passed; VISUAL_QA PASS incl. save-without-deploy and white-label color proof.'})
+d['last_run']={'feature':'F009','event':'complete','at':now,'detail':'F009 done; committed 9bfa174.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-020702-F009-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `9bfa1749e57c63ac150ce9c8a5b250c54f7cf210` — feat(F009): showroom settings
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F009): record checkpoint commit" && git log --oneline -3
+51582f8 chore(F009): record checkpoint commit
+9bfa174 feat(F009): showroom settings
+9ae1b28 chore(F008): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 52.'); j=s.find('# 53.'); print(s[i:j])
+EOF
+# 52. PHASE 10 — Lead Capture
+
+Implement:
+
+```text
+lead table
+contact form
+WhatsApp tracking
+lead dashboard
+lead status updates
+```
+
+Do NOT create advanced CRM features.
+
+Acceptance:
+
+```text
+customer inquiry
+↓
+tenant lead
+↓
+admin dashboard
+```
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:07:11Z
+20261019-020711
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:07:11Z'
+for f in d['features']:
+    if f['id']=='F010':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F010','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-020711-F010.md <<'EOF'
+# F010 — Lead Capture
+
+- Timestamp: 2026-10-18T19:07:11Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M2
+- Roadmap source: `docs/ROADMAP.md`, `# 52. PHASE 10 — Lead Capture`
+- Dependencies: F009 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. The lead table, contact form, WhatsApp tracking, lead dashboard, and lead status updates are implemented.
+2. No advanced CRM features are created.
+3. Customer inquiry becomes a tenant lead and appears in the admin dashboard.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F010[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F010[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -22 .visual-qa/reports/f010-lead-capture-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f010-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null
+# F010 Lead Capture — Visual QA
+
+**Captured**: 2026-10-18T19:14:57.905Z
+**Base URL**: http://prima.otoweb.id:3100
+**Verdict**: PASS
+
+| Viewport | Route | Heading | Tenant name | Cross-tenant leak | Horizontal overflow | Required copy | Screenshot |
+|---|---|---|---|---|---|---|---|
+| desktop | / | yes | yes | no | no | yes | .visual-qa/screenshots/desktop/f010-public-contact-form.png |
+| desktop | /admin/leads | yes | yes | no | no | yes | .visual-qa/screenshots/desktop/f010-admin-leads.png |
+| mobile | / | yes | yes | no | no | yes | .visual-qa/screenshots/mobile/f010-public-contact-form.png |
+| mobile | /admin/leads | yes | yes | no | no | yes | .visual-qa/screenshots/mobile/f010-admin-leads.png |
+
+## Failures
+
+None.
+
+## Scope
+
+- Public home contact form (labels, message field, submit control) on Prima.
+- Admin lead dashboard with summary counts, filters, the submitted inquiry, and
+  status controls.
+---
+{'capturedAt': '2026-10-18T19:14:57.905Z', 'verdict': 'PASS', 'failures': []}
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  37 passed (37)
+      Tests  337 passed (337)
+   Start at  02:17:59
+   Duration  40.63s (tests 85%, import 6%, environment 5%, setup 3%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:18:41Z
+20261019-021841
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-021841-F010-complete.md
+Wrote file successfully.
+[0m

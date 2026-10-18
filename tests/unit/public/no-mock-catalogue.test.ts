@@ -29,11 +29,16 @@ describe('public runtime mock-catalogue boundary', () => {
     }
   })
 
-  it('keeps the legacy catalogue in the seed/admin/test layer only', () => {
+  it('keeps the legacy catalogue in the seed and test layer only', () => {
     const seed = readFileSync('db/seed-core.ts', 'utf8')
     const admin = readFileSync('app/admin/page.tsx', 'utf8')
 
     expect(seed).toMatch(/from\s+['"]\.\.\/data['"]/)
-    expect(admin).toMatch(/from\s+['"]@\/data['"]/)
+
+    // F010 replaced the mock admin lead/dashboard source with tenant-scoped
+    // database reads.
+    for (const pattern of FORBIDDEN_MOCK_IMPORTS) {
+      expect(admin, `app/admin/page.tsx must not match ${pattern}`).not.toMatch(pattern)
+    }
   })
 })

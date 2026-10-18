@@ -1,0 +1,106 @@
+{
+  "baseUrl": "http://prima.otoweb.id:3100",
+  "capturedAt": "2026-10-18T19:14:57.905Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "f010-public-contact-form",
+      "path": "/",
+      "heading": "Kirim pertanyaan",
+      "requiredTexts": [
+        "Nama",
+        "Nomor telepon",
+        "Email (opsional)",
+        "Pesan",
+        "Kirim pesan"
+      ]
+    },
+    {
+      "name": "f010-admin-leads",
+      "path": "/admin/leads",
+      "heading": "Leads",
+      "requiredTexts": [
+        "Total",
+        "Baru",
+        "Dihubungi",
+        "Kualifikasi",
+        "Menang",
+        "Kalah",
+        "Formulir kontak",
+        "Semua status",
+        "Semua sumber"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "url": "http://prima.otoweb.id:3100/",
+      "heading": "Kirim pertanyaan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f010-public-contact-form.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/admin/leads",
+      "url": "http://prima.otoweb.id:3100/admin/leads",
+      "heading": "Leads",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f010-admin-leads.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "url": "http://prima.otoweb.id:3100/",
+      "heading": "Kirim pertanyaan",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f010-public-contact-form.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/admin/leads",
+      "url": "http://prima.otoweb.id:3100/admin/leads",
+      "heading": "Leads",
+      "headingVisible": true,
+      "tenantVisible": true,
+      "crossTenantLeak": false,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f010-admin-leads.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}
