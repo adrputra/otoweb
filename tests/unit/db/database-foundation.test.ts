@@ -9,7 +9,12 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { getDatabase } from '@/db/client'
 import { showroom as mockShowroom, vehicles as mockVehicles } from '@/data'
-import { PRIMA_TENANT_ID, seedDatabase } from '@/db/seed-core'
+import {
+  PRIMA_TENANT_ID,
+  TENANT_B_TENANT_ID,
+  TENANT_B_VEHICLE_SLUGS,
+  seedDatabase,
+} from '@/db/seed-core'
 import * as schema from '@/db/schema'
 import type { Vehicle as MockVehicle } from '@/lib/types'
 
@@ -163,13 +168,21 @@ describe('database foundation seed', () => {
     expect(primaSettings?.seoTitle).toBe(mockShowroom.seo.title)
   })
 
-  it('migrates all twelve mock vehicles and images into the database', async () => {
+  it('migrates the Prima catalogue and the two-showroom audit inventory', async () => {
     const vehicleRows = await db.select().from(schema.vehicles)
     const imageRows = await db.select().from(schema.vehicleImages)
+    const primaVehicles = vehicleRows.filter((vehicle) => vehicle.tenantId === PRIMA_TENANT_ID)
+    const tenantBVehicles = vehicleRows.filter(
+      (vehicle) => vehicle.tenantId === TENANT_B_TENANT_ID,
+    )
 
-    expect(vehicleRows).toHaveLength(12)
-    expect(imageRows).toHaveLength(12)
-    expect(vehicleRows.every((vehicle) => vehicle.tenantId === PRIMA_TENANT_ID)).toBe(true)
+    expect(vehicleRows).toHaveLength(14)
+    expect(imageRows).toHaveLength(14)
+    expect(primaVehicles).toHaveLength(12)
+    expect(tenantBVehicles.map((vehicle) => vehicle.slug).sort()).toEqual(
+      [...TENANT_B_VEHICLE_SLUGS].sort(),
+    )
+    expect(tenantBVehicles.every((vehicle) => vehicle.status === 'available')).toBe(true)
 
     for (const mockVehicle of mockVehicles) {
       const vehicle = vehicleRows.find((row) => row.slug === mockVehicle.slug)
@@ -220,13 +233,19 @@ describe('database foundation seed', () => {
     const draft = bySlug.get(mockVehicles[9].slug)
     const sold = bySlug.get(mockVehicles[10].slug)
     const reserved = vehicleRows.filter((vehicle) => vehicle.status === 'reserved')
-    const featured = vehicleRows.filter((vehicle) => vehicle.featured)
+    const primaFeatured = vehicleRows.filter(
+      (vehicle) => vehicle.tenantId === PRIMA_TENANT_ID && vehicle.featured,
+    )
+    const tenantBFeatured = vehicleRows.filter(
+      (vehicle) => vehicle.tenantId === TENANT_B_TENANT_ID && vehicle.featured,
+    )
 
     expect(draft?.status).toBe('draft')
     expect(sold?.status).toBe('sold')
     expect(sold?.soldAt).toBeInstanceOf(Date)
     expect(reserved).toHaveLength(2)
-    expect(featured).toHaveLength(4)
+    expect(primaFeatured).toHaveLength(4)
+    expect(tenantBFeatured).toHaveLength(2)
   })
 
   it('is idempotent when the seed runs again', async () => {
@@ -259,8 +278,8 @@ describe('database foundation seed', () => {
       profiles: 3,
       memberships: 3,
       settings: 2,
-      vehicles: 12,
-      images: 12,
+      vehicles: 14,
+      images: 14,
     })
   })
 })

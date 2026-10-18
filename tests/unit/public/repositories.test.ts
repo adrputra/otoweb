@@ -91,7 +91,10 @@ describe('public inventory', () => {
     const tenantBList = await listPublicVehicles(database.db, tenantB.tenantId)
 
     expect(primaList.some((vehicle) => vehicle.id === TENANT_B_VEHICLE_ID)).toBe(false)
-    expect(tenantBList.map((vehicle) => vehicle.id)).toEqual([TENANT_B_VEHICLE_ID])
+    expect(primaList.some((vehicle) => vehicle.slug === 'toyota-rush-2022-1')).toBe(false)
+    expect(tenantBList.some((vehicle) => vehicle.id === TENANT_B_VEHICLE_ID)).toBe(true)
+    expect(tenantBList.some((vehicle) => vehicle.slug === 'toyota-rush-2022-1')).toBe(true)
+    expect(tenantBList.some((vehicle) => vehicle.slug === PRIMA_FORTUNER_SLUG)).toBe(false)
   })
 
   it('lists distinct tenant brands in sorted order', async () => {

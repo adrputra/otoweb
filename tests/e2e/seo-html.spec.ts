@@ -133,7 +133,9 @@ test.describe('generated HTML metadata', () => {
     const response = await fetchRaw(TENANT_B_HOST, '/')
 
     expect(response.status).toBe(200)
-    expect(response.body).toContain('<title>Tenant B Test Showroom</title>')
+    expect(response.body).toContain(
+      '<title>Tenant B Test Showroom — Mobil Bekas Berkualitas di Bandung</title>',
+    )
     expect(canonical(response.body)).toBe(TENANT_B_ORIGIN)
     expect(metaContent(response.body, 'property', 'og:site_name')).toBe(
       'Tenant B Test Showroom',

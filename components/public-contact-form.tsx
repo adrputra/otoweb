@@ -17,9 +17,13 @@ const textareaClass =
   'min-h-32 w-full border border-neutral-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-neutral-500 focus:ring-2 focus:ring-neutral-100'
 const labelClass = 'mb-1.5 block text-xs font-semibold text-neutral-600'
 
-function FieldError({ message }: { message?: string }) {
+function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
-  return <span className="mt-1 block text-xs text-red-600">{message}</span>
+  return (
+    <span id={id} role="alert" className="mt-1 block text-xs text-red-600">
+      {message}
+    </span>
+  )
 }
 
 /**
@@ -113,51 +117,59 @@ export function PublicContactForm() {
           <span className={labelClass}>Nama</span>
           <input
             {...register('name')}
+            id="contact-name"
             type="text"
             autoComplete="name"
             aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? 'contact-name-error' : undefined}
             className={inputClass}
             placeholder="Nama lengkap"
           />
-          <FieldError message={errors.name?.message} />
+          <FieldError id="contact-name-error" message={errors.name?.message} />
         </label>
 
         <label className="block">
           <span className={labelClass}>Nomor telepon</span>
           <input
             {...register('phone')}
+            id="contact-phone"
             type="tel"
             inputMode="tel"
             autoComplete="tel"
             aria-invalid={Boolean(errors.phone)}
+            aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
             className={inputClass}
             placeholder="0812 3456 7890"
           />
-          <FieldError message={errors.phone?.message} />
+          <FieldError id="contact-phone-error" message={errors.phone?.message} />
         </label>
 
         <label className="block sm:col-span-2">
           <span className={labelClass}>Email (opsional)</span>
           <input
             {...register('email')}
+            id="contact-email"
             type="email"
             autoComplete="email"
             aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'contact-email-error' : undefined}
             className={inputClass}
             placeholder="nama@email.com"
           />
-          <FieldError message={errors.email?.message} />
+          <FieldError id="contact-email-error" message={errors.email?.message} />
         </label>
 
         <label className="block sm:col-span-2">
           <span className={labelClass}>Pesan</span>
           <textarea
             {...register('message')}
+            id="contact-message"
             aria-invalid={Boolean(errors.message)}
+            aria-describedby={errors.message ? 'contact-message-error' : undefined}
             className={textareaClass}
             placeholder="Saya tertarik dengan Toyota Fortuner 2021. Apakah masih tersedia?"
           />
-          <FieldError message={errors.message?.message} />
+          <FieldError id="contact-message-error" message={errors.message?.message} />
         </label>
       </div>
 

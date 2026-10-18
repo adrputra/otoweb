@@ -10,6 +10,11 @@ This document is an inventory of the repository as it exists today. It records
 what is implemented, what is mock-only, and what is missing. It does not
 propose a redesign and it does not implement Phase 2.
 
+> **Historical note (2026-10-19):** This is the Phase 1 audit snapshot. The
+> platform has since completed Phases 2–16. For the current audit, findings,
+> and launch-readiness evidence, see
+> [`PRODUCTION_HARDENING.md`](./PRODUCTION_HARDENING.md).
+
 ---
 
 ## 1. Executive snapshot

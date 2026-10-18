@@ -5,12 +5,18 @@ import { redirect } from 'next/navigation'
 import { AuthShell } from '@/components/auth/auth-shell'
 import { safeNextPath } from '@/lib/auth/paths'
 import { getCurrentUser } from '@/lib/auth/server'
+import { resolveAuthBrandName } from '@/lib/public/branding'
 
 import { LoginForm } from './login-form'
 
-export const metadata: Metadata = {
-  title: 'Masuk — Prima Auto Gallery Admin',
-  description: 'Masuk ke panel admin Prima Auto Gallery.',
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const brand = await resolveAuthBrandName()
+  return {
+    title: `Masuk — ${brand} Admin`,
+    description: `Masuk ke panel admin ${brand}.`,
+  }
 }
 
 function param(value: string | string[] | undefined): string {
@@ -24,12 +30,13 @@ export default async function LoginPage({
 }) {
   const params = await searchParams
   const next = safeNextPath(param(params.next))
-  const user = await getCurrentUser()
+  const [user, brand] = await Promise.all([getCurrentUser(), resolveAuthBrandName()])
 
   if (user) redirect(next)
 
   return (
     <AuthShell
+      brandName={brand}
       footer={
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span>Akun showroom diberikan oleh operator platform.</span>

@@ -1,4 +1,30 @@
+import http from 'node:http'
+
 import { expect, test } from '@playwright/test'
+
+const PORT = Number(process.env.AUTH_TEST_PORT ?? 3000)
+
+/** Fetch with an explicit Host header so the test does not depend on host DNS. */
+function statusFor(path: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const request = http.request(
+      {
+        hostname: '127.0.0.1',
+        port: PORT,
+        path,
+        method: 'GET',
+        headers: { host: `prima.otoweb.id:${PORT}` },
+      },
+      (response) => {
+        response.resume()
+        response.on('end', () => resolve(response.statusCode ?? 0))
+      },
+    )
+    request.on('error', reject)
+    request.end()
+  })
+}
+
 
 test('unauthenticated admin access redirects to sign-in', async ({ page }) => {
   await page.goto('/admin')
@@ -40,9 +66,23 @@ test('auth screens expose no public registration link', async ({ page }) => {
   }
 })
 
-test('conventional registration routes return 404', async ({ request }) => {
+test('conventional registration routes return 404', async () => {
   for (const route of ['/register', '/signup', '/sign-up']) {
-    const response = await request.get(route, { maxRedirects: 0 })
-    expect(response.status(), `${route} must not exist`).toBe(404)
+    await expect(statusFor(route), `${route} must not exist`).resolves.toBe(404)
   }
+})
+
+test('a second showroom sign-in screen uses its own brand, not Prima', async ({
+  page,
+  baseURL,
+}) => {
+  const primaOrigin = new URL(baseURL!).origin
+  const tenantBOrigin = primaOrigin.replace('prima.otoweb.id', 'tenant-b.otoweb.id')
+
+  await page.goto(`${tenantBOrigin}/login`)
+
+  await expect(page).toHaveTitle(/Tenant B Test Showroom/)
+  await expect(page.getByRole('heading', { name: 'Masuk ke akun Anda' })).toBeVisible()
+  await expect(page.getByText('Tenant B Test Showroom').first()).toBeVisible()
+  await expect(page.locator('body')).not.toContainText('Prima Auto Gallery')
 })

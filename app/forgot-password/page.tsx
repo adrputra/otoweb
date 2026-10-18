@@ -2,17 +2,26 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { AuthShell } from '@/components/auth/auth-shell'
+import { resolveAuthBrandName } from '@/lib/public/branding'
 
 import { ForgotPasswordForm } from './forgot-password-form'
 
-export const metadata: Metadata = {
-  title: 'Lupa kata sandi — Prima Auto Gallery Admin',
-  description: 'Minta tautan pemulihan kata sandi untuk panel admin Prima Auto Gallery.',
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const brand = await resolveAuthBrandName()
+  return {
+    title: `Lupa kata sandi — ${brand} Admin`,
+    description: `Minta tautan pemulihan kata sandi untuk panel admin ${brand}.`,
+  }
 }
 
-export default function ForgotPasswordPage() {
+export default async function ForgotPasswordPage() {
+  const brand = await resolveAuthBrandName()
+
   return (
     <AuthShell
+      brandName={brand}
       footer={
         <Link
           href="/login"

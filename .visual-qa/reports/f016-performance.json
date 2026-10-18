@@ -1,0 +1,37 @@
+{
+  "capturedAt": "2026-10-18T21:00:04.777Z",
+  "measurements": [
+    {
+      "host": "prima.otoweb.id",
+      "path": "/",
+      "ttfbMs": 203.5,
+      "domContentLoadedMs": 319.3999999985099,
+      "transferBytes": 1800,
+      "resources": 14
+    },
+    {
+      "host": "prima.otoweb.id",
+      "path": "/cars",
+      "ttfbMs": 182.80000000074506,
+      "domContentLoadedMs": 236.5,
+      "transferBytes": 1500,
+      "resources": 18
+    },
+    {
+      "host": "tenant-b.otoweb.id",
+      "path": "/",
+      "ttfbMs": 311.5,
+      "domContentLoadedMs": 412.1000000014901,
+      "transferBytes": 300,
+      "resources": 7
+    },
+    {
+      "host": "tenant-b.otoweb.id",
+      "path": "/cars",
+      "ttfbMs": 87,
+      "domContentLoadedMs": 111.39999999850988,
+      "transferBytes": 1800,
+      "resources": 8
+    }
+  ]
+}

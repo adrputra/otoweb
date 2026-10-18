@@ -9,6 +9,7 @@ import { leads, showroomSettings, tenantMembers, vehicles } from '@/db/schema'
 import { platformOperator, prima, tenantB, tenantBVehicle } from './fixtures'
 import {
   createTenantTestDatabase,
+  tablePolicyCount,
   tableRlsState,
   type TenantTestDatabase,
 } from './database'
@@ -68,21 +69,28 @@ async function countRows(
   return count
 }
 
+const TENANT_TABLES = [
+  'tenants',
+  'tenant_domains',
+  'profiles',
+  'tenant_members',
+  'showroom_settings',
+  'vehicles',
+  'vehicle_images',
+  'leads',
+  'analytics_events',
+] as const
+
 describe('row-level security configuration', () => {
-  it.each([
-    'tenants',
-    'tenant_domains',
-    'profiles',
-    'tenant_members',
-    'showroom_settings',
-    'vehicles',
-    'vehicle_images',
-    'leads',
-  ])('enables and forces RLS on %s', async (table) => {
+  it.each(TENANT_TABLES)('enables and forces RLS on %s', async (table) => {
     await expect(tableRlsState(harness.db, table)).resolves.toEqual({
       enabled: true,
       forced: true,
     })
+  })
+
+  it.each(TENANT_TABLES)('attaches at least one policy to %s', async (table) => {
+    await expect(tablePolicyCount(harness.db, table)).resolves.toBeGreaterThan(0)
   })
 })
 
@@ -102,9 +110,9 @@ describe('row-level security tenant isolation', () => {
       db.select({ id: vehicles.id, tenantId: vehicles.tenantId }).from(vehicles),
     )
 
-    expect(rows).toHaveLength(1)
-    expect(rows[0]?.id).toBe(tenantBVehicle.id)
-    expect(rows[0]?.tenantId).toBe(tenantB.tenantId)
+    expect(rows.length).toBeGreaterThanOrEqual(3)
+    expect(rows.some((row) => row.id === tenantBVehicle.id)).toBe(true)
+    expect(rows.every((row) => row.tenantId === tenantB.tenantId)).toBe(true)
   })
 
   it('cannot select another tenant row by exact id', async () => {

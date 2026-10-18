@@ -20,7 +20,9 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const [showroom, vehicle] = await Promise.all([getShowroom(), getVehicleBySlug(slug)])
-  if (!showroom || !vehicle) return {}
+  // Resolve the 404 before the streamed shell is sent so an unknown or
+  // cross-tenant slug returns a real 404 status, not a 200 error fallback.
+  if (!showroom || !vehicle) notFound()
 
   const origin = await getRequestOrigin()
   return vehicleMetadata(vehicle, showroom, origin)

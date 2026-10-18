@@ -27,7 +27,7 @@ const tenants = {
     name: 'Tenant B Test Showroom',
     forbidden: 'Prima Auto Gallery',
     primary: '#0f766e',
-    tagline: 'A second showroom for multi-tenant testing.',
+    tagline: 'Mobil bekas berkualitas, siap pakai di Bandung.',
   },
 }
 

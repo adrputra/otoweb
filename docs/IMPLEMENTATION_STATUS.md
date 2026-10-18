@@ -20,6 +20,12 @@ Status is about the **capability**, not the visual polish. A screen can look
 finished and still be `UI_ONLY` or `MOCKED`. Phase-specific as-built notes live
 in `docs/TENANCY.md`, `docs/PUBLIC_SITE.md`, and `docs/ADMIN.md`.
 
+> **Update 2026-10-19 (F016):** Phases 5–16 are implemented and audited. The
+> phase overview in §1 is current. §2 and §3 are the historical Phase 1
+> capability map and are retained for traceability, not as the current status
+> source. See [`PRODUCTION_HARDENING.md`](./PRODUCTION_HARDENING.md) for the
+> latest audit, findings, and evidence.
+
 ---
 
 ## 1. Phase overview
@@ -30,24 +36,24 @@ in `docs/TENANCY.md`, `docs/PUBLIC_SITE.md`, and `docs/ADMIN.md`.
 | 2 | Engineering Foundation | `COMPLETE` | Lint/format/typecheck, Vitest + Testing Library, Playwright smoke, CI, env validation, and `.env.example` delivered and verified |
 | 3 | Database Foundation | `COMPLETE` | Supabase/Drizzle config, checked-in migrations, idempotent seeds for two showrooms, schema docs, and embedded-PostgreSQL verification delivered |
 | 4 | Authentication | `COMPLETE` | Supabase Auth sign-in/out, password reset, proxy-protected admin routes, cookie session refresh, and fake-backend/Playwright verification delivered |
-| 5 | Multi-Tenant Security | `NOT_STARTED` | No tenancy, memberships, tenant context, or RLS |
-| 6 | Connect Public Website to Database | `MOCKED` | Public site works only from `data/index.ts` |
+| 5 | Multi-Tenant Security | `COMPLETE` | Memberships, tenant context, capabilities, forced RLS, and cross-tenant regression tests; see `docs/TENANCY.md` |
+| 6 | Connect Public Website to Database | `COMPLETE` | Public routes read tenant-scoped database data; draft/archived filtering and two-showroom coverage; see `docs/PUBLIC_SITE.md` |
 | 7 | Admin Vehicle CRUD | `COMPLETE` | Tenant-scoped DB create/edit/publish/reserve/sell/archive/duplicate/delete with shared Zod validation; see `docs/ADMIN.md` |
 | 8 | Image Management | `COMPLETE` | Provider-backed upload/progress/retry, persisted order and cover, validated deletion with reference-counted media policy; see `docs/MEDIA.md` |
-| 9 | Showroom Settings | `UI_ONLY` | Form and preview exist; save is a no-op |
-| 10 | Lead Capture | `PARTIAL` | Mock lead dashboard and WhatsApp links; no capture |
-| 11 | SEO Productionization | `NOT_STARTED` | Only hard-coded root metadata |
-| 12 | Platform Administration | `NOT_STARTED` | No `/platform` surface |
-| 13 | Subdomain Routing | `NOT_STARTED` | No hostname resolution |
-| 14 | Custom Domains | `NOT_STARTED` | No domain registration/verification/routing |
-| 15 | Analytics | `PARTIAL` | Vercel Analytics page views only |
-| 16 | Production Hardening | `NOT_STARTED` | No audits or failure-state testing |
+| 9 | Showroom Settings | `COMPLETE` | Tenant-scoped settings persist and drive public branding/contact; see `docs/SHOWROOM_SETTINGS.md` |
+| 10 | Lead Capture | `COMPLETE` | Durable contact/WhatsApp leads, tenant-scoped dashboard, and status updates; see `docs/LEADS.md` |
+| 11 | SEO Productionization | `COMPLETE` | Tenant metadata, canonicals, JSON-LD, sitemap, and robots; see `docs/SEO.md` |
+| 12 | Platform Administration | `COMPLETE` | Operator-only tenant inspection and lifecycle controls; see `docs/PLATFORM.md` |
+| 13 | Subdomain Routing | `COMPLETE` | Exact/wildcard/development hostname resolution with fail-closed behavior; see `docs/SUBDOMAIN_ROUTING.md` |
+| 14 | Custom Domains | `COMPLETE` | Registration, DNS verification, SSL state, and provider adapter; see `docs/CUSTOM_DOMAINS.md` |
+| 15 | Analytics | `COMPLETE` | First-party tenant-scoped events and dashboard metrics; see `docs/ANALYTICS.md` |
+| 16 | Production Hardening | `COMPLETE` | Ten-category audit, remediations, two-showroom QA, and durable report; see `docs/PRODUCTION_HARDENING.md` |
 
 ---
 
-## 2. Status summary
+## 2. Status summary (historical Phase 1 counts)
 
-Counts are calculated from the detailed capability map in §3.
+These counts describe the Phase 1 capability map in §3 and are retained for traceability.
 
 | Status | Count |
 |---|---:|

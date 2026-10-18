@@ -73,7 +73,7 @@ describe('platform tenant inspection', () => {
       hostnames: [tenantB.hostname],
       ownerCount: 1,
       memberCount: 1,
-      vehicleCount: 0,
+      vehicleCount: 2,
       leadCount: 0,
     })
   })

@@ -1,0 +1,131 @@
+{
+  "feature": "F016",
+  "generatedAt": "2026-10-18T20:59:48.301Z",
+  "checks": {
+    "rls": {
+      "ok": true,
+      "tables": [
+        {
+          "table": "tenants",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "tenant_domains",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "profiles",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "tenant_members",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "showroom_settings",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "vehicles",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "vehicle_images",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "leads",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        },
+        {
+          "table": "analytics_events",
+          "enable": true,
+          "force": true,
+          "policy": true,
+          "ok": true
+        }
+      ]
+    },
+    "headers": {
+      "ok": true,
+      "headers": [
+        {
+          "header": "X-Content-Type-Options",
+          "present": true
+        },
+        {
+          "header": "Referrer-Policy",
+          "present": true
+        },
+        {
+          "header": "X-Frame-Options",
+          "present": true
+        },
+        {
+          "header": "Permissions-Policy",
+          "present": true
+        },
+        {
+          "header": "Cross-Origin-Opener-Policy",
+          "present": true
+        },
+        {
+          "header": "Content-Security-Policy",
+          "present": true
+        },
+        {
+          "header": "Strict-Transport-Security",
+          "present": true
+        }
+      ],
+      "poweredByHidden": true,
+      "hstsProductionOnly": true
+    },
+    "sources": {
+      "ok": true,
+      "scannedFiles": 167,
+      "secrets": [],
+      "rawHtmlSinks": [],
+      "dynamicCode": [],
+      "expectedRawHtmlSinks": [
+        "components/seo/json-ld.tsx"
+      ]
+    },
+    "showrooms": {
+      "ok": true,
+      "checks": {
+        "primaTenant": true,
+        "tenantBTenant": true,
+        "primaDomain": true,
+        "tenantBDomain": true,
+        "tenantBVehicles": true,
+        "tenantBImages": true
+      }
+    }
+  },
+  "verdict": "PASS"
+}

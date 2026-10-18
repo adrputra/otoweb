@@ -2699,3 +2699,194 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F015): analytics" && git log -1 --format='%H %s'
 cd65bc034ea2c31f8c2ef0c5cc64a08693d5701e feat(F015): analytics
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T20:36:28Z'; sha='cd65bc034ea2c31f8c2ef0c5cc64a08693d5701e'
+for f in d['features']:
+    if f['id']=='F015':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/014-analytics'
+        f['evidence']=[
+          'specs/014-analytics',
+          '.sdd-toolbox/waves/014-analytics.json',
+          'lib/analytics',
+          'db/migrations/0004_analytics.sql',
+          'lib/admin/analytics-queries.ts',
+          'tests/unit/analytics',
+          'tests/e2e/admin-analytics.spec.ts',
+          'docs/ANALYTICS.md',
+          '.visual-qa/reports/f015-analytics-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-033628-F015-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F015','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F015 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 522/522) passed; VISUAL_QA PASS; non-blocking failure-safety tests pass.'})
+d['last_run']={'feature':'F015','event':'complete','at':now,'detail':'F015 done; committed cd65bc0.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-033628-F015-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `cd65bc034ea2c31f8c2ef0c5cc64a08693d5701e` — feat(F015): analytics
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F015): record checkpoint commit" && git log --oneline -3
+d035089 chore(F015): record checkpoint commit
+cd65bc0 feat(F015): analytics
+e579b63 chore(F014): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 58.'); j=s.find('# 59.'); print(s[i:j] if j>i else s[i:i+3000])
+EOF
+# 58. PHASE 16 — Production Hardening
+
+Perform:
+
+```text
+security audit
+RLS audit
+authorization audit
+dependency audit
+mobile QA
+desktop QA
+SEO audit
+accessibility audit
+performance audit
+failure-state testing
+```
+
+Test with two or more realistic showrooms.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T20:36:38Z
+20261019-033638
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T20:36:38Z'
+for f in d['features']:
+    if f['id']=='F016':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F016','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-033638-F016.md <<'EOF'
+# F016 — Production Hardening
+
+- Timestamp: 2026-10-18T20:36:38Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M3
+- Roadmap source: `docs/ROADMAP.md`, `# 58. PHASE 16 — Production Hardening`
+- Dependencies: F015 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Security, RLS, authorization, dependency, mobile, desktop, SEO, accessibility, performance, and failure-state audits are performed.
+2. The system is tested with two or more realistic showrooms.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F016[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F016[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -30 .visual-qa/reports/f016-production-hardening-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f016-production-hardening-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null; head -30 docs/PRODUCTION_HARDENING.md 2>/dev/null
+# F016 Production Hardening Visual QA
+
+**Captured**: 2026-10-18T21:00:30.046Z
+**Base URL**: http://prima.otoweb.id:3102
+**Verdict**: PASS
+
+| Viewport | Route | Status | Result | Findings | Screenshot |
+|---|---|---|---|---|---|
+| desktop | prima.otoweb.id/ | 200 | PASS | — | .visual-qa/screenshots/desktop/f016-prima-home.png |
+| desktop | prima.otoweb.id/cars | 200 | PASS | — | .visual-qa/screenshots/desktop/f016-prima-inventory.png |
+| desktop | prima.otoweb.id/cars/toyota-fortuner-2021-1 | 200 | PASS | — | .visual-qa/screenshots/desktop/f016-prima-detail.png |
+| desktop | tenant-b.otoweb.id/ | 200 | PASS | — | .visual-qa/screenshots/desktop/f016-tenant-b-home.png |
+| desktop | tenant-b.otoweb.id/cars | 200 | PASS | — | .visual-qa/screenshots/desktop/f016-tenant-b-inventory.png |
+| desktop | tenant-b.otoweb.id/cars/toyota-rush-2022-1 | 200 | PASS | — | .visual-qa/screenshots/desktop/f016-tenant-b-detail.png |
+| desktop | unknown.otoweb.id/ | 404 | PASS | — | .visual-qa/screenshots/desktop/f016-unknown-host-404.png |
+| mobile | prima.otoweb.id/ | 200 | PASS | — | .visual-qa/screenshots/mobile/f016-prima-home.png |
+| mobile | prima.otoweb.id/cars | 200 | PASS | — | .visual-qa/screenshots/mobile/f016-prima-inventory.png |
+| mobile | prima.otoweb.id/cars/toyota-fortuner-2021-1 | 200 | PASS | — | .visual-qa/screenshots/mobile/f016-prima-detail.png |
+| mobile | tenant-b.otoweb.id/ | 200 | PASS | — | .visual-qa/screenshots/mobile/f016-tenant-b-home.png |
+| mobile | tenant-b.otoweb.id/cars | 200 | PASS | — | .visual-qa/screenshots/mobile/f016-tenant-b-inventory.png |
+| mobile | tenant-b.otoweb.id/cars/toyota-rush-2022-1 | 200 | PASS | — | .visual-qa/screenshots/mobile/f016-tenant-b-detail.png |
+| mobile | unknown.otoweb.id/ | 404 | PASS | — | .visual-qa/screenshots/mobile/f016-unknown-host-404.png |
+
+## Coverage
+
+- Prima Auto Gallery and Tenant B Test Showroom: home, inventory, and vehicle detail.
+- Desktop 1440×900 and mobile 390×844.
+- Tenant-specific identity, contact details, inventory, cross-tenant leakage, and horizontal overflow.
+- Unknown-host failure state: status 404, no tenant identity, and visible not-found copy.
+
+---
+{'capturedAt': '2026-10-18T21:00:30.046Z', 'verdict': 'PASS', 'failures': []}
+# Production Hardening Audit (F016)
+
+Audit date: 2026-10-19  
+Feature: `specs/015-production-hardening/`  
+Baseline commit: `d035089` (`main`)  
+Scope: `docs/ROADMAP.md` §58 — Phase 16, Production Hardening
+
+This is the durable audit record for the launch-readiness phase. It lists what
+was checked, how, what was found, what was fixed, and what remains explicitly
+deferred. Findings are only marked **fixed** when a regression test or fresh
+command proves the new behavior.
+
+## Verdict summary
+
+| # | Audit | Verdict | Evidence |
+|---|---|---|---|
+| 1 | Security | **PASS** with residuals | `lib/security/headers.mjs`, `tests/unit/security/hardening-config.test.ts`, `node scripts/hardening-audit.mjs` |
+| 2 | RLS | **PASS** | `tests/unit/tenant/rls.test.ts` (36 tests), `tests/unit/analytics/rls.test.ts` |
+| 3 | Authorization | **PASS** | `tests/unit/security/authorization.test.ts`, `tests/unit/platform/auth.test.ts`, `tests/unit/tenant/context.test.ts` |
+| 4 | Dependency | **PASS (production)** | `pnpm audit --prod --json` → 0 advisories; dev-only residuals documented below |
+| 5 | Mobile QA | **PASS** | `.visual-qa/reports/f016-production-hardening-visual-qa.md` |
+| 6 | Desktop QA | **PASS** | `.visual-qa/reports/f016-production-hardening-visual-qa.md` |
+| 7 | SEO | **PASS** | `tests/e2e/seo-html.spec.ts`, `tests/e2e/hardening.spec.ts` |
+| 8 | Accessibility | **PASS** (audited baseline) | `tests/e2e/accessibility.spec.ts` |
+| 9 | Performance | **PASS** (warm-local budget) | `.visual-qa/reports/f016-performance.json` |
+| 10 | Failure states | **PASS** | `tests/e2e/hardening.spec.ts`, `tests/unit/public/failure-pages.test.tsx` |
+
+## Method
+
+- Inspected migrations `0000`–`0004`, tenant context/guards, auth proxy, admin
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  60 passed (60)
+      Tests  557 passed (557)
+   Start at  04:03:27
+   Duration  67.43s (tests 90%, import 4%, environment 3%, setup 2%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T21:04:37Z
+20261019-040437
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-040437-F016-complete.md
+Wrote file successfully.
+[0m

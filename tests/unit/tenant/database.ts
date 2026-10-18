@@ -103,6 +103,20 @@ export async function createTenantTestDatabase(): Promise<TenantTestDatabase> {
   }
 }
 
+/** Number of row-level-security policies attached to a table. */
+export async function tablePolicyCount(
+  db: PgliteDatabase<typeof schema>,
+  tableName: string,
+): Promise<number> {
+  const result = await db.execute<{ count: number }>(sql`
+    select count(*)::int as count
+    from pg_policies
+    where schemaname = 'public' and tablename = ${tableName}
+  `)
+
+  return result.rows[0]?.count ?? 0
+}
+
 /** True when row-level security is enabled and forced on a table. */
 export async function tableRlsState(
   db: PgliteDatabase<typeof schema>,

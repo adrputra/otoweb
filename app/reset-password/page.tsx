@@ -3,19 +3,26 @@ import Link from 'next/link'
 
 import { AuthShell } from '@/components/auth/auth-shell'
 import { getCurrentUser } from '@/lib/auth/server'
+import { resolveAuthBrandName } from '@/lib/public/branding'
 
 import { ResetPasswordForm } from './reset-password-form'
 
-export const metadata: Metadata = {
-  title: 'Buat kata sandi baru — Prima Auto Gallery Admin',
-  description: 'Buat kata sandi baru untuk akun panel admin Prima Auto Gallery.',
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const brand = await resolveAuthBrandName()
+  return {
+    title: `Buat kata sandi baru — ${brand} Admin`,
+    description: `Buat kata sandi baru untuk akun panel admin ${brand}.`,
+  }
 }
 
 export default async function ResetPasswordPage() {
-  const user = await getCurrentUser()
+  const [user, brand] = await Promise.all([getCurrentUser(), resolveAuthBrandName()])
 
   return (
     <AuthShell
+      brandName={brand}
       footer={
         <Link
           href="/login"

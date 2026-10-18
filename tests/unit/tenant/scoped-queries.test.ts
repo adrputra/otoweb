@@ -63,8 +63,8 @@ describe('tenant-scoped queries', () => {
       listTenantVehicles(db, tenantB.tenantId),
     )
 
-    expect(rows).toHaveLength(1)
-    expect(rows[0]?.id).toBe(tenantBVehicle.id)
+    expect(rows.length).toBeGreaterThanOrEqual(3)
+    expect(rows.some((row) => row.id === tenantBVehicle.id)).toBe(true)
     expect(rows.every((row) => row.tenantId === tenantB.tenantId)).toBe(true)
   })
 

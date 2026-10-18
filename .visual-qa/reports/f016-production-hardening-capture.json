@@ -1,0 +1,192 @@
+{
+  "baseUrl": "http://prima.otoweb.id:3102",
+  "capturedAt": "2026-10-18T21:00:30.046Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "prima-home",
+      "host": "prima.otoweb.id",
+      "path": "/"
+    },
+    {
+      "name": "prima-inventory",
+      "host": "prima.otoweb.id",
+      "path": "/cars"
+    },
+    {
+      "name": "prima-detail",
+      "host": "prima.otoweb.id",
+      "path": "/cars/toyota-fortuner-2021-1"
+    },
+    {
+      "name": "tenant-b-home",
+      "host": "tenant-b.otoweb.id",
+      "path": "/"
+    },
+    {
+      "name": "tenant-b-inventory",
+      "host": "tenant-b.otoweb.id",
+      "path": "/cars"
+    },
+    {
+      "name": "tenant-b-detail",
+      "host": "tenant-b.otoweb.id",
+      "path": "/cars/toyota-rush-2022-1"
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-prima-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/cars",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-prima-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/cars/toyota-fortuner-2021-1",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-prima-detail.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.otoweb.id",
+      "route": "/",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-tenant-b-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.otoweb.id",
+      "route": "/cars",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-tenant-b-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "tenant-b.otoweb.id",
+      "route": "/cars/toyota-rush-2022-1",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-tenant-b-detail.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "unknown.otoweb.id",
+      "route": "/",
+      "status": 404,
+      "screenshot": ".visual-qa/screenshots/desktop/f016-unknown-host-404.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-prima-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/cars",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-prima-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/cars/toyota-fortuner-2021-1",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-prima-detail.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.otoweb.id",
+      "route": "/",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-tenant-b-home.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.otoweb.id",
+      "route": "/cars",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-tenant-b-inventory.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "tenant-b.otoweb.id",
+      "route": "/cars/toyota-rush-2022-1",
+      "status": 200,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-tenant-b-detail.png",
+      "reasons": [],
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "unknown.otoweb.id",
+      "route": "/",
+      "status": 404,
+      "screenshot": ".visual-qa/screenshots/mobile/f016-unknown-host-404.png",
+      "reasons": [],
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

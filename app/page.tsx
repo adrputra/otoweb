@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic'
 
 export async function generateMetadata() {
   const showroom = await getShowroom()
-  if (!showroom) return {}
+  if (!showroom) notFound()
 
   const origin = await getRequestOrigin()
   return showroomMetadata(showroom, { origin, path: '/' })

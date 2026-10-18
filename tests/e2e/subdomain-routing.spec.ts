@@ -101,8 +101,8 @@ test.describe('production-shaped tenant hosts', () => {
 
     expect(tenantB.status).toBe(200)
     expect(tenantB.body).toContain('Tenant B Test Showroom')
-    expect(tenantB.body).toMatch(/0(?:<!-- -->)? unit/)
-    expect(tenantB.body).toContain('Belum ada unit yang sesuai')
+    expect(tenantB.body).toContain('/cars/toyota-rush-2022-1')
+    expect(tenantB.body).toContain('Rush')
     expect(tenantB.body).not.toContain('/cars/toyota-fortuner-2021-1')
     expect(tenantB.body).not.toContain('Prima Auto Gallery')
   })

@@ -44,7 +44,7 @@ const routes = [
     forbidden: 'Prima Auto Gallery',
     email: TENANT_B_EMAIL,
     phone: TENANT_B_PHONE,
-    inventory: null,
+    inventory: 'Rush',
   },
   {
     name: 'prima-otoweb-inventory',
@@ -64,8 +64,7 @@ const routes = [
     forbidden: 'Prima Auto Gallery',
     email: TENANT_B_EMAIL,
     phone: TENANT_B_PHONE,
-    inventory: null,
-    emptyState: 'Belum ada unit yang sesuai',
+    inventory: 'Rush',
   },
   {
     name: 'prima-localhost-home',
@@ -85,7 +84,7 @@ const routes = [
     forbidden: 'Prima Auto Gallery',
     email: TENANT_B_EMAIL,
     phone: TENANT_B_PHONE,
-    inventory: null,
+    inventory: 'Rush',
   },
 ]
 
@@ -133,9 +132,6 @@ async function captureRoute(page, viewport, route) {
   if (route.inventory && !bodyText.includes(route.inventory)) {
     reasons.push('tenant inventory missing')
   }
-  if (route.emptyState && !bodyText.includes(route.emptyState)) {
-    reasons.push('tenant empty state missing')
-  }
   if (horizontalOverflow) reasons.push('horizontal overflow')
 
   const screenshot = `.visual-qa/screenshots/${viewport.name}/f013-${route.name}.png`
@@ -178,8 +174,8 @@ ${rows}
 - Development hosts: \`prima.localhost\`, \`tenant-b.localhost\`.
 - Home and inventory surfaces at desktop 1440×900 and mobile 390×844.
 - Each route checks the expected tenant name, absence of the other tenant,
-  tenant-specific contact details, tenant-specific inventory (or the Tenant B
-  empty state), and horizontal overflow.
+  tenant-specific contact details, tenant-specific inventory, and horizontal
+  overflow.
 
 ## Failures
 

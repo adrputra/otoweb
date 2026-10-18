@@ -34,13 +34,18 @@ export function Header({ showroom }: { showroom: Showroom }) {
         <button
           onClick={() => setOpen(!open)}
           className="flex size-11 items-center justify-center md:hidden"
-          aria-label="Buka menu"
+          aria-label={open ? 'Tutup menu' : 'Buka menu'}
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
         >
-          {open ? <X /> : <Menu />}
+          {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
       {open && (
-        <nav className="flex flex-col gap-5 bg-neutral-950 px-5 py-6 text-sm md:hidden">
+        <nav
+          id="mobile-navigation"
+          className="flex flex-col gap-5 bg-neutral-950 px-5 py-6 text-sm md:hidden"
+        >
           <Link href="/cars">Koleksi mobil</Link>
           <a href="#about">Tentang kami</a>
           <a href="#contact">Kontak</a>
@@ -89,7 +94,10 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
               <span className="font-normal text-neutral-500">{vehicle.variant}</span>
             </h3>
           </div>
-          <ArrowUpRight className="mt-1 size-4 text-neutral-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          <ArrowUpRight
+            aria-hidden="true"
+            className="mt-1 size-4 text-neutral-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          />
         </div>
         <p className="text-sm text-neutral-500">
           {vehicle.year} · {formatKm(vehicle.mileageKm)} · {vehicle.transmission}
@@ -108,6 +116,7 @@ export function QuickSearch({ brands }: { brands: string[] }) {
     >
       <select
         name="brand"
+        aria-label="Merek mobil"
         className="h-12 border-0 bg-neutral-50 px-4 text-sm text-neutral-900 outline-none"
       >
         <option value="">Semua merek</option>
@@ -117,6 +126,7 @@ export function QuickSearch({ brands }: { brands: string[] }) {
       </select>
       <select
         name="maxPrice"
+        aria-label="Harga maksimum"
         className="h-12 border-0 bg-neutral-50 px-4 text-sm text-neutral-900 outline-none"
       >
         <option value="">Semua harga</option>
@@ -124,7 +134,7 @@ export function QuickSearch({ brands }: { brands: string[] }) {
         <option value="500000000">Di bawah Rp 500 juta</option>
       </select>
       <button className="flex h-12 items-center justify-center gap-2 bg-[var(--showroom-secondary)] px-6 text-sm font-semibold text-[color:var(--showroom-on-secondary)] transition hover:opacity-90">
-        <Search className="size-4" />
+        <Search className="size-4" aria-hidden="true" />
         Cari mobil
       </button>
     </form>
@@ -148,6 +158,7 @@ export function Filters({
     <div className="flex flex-wrap gap-2">
       <select
         name="brand"
+        aria-label="Merek"
         defaultValue={param(values?.brand)}
         className="h-11 border border-neutral-200 bg-white px-3 text-sm"
       >
@@ -158,6 +169,7 @@ export function Filters({
       </select>
       <select
         name="transmission"
+        aria-label="Transmisi"
         defaultValue={param(values?.transmission)}
         className="h-11 border border-neutral-200 bg-white px-3 text-sm"
       >
@@ -168,6 +180,7 @@ export function Filters({
       </select>
       <select
         name="fuel"
+        aria-label="Bahan bakar"
         defaultValue={param(values?.fuel)}
         className="h-11 border border-neutral-200 bg-white px-3 text-sm"
       >
@@ -178,6 +191,7 @@ export function Filters({
       </select>
       <select
         name="sort"
+        aria-label="Urutkan"
         defaultValue={param(values?.sort, 'terbaru')}
         className="h-11 border border-neutral-200 bg-white px-3 text-sm"
       >
@@ -186,7 +200,9 @@ export function Filters({
         <option value="harga-tertinggi">Harga tertinggi</option>
         <option value="tahun-terbaru">Tahun terbaru</option>
       </select>
-      <span className="flex items-center px-2 text-sm text-neutral-500">{count} unit</span>
+      <span aria-live="polite" className="flex items-center px-2 text-sm text-neutral-500">
+        {count} unit
+      </span>
     </div>
   )
 }

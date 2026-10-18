@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic'
 
 const PRIVATE_PATHS = [
   '/admin/',
+  '/platform',
   '/api/',
   '/auth/',
   '/login',

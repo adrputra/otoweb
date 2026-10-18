@@ -7,7 +7,16 @@ import type { ReactNode } from 'react'
  * Desktop: an editorial brand panel beside the form. Mobile: the brand panel
  * becomes a compact header so the form stays above the fold.
  */
-export function AuthShell({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
+export function AuthShell({
+  children,
+  footer,
+  brandName = 'OtoWeb',
+}: {
+  children: ReactNode
+  footer?: ReactNode
+  /** Showroom resolved from the request host; neutral platform brand otherwise. */
+  brandName?: string
+}) {
   return (
     <main className="min-h-dvh bg-white text-neutral-950 lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
       <aside className="relative isolate overflow-hidden bg-neutral-950 px-6 py-8 text-white sm:px-10 lg:flex lg:min-h-dvh lg:flex-col lg:justify-between lg:px-14 lg:py-12">
@@ -21,7 +30,7 @@ export function AuthShell({ children, footer }: { children: ReactNode; footer?: 
             href="/"
             className="inline-flex items-baseline gap-2 text-lg font-semibold tracking-tight"
           >
-            Prima Auto Gallery
+            {brandName}
             <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/55">
               Admin
             </span>
