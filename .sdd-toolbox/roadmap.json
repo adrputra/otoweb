@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T17:35:01Z",
+  "updated_at": "2026-10-18T17:49:14Z",
   "active_milestone": "M1",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -45,6 +45,12 @@
       "feature": "F004",
       "decision": "auto-approve-checkpoint",
       "detail": "AUTO_CHECKPOINT marker: F004 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 51/51) passed; VISUAL_QA PASS evidence under .visual-qa/."
+    },
+    {
+      "at": "2026-10-18T17:49:14Z",
+      "feature": "F005",
+      "decision": "auto-approve-checkpoint",
+      "detail": "AUTO_CHECKPOINT marker: F005 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 152/152) passed; tenant isolation 101/101 passing."
     }
   ],
   "features": [
@@ -204,14 +210,22 @@
         "Service role never reaches the browser.",
         "Do not proceed if tenant isolation tests fail."
       ],
-      "status": "in_progress",
+      "status": "done",
       "attempts": 1,
-      "spec_dir": null,
-      "commit": null,
-      "evidence": [],
+      "spec_dir": "specs/004-multi-tenant-security",
+      "commit": "b01ccc1a4b3ffe2ee65769d21e963e7b3fb5cc28",
+      "evidence": [
+        "specs/004-multi-tenant-security",
+        ".sdd-toolbox/waves/004-multi-tenant-security.json",
+        "lib/tenant",
+        "db/migrations/0001_tenant-isolation.sql",
+        "tests/unit/tenant",
+        "docs/TENANCY.md",
+        ".sdd-toolbox/journal/20261019-004914-F005-complete.md"
+      ],
       "blocker": null,
       "started_at": "2026-10-18T17:35:01Z",
-      "completed_at": null
+      "completed_at": "2026-10-18T17:49:14Z"
     },
     {
       "id": "F006",
@@ -492,8 +506,8 @@
   ],
   "last_run": {
     "feature": "F005",
-    "event": "dispatch",
-    "at": "2026-10-18T17:35:01Z",
-    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
+    "event": "complete",
+    "at": "2026-10-18T17:49:14Z",
+    "detail": "F005 done; committed b01ccc1."
   }
 }
