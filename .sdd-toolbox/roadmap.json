@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T21:04:37Z",
+  "updated_at": "2026-10-18T21:04:46Z",
   "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -129,6 +129,12 @@
       "feature": "F016",
       "decision": "auto-approve-checkpoint",
       "detail": "AUTO_CHECKPOINT marker: F016 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 557/557) passed; ten-category hardening audit PASS; VISUAL_QA PASS with Prima + Tenant B."
+    },
+    {
+      "at": "2026-10-18T21:04:46Z",
+      "feature": null,
+      "decision": "milestone-complete",
+      "detail": "M3 complete (F011-F016 done). All 16 roadmap features are done; no milestone has pending features. Roadmap run complete."
     }
   ],
   "features": [
@@ -689,9 +695,9 @@
     }
   ],
   "last_run": {
-    "feature": "F016",
-    "event": "complete",
-    "at": "2026-10-18T21:04:37Z",
-    "detail": "F016 done; committed f600031. M3 complete; roadmap complete."
+    "feature": null,
+    "event": "milestone-complete",
+    "at": "2026-10-18T21:04:46Z",
+    "detail": "M3 complete; all roadmap features done."
   }
 }

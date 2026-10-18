@@ -2893,3 +2893,43 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F016): production hardening" && git log -1 --format='%H %s'
 f60003152f36288f53a55d0c862edef83d55f447 feat(F016): production hardening
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T21:04:37Z'; sha='f60003152f36288f53a55d0c862edef83d55f447'
+for f in d['features']:
+    if f['id']=='F016':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/015-production-hardening'
+        f['evidence']=[
+          'specs/015-production-hardening',
+          '.sdd-toolbox/waves/015-production-hardening.json',
+          'docs/PRODUCTION_HARDENING.md',
+          'tests/unit/security',
+          'tests/e2e/hardening.spec.ts',
+          'tests/e2e/accessibility.spec.ts',
+          '.visual-qa/reports/f016-production-hardening-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-040437-F016-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F016','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F016 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 557/557) passed; ten-category hardening audit PASS; VISUAL_QA PASS with Prima + Tenant B.'})
+d['last_run']={'feature':'F016','event':'complete','at':now,'detail':'F016 done; committed f600031. M3 complete; roadmap complete.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-040437-F016-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `f60003152f36288f53a55d0c862edef83d55f447` — feat(F016): production hardening
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F016): record checkpoint commit" && git log --oneline -3
+f9a7357 chore(F016): record checkpoint commit
+f600031 feat(F016): production hardening
+d035089 chore(F015): record checkpoint commit
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T21:04:46Z
+20261019-040446
+[0m
