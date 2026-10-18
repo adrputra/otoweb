@@ -1,0 +1,19 @@
+# Minimal Supabase CLI configuration for the OtoWeb database foundation.
+# Auth, storage, and other services are configured in later roadmap phases.
+project_id = "otoweb"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[studio]
+enabled = true
+port = 54323

@@ -662,3 +662,330 @@ print('done')
 EOF
 done
 [0m
+[0m$ [0mgit add -A && git commit -q -m "feat(F002): engineering foundation" && git rev-parse HEAD
+880e0cdeda3177656acf7bd36fa48a4dfa80f776
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+for f in d['features']:
+    if f['id']=='F002':
+        f['commit']='880e0cdeda3177656acf7bd36fa48a4dfa80f776'
+d['updated_at']='2026-10-18T14:54:10Z'
+d['last_run']['detail']='FeatureRunner COMPLETE; outer validation passed; auto-approved and committed at 880e0cd.'
+json.dump(d,open(p,'w'),indent=2)
+open(p,'a').write('\n')
+EOF
+printf '\n- Commit: `880e0cdeda3177656acf7bd36fa48a4dfa80f776` — feat(F002): engineering foundation\n' >> .sdd-toolbox/journal/20261018-145340-F002-complete.md
+git add .sdd-toolbox/roadmap.json .sdd-toolbox/journal/20261018-145340-F002-complete.md
+git commit -q --amend --no-edit
+git rev-parse HEAD
+git status --short
+f40ec4633820a588702c1010a1251586ad495843
+ M .sdd-toolbox/journal/loop-20261018-214317.log
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+for f in d['features']:
+    if f['id']=='F002':
+        f['commit']='f40ec4633820a588702c1010a1251586ad495843'
+d['updated_at']='2026-10-18T14:54:40Z'
+json.dump(d,open(p,'w'),indent=2)
+open(p,'a').write('\n')
+EOF
+git add .sdd-toolbox/roadmap.json
+git commit -q -m "chore(F002): record checkpoint commit"
+git log --oneline -3; git status --short
+50aff64 chore(F002): record checkpoint commit
+f40ec46 feat(F002): engineering foundation
+b8d5ed5 chore: initialize roadmap workflow and phase 1 audit
+ M .sdd-toolbox/journal/loop-20261018-214317.log
+[0m
+[0m$ [0msed -n '1489,1580p' docs/ROADMAP.md
+# 45. PHASE 3 — Database Foundation
+
+Install and configure:
+
+```text
+Supabase
+Drizzle ORM
+PostgreSQL migrations
+```
+
+Implement tables:
+
+```text
+tenants
+tenant_domains
+profiles
+tenant_members
+showroom_settings
+vehicles
+vehicle_images
+```
+
+Add development seeds.
+
+Seed:
+
+```text
+Prima Auto Gallery
+Tenant B Test Showroom
+```
+
+Migrate existing mock vehicle data into seed data.
+
+Important:
+
+The UI should continue looking the same.
+
+Acceptance:
+
+```text
+[ ] schema migration works from empty database
+[ ] seed works
+[ ] existing vehicle mock data exists in DB
+[ ] schema documented
+[ ] build passes
+```
+
+---
+
+# 46. PHASE 4 — Authentication
+
+Implement Supabase Auth.
+
+Required:
+
+```text
+login
+logout
+password reset
+authenticated admin routes
+session handling
+```
+
+Do not implement public registration.
+
+Showroom accounts should initially be created/invited by platform operators.
+
+Acceptance:
+
+```text
+[ ] unauthenticated admin access blocked
+[ ] authenticated owner can access admin
+[ ] logout works
+[ ] expired sessions handled
+```
+
+---
+
+# 47. PHASE 5 — Multi-Tenant Security
+
+This is the most security-sensitive phase.
+
+Implement:
+
+```text
+tenant memberships
+tenant context
+hostname resolver
+tenant-scoped queries
+RLS
+permission helpers
+tenant isolation tests
+[0m
+[0m$ [0msed -n '1560,1680p' docs/ROADMAP.md | head -60; echo "=== ENV ==="; ls -a | grep -i env; echo "=== node/pnpm ==="; node -v; pnpm -v; npx supabase --version 2>/dev/null || echo "no supabase cli"
+[ ] authenticated owner can access admin
+[ ] logout works
+[ ] expired sessions handled
+```
+
+---
+
+# 47. PHASE 5 — Multi-Tenant Security
+
+This is the most security-sensitive phase.
+
+Implement:
+
+```text
+tenant memberships
+tenant context
+hostname resolver
+tenant-scoped queries
+RLS
+permission helpers
+tenant isolation tests
+```
+
+Fixtures:
+
+```text
+prima
+tenant-b
+```
+
+Attempt cross-tenant attacks.
+
+Acceptance:
+
+```text
+[ ] all cross-tenant tests fail safely
+[ ] tenant B data cannot appear for tenant A
+[ ] direct DB/API attempts are protected
+[ ] service role never reaches browser
+```
+
+DO NOT proceed if tenant isolation tests fail.
+
+---
+
+# 48. PHASE 6 — Connect Public Website to Database
+
+Replace:
+
+```text
+data/mock-vehicles
+```
+
+with database queries.
+
+Convert:
+
+```text
+homepage featured units
+inventory page
+=== ENV ===
+.env.example
+next-env.d.ts
+=== node/pnpm ===
+v24.21.0
+12.3.4
+2.121.0
+[0m
+[0m$ [0mdocker --version 2>/dev/null || echo "no docker"; docker info >/dev/null 2>&1 && echo "docker running" || echo "docker not running"
+no docker
+docker not running
+[0m
+[0m$ [0mwhich psql pg_ctl postgres initdb 2>/dev/null; psql --version 2>/dev/null || echo "no psql"; ls /usr/lib/postgresql 2>/dev/null || echo "no pg install"
+no psql
+no pg install
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T14:54:32Z
+20261018-215432
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+now='2026-10-18T14:54:32Z'
+for f in d['features']:
+    if f['id']=='F003':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F003','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+(no output)
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-215432-F003.md
+Wrote file successfully.
+[0m
+[0m• [0mExecute roadmap feature F003[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F003[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mset -e
+echo "=== npx tsc --noEmit ==="; npx tsc --noEmit; echo "EXIT:$?"
+echo "=== npm test ==="; npm test 2>&1 | tail -12; echo "EXIT:${PIPESTATUS[0]}"
+echo "=== pnpm db:verify ==="; pnpm db:verify 2>&1 | tail -15; echo "EXIT:${PIPESTATUS[0]}"
+=== npx tsc --noEmit ===
+EXIT:0
+=== npm test ===
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  22:02:13
+   Duration  1.89s (tests 49%, environment 28%, import 13%, setup 9%, transform 1%)
+
+EXIT:0
+=== pnpm db:verify ===
+$ vitest run tests/unit/db
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  22:02:15
+   Duration  1.91s (tests 79%, import 15%, setup 5%, transform 1%)
+
+EXIT:0
+[0m
+[0m$ [0mecho "=== lint ==="; pnpm lint 2>&1 | tail -3; echo "EXIT:${PIPESTATUS[0]}"
+echo "=== build ==="; pnpm build 2>&1 | tail -8; echo "EXIT:${PIPESTATUS[0]}"
+echo "=== changes ==="; git status --short | head -50
+=== lint ===
+
+✖ 11 problems (0 errors, 11 warnings)
+
+EXIT:0
+=== build ===
+├ ○ /admin/vehicles/new
+├ ƒ /cars
+└ ƒ /cars/[slug]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+EXIT:0
+=== changes ===
+ M .env.example
+ M .sdd-toolbox/journal/loop-20261018-214317.log
+ M .sdd-toolbox/roadmap.json
+ M package.json
+ M pnpm-lock.yaml
+?? .sdd-toolbox/journal/20261018-215432-F003.md
+?? .sdd-toolbox/waves/002-database-foundation.json
+?? db/
+?? docs/DATABASE.md
+?? drizzle.config.ts
+?? lib/supabase/
+?? specs/002-database-foundation/
+?? supabase/
+?? tests/unit/db/
+[0m
+[0m$ [0mgrep -Eo "CREATE TABLE \"[a-z_]+\"" db/migrations/*.sql | sort -u; echo "---"; grep -c "\[x\]" specs/002-database-foundation/tasks.md; grep -c "\[ \]" specs/002-database-foundation/tasks.md; echo "---"; grep -n "Prima Auto Gallery\|Tenant B Test Showroom" db/seed-core.ts | head
+CREATE TABLE "profiles"
+CREATE TABLE "showroom_settings"
+CREATE TABLE "tenant_domains"
+CREATE TABLE "tenant_members"
+CREATE TABLE "tenants"
+CREATE TABLE "vehicle_images"
+CREATE TABLE "vehicles"
+---
+28
+0
+---
+88:    name: 'Prima Auto Gallery',
+96:    name: 'Tenant B Test Showroom',
+181:    displayName: 'Tenant B Test Showroom',
+202:    seoTitle: 'Tenant B Test Showroom',
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"
+2026-10-18T15:02:29Z
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261018-150229-F003-complete.md
+Wrote file successfully.
+[0m
