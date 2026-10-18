@@ -2054,3 +2054,161 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F011): seo productionization" && git log -1 --format='%H %s'
 58d64204dc870bbdc7ceb9dec877aa2a67c45358 feat(F011): seo productionization
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:27:30Z'; sha='58d64204dc870bbdc7ceb9dec877aa2a67c45358'
+for f in d['features']:
+    if f['id']=='F011':
+        f['status']='done'; f['commit']=sha; f['completed_at']=now
+        f['spec_dir']='specs/010-seo-productionization'
+        f['evidence']=[
+          'specs/010-seo-productionization',
+          '.sdd-toolbox/waves/010-seo-productionization.json',
+          'lib/seo',
+          'app/sitemap.ts',
+          'app/robots.ts',
+          'tests/e2e/seo-html.spec.ts',
+          'docs/SEO.md',
+          '.visual-qa/reports/f011-seo-productionization-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-022730-F011-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':'F011','decision':'auto-approve-checkpoint','detail':'AUTO_CHECKPOINT marker: F011 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 359/359) passed; raw-HTTP SEO HTML tests 8/8; VISUAL_QA PASS.'})
+d['last_run']={'feature':'F011','event':'complete','at':now,'detail':'F011 done; committed 58d6420.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-022730-F011-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `58d64204dc870bbdc7ceb9dec877aa2a67c45358` — feat(F011): seo productionization
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F011): record checkpoint commit" && git log --oneline -3
+89a9f90 chore(F011): record checkpoint commit
+58d6420 feat(F011): seo productionization
+1be6c06 chore(F010): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 54.'); j=s.find('# 55.'); print(s[i:j])
+EOF
+# 54. PHASE 12 — Platform Administration
+
+Create separate platform administration surface.
+
+Suggested:
+
+```text
+/platform
+```
+
+Capabilities:
+
+```text
+create tenant
+disable tenant
+assign owner
+inspect tenant
+set subdomain
+set plan/status
+```
+
+Do not expose this interface to normal showroom owners.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:27:39Z
+20261019-022739
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T19:27:39Z'
+for f in d['features']:
+    if f['id']=='F012':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F012','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-022739-F012.md <<'EOF'
+# F012 — Platform Administration
+
+- Timestamp: 2026-10-18T19:27:39Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M3
+- Roadmap source: `docs/ROADMAP.md`, `# 54. PHASE 12 — Platform Administration`
+- Dependencies: F011 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. A `/platform` surface exists.
+2. Create tenant, disable tenant, assign owner, inspect tenant, set subdomain, and set plan/status are available.
+3. The interface is not exposed to normal showroom owners.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F012[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F012[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mhead -20 .visual-qa/reports/f012-platform-administration-visual-qa.md 2>/dev/null; echo ---; python3 -c "import json;d=json.load(open('.visual-qa/reports/f012-platform-capture.json'));print({k:d.get(k) for k in ('capturedAt','verdict','failures')})" 2>/dev/null; ls .visual-qa/screenshots/desktop | grep f012
+# F012 Platform Administration — Visual QA
+
+**Captured**: 2026-10-18T19:39:29.016Z
+**Base URL**: http://prima.otoweb.id:3104
+**Verdict**: PASS
+
+| Viewport | Route | Heading | Horizontal overflow | Missing required text | Screenshot |
+|---|---|---|---|---|---|
+| desktop | /platform | yes | no | none | .visual-qa/screenshots/desktop/f012-platform-list.png |
+| desktop | /platform/tenants/new | yes | no | none | .visual-qa/screenshots/desktop/f012-platform-new.png |
+| desktop | /platform/tenants/11111111-1111-4111-8111-111111111111 | yes | no | none | .visual-qa/screenshots/desktop/f012-platform-detail.png |
+| mobile | /platform | yes | no | none | .visual-qa/screenshots/mobile/f012-platform-list.png |
+| mobile | /platform/tenants/new | yes | no | none | .visual-qa/screenshots/mobile/f012-platform-new.png |
+| mobile | /platform/tenants/11111111-1111-4111-8111-111111111111 | yes | no | none | .visual-qa/screenshots/mobile/f012-platform-detail.png |
+
+## Failures
+
+None.
+
+## Scope
+---
+{'capturedAt': '2026-10-18T19:39:29.016Z', 'verdict': 'PASS', 'failures': []}
+f012-platform-detail.png
+f012-platform-list.png
+f012-platform-new.png
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  44 passed (44)
+      Tests  399 passed (399)
+   Start at  02:42:43
+   Duration  44.70s (tests 87%, import 5%, environment 4%, setup 2%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T19:43:29Z
+20261019-024329
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-024329-F012-complete.md
+Wrote file successfully.
+[0m

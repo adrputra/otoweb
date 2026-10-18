@@ -1,6 +1,8 @@
 import { vehicles as mockVehicles } from '@/data'
 import type { NewVehicle } from '@/db/schema'
 import {
+  PLATFORM_MEMBER_ID,
+  PLATFORM_PROFILE_ID,
   PRIMA_DOMAIN_ID,
   PRIMA_MEMBER_ID,
   PRIMA_PROFILE_ID,
@@ -56,6 +58,13 @@ export const tenantB: TenantFixture = {
 }
 
 export const tenantFixtures = { prima, 'tenant-b': tenantB } as const
+
+/** Deterministic platform-operator fixture (an active member of Prima). */
+export const platformOperator = {
+  profileId: PLATFORM_PROFILE_ID,
+  memberId: PLATFORM_MEMBER_ID,
+  tenantId: PRIMA_TENANT_ID,
+} as const
 
 export const PRIMA_VEHICLE_ID = seededVehicleId(0)
 export const PRIMA_VEHICLE_IMAGE_ID = seededVehicleImageId(0)

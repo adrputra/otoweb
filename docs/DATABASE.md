@@ -144,6 +144,11 @@ The seed is idempotent and uses deterministic UUIDs. It creates:
 - **Tenant B Test Showroom** (`tenant-b-test-showroom`, trial): domain
   `tenant-b.otoweb.id`, owner profile/membership, and distinct showroom
   settings. It intentionally has no legacy vehicle catalogue.
+- **Platform Operator** (`50000000-0000-4000-8000-000000000003`): profile plus an
+  active `platform_admin` membership on the Prima tenant. This is a
+  development/QA fixture for the F012 platform console; production platform
+  authorization is provisioned through the identity provider and membership
+  table, never by showroom self-service. See `docs/PLATFORM.md`.
 
 The twelve Prima vehicles are mapped from `data/index.ts`, preserving slugs,
 brand/model/variant/year, price, original price, mileage, colour, engine

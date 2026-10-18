@@ -229,5 +229,10 @@ If any tenant isolation test fails, do not proceed: fix the isolation first.
 - The application may use an elevated connection for server work; RLS is a second
   boundary, not a replacement for `lib/tenant/scoped-queries.ts` and the request
   guard.
-- Custom-domain verification and platform tenant administration are later phases
-  (F012–F014); this feature provides the resolver and RLS substrate they build on.
+- Platform tenant administration is implemented in F012 and documented in
+  [`PLATFORM.md`](./PLATFORM.md). It requires an explicit active
+  `platform_admin` membership, re-checked inside a platform RLS transaction.
+  Showroom owner/staff roles never grant it.
+- Wildcard subdomain routing and custom-domain verification are later phases
+  (F013–F014); this feature provides the resolver and RLS substrate they build
+  on.

@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T19:27:30Z",
+  "updated_at": "2026-10-18T19:27:39Z",
   "active_milestone": "M3",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -505,13 +505,13 @@
         "Create tenant, disable tenant, assign owner, inspect tenant, set subdomain, and set plan/status are available.",
         "The interface is not exposed to normal showroom owners."
       ],
-      "status": "pending",
-      "attempts": 0,
+      "status": "in_progress",
+      "attempts": 1,
       "spec_dir": null,
       "commit": null,
       "evidence": [],
       "blocker": null,
-      "started_at": null,
+      "started_at": "2026-10-18T19:27:39Z",
       "completed_at": null
     },
     {
@@ -611,9 +611,9 @@
     }
   ],
   "last_run": {
-    "feature": "F011",
-    "event": "complete",
-    "at": "2026-10-18T19:27:30Z",
-    "detail": "F011 done; committed 58d6420."
+    "feature": "F012",
+    "event": "dispatch",
+    "at": "2026-10-18T19:27:39Z",
+    "detail": "Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run."
   }
 }

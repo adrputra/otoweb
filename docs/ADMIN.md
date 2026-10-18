@@ -141,6 +141,22 @@ lead array is gone. Public contact submissions and WhatsApp actions create the
 leads, so no manual data entry is required. See `docs/LEADS.md` for the public
 flows and the full contract.
 
+## Platform administration is separate
+
+F012 adds a cross-tenant operator console at `/platform`, owned by
+`docs/PLATFORM.md`. It is not part of the showroom admin surface:
+
+- `components/admin-shell.tsx` contains no `/platform` link;
+- showroom owners and staff receive not-found at `/platform`;
+- only an active explicit `platform_admin` membership can render it;
+- every platform read and write re-checks that membership inside its own
+  transaction.
+
+The platform shell has a dark navigation surface and its own two-item
+navigation, while preserving the incumbent neutral palette, square borders, and
+form vocabulary. See `docs/PLATFORM.md` for capabilities, authorization,
+verification, and the QA fixture.
+
 ## Verification
 
 ```bash

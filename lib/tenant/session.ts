@@ -58,3 +58,33 @@ export async function withTenantSession<T>(
     return callback(tx as Database)
   })
 }
+
+export interface PlatformSessionValues {
+  userId: string
+}
+
+/**
+ * Run cross-tenant platform work inside a transaction with server-controlled,
+ * transaction-local RLS settings.
+ *
+ * The platform flag is not authority by itself: `app.is_platform_admin()` also
+ * requires an active `platform_admin` membership. Platform services re-check
+ * that membership before any read or write, so a privileged connection cannot
+ * skip the authorization decision.
+ */
+export async function withPlatformSession<T>(
+  db: Database,
+  values: PlatformSessionValues,
+  callback: (tx: Database) => Promise<T>,
+): Promise<T> {
+  if (!values.userId) throw new TenantSessionError('invalid_user_id')
+  if (!isUuid(values.userId)) throw new TenantSessionError('invalid_user_id')
+
+  return db.transaction(async (tx) => {
+    await tx.execute(sql`select set_config('app.tenant_id', '', true)`)
+    await tx.execute(sql`select set_config('app.user_id', ${values.userId}, true)`)
+    await tx.execute(sql`select set_config('app.is_platform_admin', 'true', true)`)
+
+    return callback(tx as Database)
+  })
+}

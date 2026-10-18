@@ -49,6 +49,26 @@ describe('admin proxy', () => {
     expect(response.headers.get('location')).toBeNull()
   })
 
+  it('redirects anonymous platform requests with a safe platform next path', async () => {
+    const proxy = createAdminProxy({ resolveAuth: resolveAs({ user: null }) })
+    const response = await proxy(adminRequest('/platform/tenants/11111111-1111-4111-8111-111111111111'))
+
+    expect(response.status).toBe(307)
+    const url = new URL(response.headers.get('location') as string)
+    expect(url.pathname).toBe('/login')
+    expect(url.searchParams.get('next')).toBe(
+      '/platform/tenants/11111111-1111-4111-8111-111111111111',
+    )
+  })
+
+  it('allows an authenticated platform request through', async () => {
+    const proxy = createAdminProxy({ resolveAuth: resolveAs({ user: testUser }) })
+    const response = await proxy(adminRequest('/platform'))
+
+    expect(response.status).toBe(200)
+    expect(response.headers.get('x-middleware-next')).toBe('1')
+  })
+
   it('fails closed when the resolver throws', async () => {
     const proxy = createAdminProxy({
       resolveAuth: async () => {
@@ -130,11 +150,20 @@ describe('safeNextPath', () => {
     )
   })
 
+  it('accepts the platform home and nested platform paths', () => {
+    expect(safeNextPath('/platform')).toBe('/platform')
+    expect(safeNextPath('/platform/tenants/new')).toBe('/platform/tenants/new')
+    expect(
+      safeNextPath('/platform/tenants/11111111-1111-4111-8111-111111111111'),
+    ).toBe('/platform/tenants/11111111-1111-4111-8111-111111111111')
+  })
+
   it('falls back for external, protocol-relative, and non-admin targets', () => {
     expect(safeNextPath('https://evil.example/admin')).toBe('/admin')
     expect(safeNextPath('//evil.example/admin')).toBe('/admin')
     expect(safeNextPath('/cars')).toBe('/admin')
     expect(safeNextPath('/administer')).toBe('/admin')
+    expect(safeNextPath('/platformer')).toBe('/admin')
     expect(safeNextPath('/admin\\..\\cars')).toBe('/admin')
     expect(safeNextPath(null)).toBe('/admin')
   })

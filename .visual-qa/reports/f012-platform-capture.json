@@ -1,0 +1,109 @@
+{
+  "baseUrl": "http://prima.otoweb.id:3104",
+  "capturedAt": "2026-10-18T19:39:29.016Z",
+  "viewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "routes": [
+    {
+      "name": "f012-platform-list",
+      "path": "/platform",
+      "heading": "Tenant"
+    },
+    {
+      "name": "f012-platform-new",
+      "path": "/platform/tenants/new",
+      "heading": "Tenant baru"
+    },
+    {
+      "name": "f012-platform-detail",
+      "path": "/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "heading": "Prima Auto Gallery"
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/platform",
+      "url": "http://prima.otoweb.id:3104/platform",
+      "heading": "Tenant",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f012-platform-list.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/platform/tenants/new",
+      "url": "http://prima.otoweb.id:3104/platform/tenants/new",
+      "heading": "Tenant baru",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f012-platform-new.png"
+    },
+    {
+      "viewport": "desktop",
+      "size": "1440x900",
+      "host": "prima.otoweb.id",
+      "route": "/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "url": "http://prima.otoweb.id:3104/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "heading": "Prima Auto Gallery",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/desktop/f012-platform-detail.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/platform",
+      "url": "http://prima.otoweb.id:3104/platform",
+      "heading": "Tenant",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f012-platform-list.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/platform/tenants/new",
+      "url": "http://prima.otoweb.id:3104/platform/tenants/new",
+      "heading": "Tenant baru",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f012-platform-new.png"
+    },
+    {
+      "viewport": "mobile",
+      "size": "390x844",
+      "host": "prima.otoweb.id",
+      "route": "/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "url": "http://prima.otoweb.id:3104/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "heading": "Prima Auto Gallery",
+      "headingVisible": true,
+      "horizontalOverflow": false,
+      "missingTexts": [],
+      "screenshot": ".visual-qa/screenshots/mobile/f012-platform-detail.png"
+    }
+  ],
+  "failures": [],
+  "verdict": "PASS"
+}

@@ -1,15 +1,16 @@
 import type { NextRequest } from 'next/server'
 
 export const ADMIN_HOME = '/admin'
+export const PLATFORM_HOME = '/platform'
 export const LOGIN_PATH = '/login'
 export const RESET_PASSWORD_PATH = '/reset-password'
 
 /**
- * Restrict post-login redirects to same-origin admin paths.
+ * Restrict post-login redirects to same-origin admin or platform paths.
  *
  * Rejects absolute/protocol-relative URLs, backslashes, control characters, and
- * any path outside `/admin`. This prevents open redirects through the
- * attacker-controlled `next` query parameter.
+ * any path outside `/admin` or `/platform`. This prevents open redirects through
+ * the attacker-controlled `next` query parameter.
  */
 export function safeNextPath(
   value: string | null | undefined,
@@ -21,8 +22,10 @@ export function safeNextPath(
   if (!trimmed) return fallback
   if (!trimmed.startsWith('/') || trimmed.startsWith('//')) return fallback
   if (/[\\\u0000-\u001f]/.test(trimmed)) return fallback
-  if (trimmed === ADMIN_HOME) return trimmed
-  if (trimmed.startsWith(`${ADMIN_HOME}/`)) return trimmed
+  if (trimmed === ADMIN_HOME || trimmed === PLATFORM_HOME) return trimmed
+  if (trimmed.startsWith(`${ADMIN_HOME}/`) || trimmed.startsWith(`${PLATFORM_HOME}/`)) {
+    return trimmed
+  }
 
   return fallback
 }

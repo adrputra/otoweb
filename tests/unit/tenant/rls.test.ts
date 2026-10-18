@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm'
 
 import { leads, showroomSettings, tenantMembers, vehicles } from '@/db/schema'
 
-import { prima, tenantB, tenantBVehicle } from './fixtures'
+import { platformOperator, prima, tenantB, tenantBVehicle } from './fixtures'
 import {
   createTenantTestDatabase,
   tableRlsState,
@@ -121,7 +121,7 @@ describe('row-level security tenant isolation', () => {
 
   it('isolates settings, memberships, domains, profiles, and images', async () => {
     await expect(countRows(primaAccess, 'showroom_settings')).resolves.toBe(1)
-    await expect(countRows(primaAccess, 'tenant_members')).resolves.toBe(1)
+    await expect(countRows(primaAccess, 'tenant_members')).resolves.toBe(2)
     await expect(countRows(primaAccess, 'tenant_domains')).resolves.toBe(1)
     await expect(countRows(primaAccess, 'tenants')).resolves.toBe(1)
 
@@ -134,7 +134,7 @@ describe('row-level security tenant isolation', () => {
       imageTenantIds = images.rows.map((row) => row.tenant_id)
     })
 
-    expect(profileIds).toEqual([prima.profileId])
+    expect(profileIds.sort()).toEqual([prima.profileId, platformOperator.profileId].sort())
     expect(profileIds).not.toContain(tenantB.profileId)
     expect(imageTenantIds.length).toBeGreaterThan(0)
     expect(imageTenantIds.every((id) => id === prima.tenantId)).toBe(true)

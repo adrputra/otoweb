@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "feature": "011-platform-administration",
+  "source_tasks_sha256": "8922bd937f9c73092efc57b7c20f030cf7c28d2b343d7e995db379f4f6ab6a03",
+  "strategy": "auto",
+  "waves": [
+    { "n": 1, "tasks": ["T001", "T002", "T003"] },
+    { "n": 2, "tasks": ["T004", "T005", "T006", "T009"] },
+    { "n": 3, "tasks": ["T007", "T008", "T010", "T011", "T012"] },
+    { "n": 4, "tasks": ["T013", "T014", "T015", "T018", "T020"] },
+    { "n": 5, "tasks": ["T016"] },
+    { "n": 6, "tasks": ["T017", "T021", "T022"] },
+    { "n": 7, "tasks": ["T019", "T023"] },
+    { "n": 8, "tasks": ["T024"] }
+  ],
+  "generated_at": "2026-10-18T19:31:07Z"
+}

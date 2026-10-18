@@ -146,9 +146,10 @@ describe('database foundation seed', () => {
       'tenant-b.otoweb.id',
     ])
 
-    expect(profileRows).toHaveLength(2)
-    expect(memberRows).toHaveLength(2)
-    expect(memberRows.every((member) => member.role === 'owner')).toBe(true)
+    expect(profileRows).toHaveLength(3)
+    expect(memberRows).toHaveLength(3)
+    expect(memberRows.filter((member) => member.role === 'owner')).toHaveLength(2)
+    expect(memberRows.filter((member) => member.role === 'platform_admin')).toHaveLength(1)
 
     expect(settingsRows).toHaveLength(2)
     const primaSettings = settingsRows.find((settings) => settings.tenantId === PRIMA_TENANT_ID)
@@ -253,8 +254,8 @@ describe('database foundation seed', () => {
     expect(after).toEqual({
       tenants: 2,
       domains: 2,
-      profiles: 2,
-      memberships: 2,
+      profiles: 3,
+      memberships: 3,
       settings: 2,
       vehicles: 12,
       images: 12,

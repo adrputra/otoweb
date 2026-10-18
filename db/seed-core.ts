@@ -36,12 +36,14 @@ export const TENANT_B_TENANT_ID = '22222222-2222-4222-8222-222222222222'
 
 export const PRIMA_PROFILE_ID = '50000000-0000-4000-8000-000000000001'
 export const TENANT_B_PROFILE_ID = '50000000-0000-4000-8000-000000000002'
+export const PLATFORM_PROFILE_ID = '50000000-0000-4000-8000-000000000003'
 
 export const PRIMA_DOMAIN_ID = '70000000-0000-4000-8000-000000000001'
 export const TENANT_B_DOMAIN_ID = '70000000-0000-4000-8000-000000000002'
 
 export const PRIMA_MEMBER_ID = '60000000-0000-4000-8000-000000000001'
 export const TENANT_B_MEMBER_ID = '60000000-0000-4000-8000-000000000002'
+export const PLATFORM_MEMBER_ID = '60000000-0000-4000-8000-000000000003'
 
 export const PRIMA_SETTINGS_ID = '80000000-0000-4000-8000-000000000001'
 export const TENANT_B_SETTINGS_ID = '80000000-0000-4000-8000-000000000002'
@@ -110,6 +112,10 @@ const profileRows: NewProfile[] = [
     id: TENANT_B_PROFILE_ID,
     fullName: 'Tenant B Owner',
   },
+  {
+    id: PLATFORM_PROFILE_ID,
+    fullName: 'Platform Operator',
+  },
 ]
 
 const domainRows: NewTenantDomain[] = [
@@ -144,6 +150,13 @@ const membershipRows: NewTenantMember[] = [
     tenantId: TENANT_B_TENANT_ID,
     userId: TENANT_B_PROFILE_ID,
     role: 'owner',
+    status: 'active',
+  },
+  {
+    id: PLATFORM_MEMBER_ID,
+    tenantId: PRIMA_TENANT_ID,
+    userId: PLATFORM_PROFILE_ID,
+    role: 'platform_admin',
     status: 'active',
   },
 ]

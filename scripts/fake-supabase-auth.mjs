@@ -12,6 +12,7 @@ import { createServer } from 'node:http'
 const port = Number(process.env.FAKE_AUTH_PORT ?? 54321)
 const userId = process.env.FAKE_AUTH_USER_ID ?? '50000000-0000-4000-8000-000000000001'
 const email = process.env.FAKE_AUTH_EMAIL ?? 'owner@primaauto.test'
+const displayName = process.env.FAKE_AUTH_NAME ?? 'Aditya Pranata'
 
 const user = {
   id: userId,
@@ -23,7 +24,7 @@ const user = {
   confirmed_at: '2026-10-18T00:00:00.000Z',
   last_sign_in_at: '2026-10-18T00:00:00.000Z',
   app_metadata: { provider: 'email', providers: ['email'] },
-  user_metadata: { full_name: 'Aditya Pranata' },
+  user_metadata: { full_name: displayName },
   identities: [],
   created_at: '2026-10-18T00:00:00.000Z',
   updated_at: '2026-10-18T00:00:00.000Z',

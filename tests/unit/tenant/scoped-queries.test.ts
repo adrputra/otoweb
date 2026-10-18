@@ -143,7 +143,7 @@ describe('tenant-scoped queries', () => {
       listTenantMembers(db, tenantB.tenantId),
     )
 
-    expect(primaMembers).toHaveLength(1)
+    expect(primaMembers).toHaveLength(2)
     expect(primaMembers[0]?.tenantId).toBe(prima.tenantId)
     expect(primaMembers.some((row) => row.tenantId === tenantB.tenantId)).toBe(false)
 
