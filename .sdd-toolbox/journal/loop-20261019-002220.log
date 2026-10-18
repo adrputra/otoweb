@@ -2933,3 +2933,96 @@ d035089 chore(F015): record checkpoint commit
 2026-10-18T21:04:46Z
 20261019-040446
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T21:04:46Z'
+d['updated_at']=now
+d['owner_decisions'].append({'at':now,'feature':None,'decision':'milestone-complete','detail':'M3 complete (F011-F016 done). All 16 roadmap features are done; no milestone has pending features. Roadmap run complete.'})
+d['last_run']={'feature':None,'event':'milestone-complete','at':now,'detail':'M3 complete; all roadmap features done.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-040446-M3-milestone.md <<'EOF'
+# Milestone M3 — complete (roadmap complete)
+
+- Timestamp: 2026-10-18T21:04:46Z
+- Event: milestone completion
+- Features done: F011 SEO Productionization, F012 Platform Administration, F013 Subdomain Routing, F014 Custom Domains, F015 Analytics, F016 Production Hardening.
+- Commits: F011 `58d6420`, F012 `0f2a043`, F013 `819f612`, F014 `83dc2ac`, F015 `cd65bc0`, F016 `f600031` (plus checkpoint chore commits).
+- Final fresh validation: `npx tsc --noEmit` exit 0; `npm test` 60 files / 557 tests passed.
+- Roadmap status: all 16 features (F001–F016) done. No milestone has pending features.
+EOF
+git add -A && git commit -q -m "chore(M3): record milestone completion" && git log --oneline -4
+608cd10 chore(M3): record milestone completion
+f9a7357 chore(F016): record checkpoint commit
+f600031 feat(F016): production hardening
+d035089 chore(F015): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+d=json.load(open('.sdd-toolbox/roadmap.json'))
+print('active_milestone:',d['active_milestone'])
+for f in d['features']:
+    print(f"{f['id']} {f['milestone']:>2} {f['status']:<10} {f['commit'] or '-':<12} {f['title']}")
+EOF
+active_milestone: M3
+F001 M1 done       -            Repository Production Audit
+F002 M1 done       f40ec4633820a588702c1010a1251586ad495843 Engineering Foundation
+F003 M1 done       552d5eae43ee617f527bd6cae6c4289b001fa9a8 Database Foundation
+F004 M1 done       36e9a20fbe46482f6be3858e6f49c03957850895 Authentication
+F005 M1 done       b01ccc1a4b3ffe2ee65769d21e963e7b3fb5cc28 Multi-Tenant Security
+F006 M2 done       f447738fd9af5d1f4a803b4fd7afc4752b550f50 Connect Public Website to Database
+F007 M2 done       8b423e1a87d7a312e7e1d4e313d0218a3eca2149 Admin Vehicle CRUD
+F008 M2 done       7d112e3ee8d1760052941d170ba569625d1d2523 Image Management
+F009 M2 done       9bfa1749e57c63ac150ce9c8a5b250c54f7cf210 Showroom Settings
+F010 M2 done       399d2e50c9470cb12e60ea570bb471501ffee9be Lead Capture
+F011 M3 done       58d64204dc870bbdc7ceb9dec877aa2a67c45358 SEO Productionization
+F012 M3 done       0f2a0432356c1c87a10ba15be2559258c165b616 Platform Administration
+F013 M3 done       819f61205eb2f488ca1a979085427755709271b3 Subdomain Routing
+F014 M3 done       83dc2acd16944777ecc7acc8408d851359c25ed4 Custom Domains
+F015 M3 done       cd65bc034ea2c31f8c2ef0c5cc64a08693d5701e Analytics
+F016 M3 done       f60003152f36288f53a55d0c862edef83d55f447 Production Hardening
+[0m
+Roadmap run complete for this iteration.
+
+## Executed
+
+| Feature | Milestone | Status | Commit |
+|---|---|---|---|
+| F004 Authentication (resumed at T034) | M1 | done | `36e9a20` |
+| F005 Multi-Tenant Security | M1 | done | `b01ccc1` |
+| M1 → M2 advance (pre-approved) | — | recorded | — |
+| F006 Connect Public Website to Database | M2 | done | `f447738` |
+| F007 Admin Vehicle CRUD | M2 | done | `8b423e1` |
+| F008 Image Management | M2 | done | `7d112e3` |
+| F009 Showroom Settings | M2 | done | `9bfa174` |
+| F010 Lead Capture | M2 | done | `399d2e5` |
+| M2 → M3 advance (pre-approved) | — | recorded | — |
+| F011 SEO Productionization | M3 | done | `58d6420` |
+| F012 Platform Administration | M3 | done | `0f2a043` |
+| F013 Subdomain Routing | M3 | done | `819f612` |
+| F014 Custom Domains | M3 | done | `83dc2ac` |
+| F015 Analytics | M3 | done | `cd65bc0` |
+| F016 Production Hardening | M3 | done | `f600031` |
+
+## Verification
+
+- Every feature checkpoint was auto-approved under the `AUTO_CHECKPOINT` marker after a **fresh outer re-run** of `.sdd-toolbox/config.json` validation.
+- Final outer validation: `npx tsc --noEmit` exit 0; `npm test` — **60 files, 557 tests passed**.
+- UI-touching features each carried a fresh `VISUAL_QA: PASS` with desktop + mobile screenshots and detector output under `.visual-qa/` (F004, F006, F007, F008, F009, F010, F011, F012, F013, F014, F015, F016).
+- F001–F016 are all `done`; no `awaiting_approval`, `blocked`, or `owner_pass_required` features. `bootstrap.constitution_amendments` is empty, so no ratification stop applied.
+
+## Journal
+
+All dispatch, checkpoint, milestone, and owner-decision records were appended under `.sdd-toolbox/journal/`, and `.sdd-toolbox/roadmap.json` was updated after each feature. Final milestone record: `.sdd-toolbox/journal/20261019-040446-M3-milestone.md` (`chore(M3): record milestone completion`).
+
+LOOP: MILESTONE M3 DONE
+milestone M3:
+  F011  done
+  F012  done
+  F013  done
+  F014  done
+  F015  done
+  F016  done
+LOOP: MILESTONE M3 DONE
+LOOP: ALL MILESTONES DONE
