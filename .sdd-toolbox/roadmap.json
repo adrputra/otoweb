@@ -3,7 +3,7 @@
   "project": "otoweb",
   "source": "docs/ROADMAP.md",
   "created_at": "2026-10-18T14:15:57Z",
-  "updated_at": "2026-10-18T15:02:29Z",
+  "updated_at": "2026-10-18T15:02:50Z",
   "active_milestone": "M1",
   "journal_dir": ".sdd-toolbox/journal",
   "policy": {
@@ -130,7 +130,7 @@
       "status": "done",
       "attempts": 1,
       "spec_dir": "specs/002-database-foundation",
-      "commit": null,
+      "commit": "552d5eae43ee617f527bd6cae6c4289b001fa9a8",
       "evidence": [
         "specs/002-database-foundation",
         ".sdd-toolbox/waves/002-database-foundation.json",
