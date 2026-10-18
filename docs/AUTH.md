@@ -38,7 +38,7 @@ trusting client state.
 | `/forgot-password`     | Public           | Request a reset email; response never reveals account existence |
 | `/auth/callback`       | Public           | Exchanges Supabase `code` or `token_hash` for a session         |
 | `/reset-password`      | Recovery session | Set a new password; invalid links show a recovery prompt        |
-| `/admin/**`            | Authenticated    | Proxy allows verified sessions only; layout guards again        |
+| `/admin/**`            | Authenticated + tenant member | Proxy verifies the session; the layout also requires a valid tenant context |
 | `/register`, `/signup` | —                | Do not exist; requests return 404                               |
 
 ## Environment
@@ -150,13 +150,18 @@ pnpm visual:qa
 Visual evidence is written under `.visual-qa/screenshots/` and
 `.visual-qa/reports/`.
 
-## Deferred to Phase 5 (F005)
+## Phase 5 integration (F005)
 
-- Tenant membership and role authorization (`platform_admin`/`owner`/`staff`).
-- Tenant context resolution and hostname routing.
-- Row-level security and tenant-scoped queries.
-- Restricting admin access to a specific tenant/owner beyond "valid Supabase
-  user".
+Phase 4 authenticates identity only; tenant authorization is implemented by F005
+and documented in [`TENANCY.md`](./TENANCY.md).
 
-Phase 4 authenticates identity only. Do not treat authentication as tenant
-authorization.
+- `lib/auth/server.ts` now calls `requireTenantContext()` after the session
+  lookup. An authenticated user with no valid tenant membership is redirected to
+  the public home instead of rendering admin content.
+- Tenant membership, role capabilities (`platform_admin`/`owner`/`staff`),
+  hostname resolution, tenant-scoped queries, and row-level security live under
+  `lib/tenant/` and `db/migrations/0001_tenant-isolation.sql`.
+- The admin layout now forces dynamic rendering (`connection()`), so a build-time
+  anonymous result can never be baked into a static admin page.
+- The admin surface remains closed to anonymous visitors; authentication alone
+  is still insufficient for tenant access.

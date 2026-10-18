@@ -213,8 +213,10 @@ local PostgreSQL server, or network access.
 
 - **Authentication and invitations** (Phase 4): the schema stores profiles and
   memberships, but no auth flow or session handling is implemented.
-- **Row-level security and tenant enforcement** (Phase 5): no RLS policies or
-  permission helpers exist yet.
+- **Row-level security and tenant enforcement** (Phase 5): implemented in
+  `db/migrations/0001_tenant-isolation.sql`, `lib/tenant/`, and
+  `tests/unit/tenant/`; see `docs/TENANCY.md`. The F003 tables and seed shape are
+  unchanged.
 - **Public database reads** (Phase 6): the UI continues to read `data/index.ts`;
   no presentation file was changed.
 - **Leads** (Phase 10): not in this feature's explicit table list.

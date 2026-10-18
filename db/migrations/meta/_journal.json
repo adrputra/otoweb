@@ -8,6 +8,13 @@
       "when": 1792335525815,
       "tag": "0000_brief_robin_chapel",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792345033029,
+      "tag": "0001_tenant-isolation",
+      "breakpoints": true
     }
   ]
 }

@@ -660,3 +660,215 @@ Wrote file successfully.
 [0m$ [0mgit add -A && git commit -q -m "feat(F004): authentication" && git log -1 --format='%H %s'
 36e9a20fbe46482f6be3858e6f49c03957850895 feat(F004): authentication
 [0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p))
+now='2026-10-18T17:34:49Z'
+sha='36e9a20fbe46482f6be3858e6f49c03957850895'
+for f in d['features']:
+    if f['id']=='F004':
+        f['status']='done'
+        f['commit']=sha
+        f['completed_at']=now
+        f['spec_dir']='specs/003-authentication'
+        f['evidence']=[
+          'specs/003-authentication',
+          '.sdd-toolbox/waves/003-authentication.json',
+          'lib/auth',
+          'tests/unit/auth',
+          'tests/e2e/auth.spec.ts',
+          'docs/AUTH.md',
+          '.visual-qa/reports/auth-visual-qa.md',
+          '.sdd-toolbox/journal/20261019-003449-F004-complete.md'
+        ]
+d['updated_at']=now
+d['owner_decisions'].append({
+  'at': now,
+  'feature': 'F004',
+  'decision': 'auto-approve-checkpoint',
+  'detail': 'AUTO_CHECKPOINT marker: F004 checkpoint auto-approved. Fresh outer validation (npx tsc --noEmit, npm test 51/51) passed; VISUAL_QA PASS evidence under .visual-qa/.'
+})
+d['last_run']={'feature':'F004','event':'complete','at':now,'detail':'F004 done; committed 36e9a20. Continuing loop.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat >> .sdd-toolbox/journal/20261019-003449-F004-complete.md <<'EOF'
+
+## Approval + commit
+
+- AUTO_CHECKPOINT marker: checkpoint pre-approved.
+- Commit: `36e9a20fbe46482f6be3858e6f49c03957850895` — feat(F004): authentication
+- Status: done
+EOF
+git add -A && git commit -q -m "chore(F004): record checkpoint commit" && git log --oneline -3
+c09af0c chore(F004): record checkpoint commit
+36e9a20 feat(F004): authentication
+b666de0 chore(F003): record checkpoint commit
+[0m
+[0m$ [0mpython3 - <<'EOF'
+s=open('docs/ROADMAP.md').read(); i=s.find('# 47.'); j=s.find('# 48.'); print(s[i:j])
+EOF
+# 47. PHASE 5 — Multi-Tenant Security
+
+This is the most security-sensitive phase.
+
+Implement:
+
+```text
+tenant memberships
+tenant context
+hostname resolver
+tenant-scoped queries
+RLS
+permission helpers
+tenant isolation tests
+```
+
+Fixtures:
+
+```text
+prima
+tenant-b
+```
+
+Attempt cross-tenant attacks.
+
+Acceptance:
+
+```text
+[ ] all cross-tenant tests fail safely
+[ ] tenant B data cannot appear for tenant A
+[ ] direct DB/API attempts are protected
+[ ] service role never reaches browser
+```
+
+DO NOT proceed if tenant isolation tests fail.
+
+---
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T17:35:01Z
+20261019-003501
+[0m
+[0m$ [0mpython3 - <<'EOF'
+import json
+p='.sdd-toolbox/roadmap.json'
+d=json.load(open(p)); now='2026-10-18T17:35:01Z'
+for f in d['features']:
+    if f['id']=='F005':
+        f['status']='in_progress'; f['attempts']=1; f['started_at']=now; f['blocker']=None
+d['updated_at']=now
+d['last_run']={'feature':'F005','event':'dispatch','at':now,'detail':'Dispatched to FeatureRunner (attempt 1 of 2) under AUTO_CHECKPOINT run.'}
+json.dump(d,open(p,'w'),indent=2); open(p,'a').write('\n')
+EOF
+cat > .sdd-toolbox/journal/20261019-003501-F005.md <<'EOF'
+# F005 — Multi-Tenant Security
+
+- Timestamp: 2026-10-18T17:35:01Z
+- Event: dispatch (attempt 1 of 2)
+- Milestone: M1
+- Roadmap source: `docs/ROADMAP.md`, `# 47. PHASE 5 — Multi-Tenant Security`
+- Dependencies: F004 (done)
+- Validation commands: `npx tsc --noEmit`, `npm test`
+
+## Acceptance
+
+1. Tenant memberships, tenant context, hostname resolver, tenant-scoped queries, RLS, permission helpers, and tenant isolation tests are implemented.
+2. Fixtures prima and tenant-b exist.
+3. All cross-tenant tests fail safely.
+4. Tenant B data cannot appear for Tenant A.
+5. Direct DB/API attempts are protected.
+6. Service role never reaches the browser.
+7. Do not proceed if tenant isolation tests fail.
+
+## Status
+
+Dispatched to FeatureRunner. Awaiting inner-loop report.
+EOF
+echo done
+done
+[0m
+[0m• [0mExecute roadmap feature F005[90m FeatureRunner Agent[0m
+[0m✓ [0mExecute roadmap feature F005[90m FeatureRunner Agent[0m
+[0m
+[0m$ [0mgit status --short | head -60; echo ---; ls specs/004-multi-tenant-security tests/unit/tenant lib/tenant db/migrations 2>/dev/null
+M .sdd-toolbox/journal/loop-20261019-002220.log
+ M .sdd-toolbox/roadmap.json
+ M db/migrations/meta/_journal.json
+ M docs/AUTH.md
+ M docs/DATABASE.md
+ M lib/auth/server.ts
+ M next-env.d.ts
+ M package.json
+?? .sdd-toolbox/journal/20261019-003501-F005.md
+?? .sdd-toolbox/waves/004-multi-tenant-security.json
+?? db/migrations/0001_tenant-isolation.sql
+?? db/migrations/meta/0001_snapshot.json
+?? docs/TENANCY.md
+?? lib/tenant/
+?? specs/004-multi-tenant-security/
+?? tests/unit/tenant/
+---
+db/migrations:
+0000_brief_robin_chapel.sql
+0001_tenant-isolation.sql
+meta
+
+lib/tenant:
+context.ts
+directory.ts
+guards.ts
+hostname.ts
+memberships.ts
+permissions.ts
+scoped-queries.ts
+server.ts
+session.ts
+types.ts
+
+specs/004-multi-tenant-security:
+checklists
+contracts
+data-model.md
+plan.md
+quickstart.md
+research.md
+spec.md
+tasks.md
+
+tests/unit/tenant:
+context.test.ts
+database.ts
+fixtures.ts
+hostname.test.ts
+permissions.test.ts
+rls.test.ts
+scoped-queries.test.ts
+server-context.test.ts
+service-role.test.ts
+[0m
+[0m$ [0mnpx tsc --noEmit; echo "TSC_EXIT:$?"
+TSC_EXIT:0
+[0m
+[0m$ [0mnpm test 2>&1 | tail -20; echo "TEST_EXIT:${PIPESTATUS[0]}"
+> my-project@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/adrputra/Documents/Private/otoweb
+
+
+ Test Files  15 passed (15)
+      Tests  152 passed (152)
+   Start at  00:48:44
+   Duration  28.64s (tests 86%, import 5%, environment 5%, setup 3%, transform 1%)
+
+TEST_EXIT:0
+[0m
+[0m$ [0mdate -u +"%Y-%m-%dT%H:%M:%SZ"; date +"%Y%m%d-%H%M%S"
+2026-10-18T17:49:14Z
+20261019-004914
+[0m
+[0m← [0mWrite .sdd-toolbox/journal/20261019-004914-F005-complete.md
+Wrote file successfully.
+[0m
