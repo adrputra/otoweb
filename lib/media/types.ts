@@ -1,6 +1,6 @@
 import type { AcceptedImageType } from './limits'
 
-export type MediaProviderKey = 'cloudinary' | 'fake'
+export type MediaProviderKey = 'cloudinary' | 'r2' | 'fake'
 
 export interface MediaUploadInput {
   readonly bytes: Uint8Array

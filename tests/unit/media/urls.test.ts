@@ -27,6 +27,11 @@ describe('optimizedImageUrl', () => {
     expect(url).toContain('q=82')
   })
 
+  it('leaves R2 public URLs unchanged', () => {
+    const url = 'https://media.example.com/otoweb/vehicles/tenant/vehicle/hash'
+    expect(optimizedImageUrl(url, 480)).toBe(url)
+  })
+
   it('leaves local and unknown URLs unchanged', () => {
     expect(optimizedImageUrl('/uploads/otoweb/a.png', 480)).toBe('/uploads/otoweb/a.png')
     expect(optimizedImageUrl('/placeholder.jpg', 480)).toBe('/placeholder.jpg')

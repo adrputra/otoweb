@@ -6,8 +6,8 @@ and `specs/007-image-management/`.
 Admin vehicle photos upload to a media provider, persist as tenant-scoped
 `vehicle_images` rows, keep a contiguous order and exactly one cover, and are
 delivered through optimized provider URLs. The same code path runs with
-Cloudinary in production and with a deterministic local provider in development
-and tests.
+Cloudflare R2 (or Cloudinary) in production and with a deterministic local
+provider in development and tests.
 
 ## Provider boundary
 
@@ -24,11 +24,12 @@ browser (XHR, per-file progress)
 | Module | Responsibility |
 |---|---|
 | `lib/media/types.ts` | `MediaProvider` contract and transient/permanent errors |
+| `lib/media/r2.ts` | Cloudflare R2 (S3-compatible) signed upload/delete calls |
 | `lib/media/cloudinary.ts` | Signed Cloudinary upload/destroy REST calls |
 | `lib/media/fake.ts` | Deterministic local provider for dev, QA, and tests |
 | `lib/media/provider.ts` | Environment-based provider resolution |
 | `lib/media/inspect.ts` | JPEG/PNG/WebP content and dimension inspection |
-| `lib/media/urls.ts` | Cloudinary/Unsplash/local responsive URLs |
+| `lib/media/urls.ts` | Cloudinary/Unsplash/local responsive URLs (R2 URLs are served as-is) |
 | `lib/media/client-upload.ts` | Browser progress + bounded transient retry |
 | `lib/admin/vehicle-image-service.ts` | Tenant-scoped list/upload/reorder/cover/delete |
 | `lib/admin/media-cleanup.ts` | Reference-counted provider asset cleanup |
@@ -36,9 +37,46 @@ browser (XHR, per-file progress)
 
 ## Production configuration
 
+### Cloudflare R2 (recommended)
+
+Create a bucket, an R2 API token with Object Read & Write, and a public bucket
+domain (`r2.dev` for development or a custom domain such as
+`media.example.com`). Set every value together; a partial configuration is
+rejected.
+
+```dotenv
+MEDIA_PROVIDER=r2
+R2_ACCOUNT_ID=your-cloudflare-account-id
+R2_ACCESS_KEY_ID=your-r2-access-key-id
+R2_SECRET_ACCESS_KEY=your-r2-secret-access-key
+R2_BUCKET=otoweb-media
+R2_PUBLIC_BASE_URL=https://media.example.com
+# Optional overrides:
+# R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+# R2_REGION=auto
+# MEDIA_UPLOAD_FOLDER=otoweb/vehicles
+```
+
+- Uploads use a signed S3 `PutObject` request to
+  `https://<account-id>.r2.cloudflarestorage.com/<bucket>/<key>` with
+  `aws4fetch`. The `Content-Type` comes from magic-byte inspection and objects
+  are cacheable (`public, max-age=31536000, immutable`).
+- Deletes use `DeleteObject`; a missing object (404) is treated as success.
+- The public URL is `<R2_PUBLIC_BASE_URL>/<key>`. Configure the R2 public
+  domain (or a CDN in front of it) so browsers can read the objects.
+- Asset keys are deterministic:
+  `{folder}/{tenantId}/{vehicleId}/{sha256(fileBytes)}` for vehicles and
+  `{folder}/{tenantId}/settings/{kind}/{sha256(fileBytes)}` for showroom media.
+  A retry or a repeated upload of the same file returns the existing row
+  instead of creating a duplicate; the provider call is skipped.
+- No credentials are committed. `.env.example` contains placeholders only.
+
+### Cloudinary (alternative)
+
 Set all three credentials together. A partial configuration is rejected.
 
 ```dotenv
+MEDIA_PROVIDER=cloudinary
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
@@ -48,12 +86,7 @@ CLOUDINARY_UPLOAD_FOLDER=otoweb/vehicles
 - Uploads use `POST https://api.cloudinary.com/v1_1/{cloud}/image/upload` with a
   SHA-1 signature over sorted parameters and `api_key`. No unsigned preset is
   used and the API secret never reaches the browser.
-- Asset ids are deterministic:
-  `{folder}/{tenantId}/{vehicleId}/{sha256(fileBytes)}`. A retry or a repeated
-  upload of the same file returns the existing row instead of creating a
-  duplicate; the provider call is skipped.
 - Destroys use `/image/destroy` with the same public id.
-- No credentials are committed. `.env.example` contains placeholders only.
 
 ### Development and tests
 
@@ -65,10 +98,10 @@ MEDIA_PUBLIC_PREFIX=/uploads
 
 - The fake provider writes real bytes so the admin grid and browser tests render
   images without network access. `public/uploads/` is gitignored.
-- If `MEDIA_PROVIDER` is unset outside production, the fake provider is selected
-  automatically.
-- In production, an upload attempted without Cloudinary credentials returns a
-  clear 502 instead of accepting media it cannot store.
+- If `MEDIA_PROVIDER` is unset outside production and no R2/Cloudinary
+  credentials exist, the fake provider is selected automatically.
+- In production, an upload attempted without object-storage credentials returns
+  a clear 502 instead of accepting media it cannot store.
 
 ## Limits and validation
 
@@ -174,5 +207,6 @@ pnpm visual:qa:admin
 - Media cleanup never deletes media owned by another provider or referenced by
   another row.
 - `next.config.mjs` still sets `images.unoptimized: true`; responsive delivery is
-  provided by provider transformation URLs rather than the Next image optimizer.
-  This is intentional for remote Cloudinary delivery.
+  provided by provider transformation URLs (Cloudinary) or the public object
+  domain (R2). For R2, put a CDN/cache in front of the bucket if transformed
+  variants are needed.

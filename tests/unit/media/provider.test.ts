@@ -53,6 +53,27 @@ describe('resolveMediaProvider', () => {
     await expect(stat(join(baseDir, 'otoweb/vehicles/tenant/vehicle/hash.png'))).resolves.toBeTruthy()
   })
 
+  it('selects Cloudflare R2 when all credentials are complete', () => {
+    const provider = resolveMediaProvider({
+      NODE_ENV: 'production',
+      MEDIA_PROVIDER: 'r2',
+      R2_ACCOUNT_ID: 'account',
+      R2_ACCESS_KEY_ID: 'access-key',
+      R2_SECRET_ACCESS_KEY: 'secret-key',
+      R2_BUCKET: 'otoweb-media',
+      R2_PUBLIC_BASE_URL: 'https://media.example.com',
+    })
+    expect(provider.key).toBe('r2')
+    expect(resolveMediaProviderOrNull({
+      NODE_ENV: 'production',
+      R2_ACCOUNT_ID: 'account',
+      R2_ACCESS_KEY_ID: 'access-key',
+      R2_SECRET_ACCESS_KEY: 'secret-key',
+      R2_BUCKET: 'otoweb-media',
+      R2_PUBLIC_BASE_URL: 'https://media.example.com',
+    })?.key).toBe('r2')
+  })
+
   it('selects Cloudinary when all credentials are complete', () => {
     const provider = resolveMediaProvider({
       NODE_ENV: 'production',
@@ -62,6 +83,7 @@ describe('resolveMediaProvider', () => {
     })
     expect(provider.key).toBe('cloudinary')
     expect(resolveMediaFolder({ CLOUDINARY_UPLOAD_FOLDER: 'custom/folder' })).toBe('custom/folder')
+    expect(resolveMediaFolder({ MEDIA_UPLOAD_FOLDER: 'custom/media' })).toBe('custom/media')
     expect(resolveMediaFolder({})).toBe('otoweb/vehicles')
   })
 
@@ -75,7 +97,7 @@ describe('resolveMediaProvider', () => {
       resolveMediaProvider({ NODE_ENV: 'production', MEDIA_PROVIDER: 'fake' }),
     ).toThrow(/not allowed in production/i)
     expect(() => resolveMediaProvider({ NODE_ENV: 'test', MEDIA_PROVIDER: 's3' })).toThrow(
-      /cloudinary.*fake/i,
+      /MEDIA_PROVIDER must be/i,
     )
   })
 

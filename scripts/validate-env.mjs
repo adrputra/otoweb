@@ -56,8 +56,9 @@ export const envSchema = z
       .optional(),
     // Optional media configuration. Absent credentials select the local fake
     // provider in development; production surfaces a clear runtime error when
-    // uploads are attempted without Cloudinary configured.
-    MEDIA_PROVIDER: z.enum(['cloudinary', 'fake']).optional(),
+    // uploads are attempted without object storage configured.
+    MEDIA_PROVIDER: z.enum(['cloudinary', 'r2', 'fake']).optional(),
+    MEDIA_UPLOAD_FOLDER: z.string().trim().optional(),
     MEDIA_LOCAL_DIR: z.string().trim().optional(),
     MEDIA_PUBLIC_PREFIX: z
       .string()
@@ -68,6 +69,18 @@ export const envSchema = z
     CLOUDINARY_API_KEY: z.string().trim().optional(),
     CLOUDINARY_API_SECRET: z.string().trim().optional(),
     CLOUDINARY_UPLOAD_FOLDER: z.string().trim().optional(),
+    // Cloudflare R2 (S3-compatible object storage).
+    R2_ACCOUNT_ID: z.string().trim().optional(),
+    R2_ACCESS_KEY_ID: z.string().trim().optional(),
+    R2_SECRET_ACCESS_KEY: z.string().trim().optional(),
+    R2_BUCKET: z.string().trim().optional(),
+    R2_PUBLIC_BASE_URL: z
+      .string()
+      .trim()
+      .url('R2_PUBLIC_BASE_URL must be a valid URL')
+      .optional(),
+    R2_ENDPOINT: z.string().trim().url('R2_ENDPOINT must be a valid URL').optional(),
+    R2_REGION: z.string().trim().optional(),
   })
   .superRefine((value, context) => {
     const credentials = [
@@ -83,6 +96,59 @@ export const envSchema = z
         path: ['CLOUDINARY_CLOUD_NAME'],
         message:
           'Cloudinary credentials must be set together: CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.',
+      })
+    }
+
+    if (value.MEDIA_PROVIDER === 'cloudinary' && present < credentials.length) {
+      context.addIssue({
+        code: 'custom',
+        path: ['MEDIA_PROVIDER'],
+        message:
+          'MEDIA_PROVIDER=cloudinary requires CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.',
+      })
+    }
+
+    const r2Credentials = [
+      value.R2_ACCESS_KEY_ID,
+      value.R2_SECRET_ACCESS_KEY,
+      value.R2_BUCKET,
+      value.R2_PUBLIC_BASE_URL,
+    ]
+    const r2Present = r2Credentials.filter(Boolean).length
+
+    if (r2Present > 0 && r2Present < r2Credentials.length) {
+      context.addIssue({
+        code: 'custom',
+        path: ['R2_ACCESS_KEY_ID'],
+        message:
+          'R2 credentials must be set together: R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, and R2_PUBLIC_BASE_URL.',
+      })
+    }
+
+    if (value.MEDIA_PROVIDER === 'r2') {
+      if (r2Present < r2Credentials.length) {
+        context.addIssue({
+          code: 'custom',
+          path: ['MEDIA_PROVIDER'],
+          message:
+            'MEDIA_PROVIDER=r2 requires R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, and R2_PUBLIC_BASE_URL.',
+        })
+      }
+      if (!value.R2_ACCOUNT_ID && !value.R2_ENDPOINT) {
+        context.addIssue({
+          code: 'custom',
+          path: ['R2_ACCOUNT_ID'],
+          message: 'MEDIA_PROVIDER=r2 requires R2_ACCOUNT_ID (or R2_ENDPOINT).',
+        })
+      }
+    }
+
+    if (value.MEDIA_PROVIDER === 'fake' && value.NODE_ENV === 'production') {
+      context.addIssue({
+        code: 'custom',
+        path: ['MEDIA_PROVIDER'],
+        message:
+          'MEDIA_PROVIDER=fake is not allowed in production. Configure R2 or Cloudinary.',
       })
     }
 
