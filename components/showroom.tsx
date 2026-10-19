@@ -96,7 +96,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
           </div>
           <ArrowUpRight
             aria-hidden="true"
-            className="mt-1 size-4 text-neutral-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            className="mt-1 size-4 text-neutral-500 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
           />
         </div>
         <p className="text-sm text-neutral-500">

@@ -94,14 +94,15 @@ function mixWithWhite(hex: string, ratio: number): string {
 
 /**
  * Derive an accent for small text on white that keeps the tenant hue but meets
- * the normal-text contrast floor (4.5:1).
+ * the normal-text contrast floor with margin for off-white surfaces such as
+ * #f4f1ec.
  */
 export function readableAccent(hex: string, background = WHITE): string {
   const normalized = normalizeHexColor(hex, DEFAULT_PRIMARY_COLOR)
 
   for (let step = 0; step <= 24; step += 1) {
     const candidate = darken(normalized, step * 0.06)
-    if (contrastRatio(candidate, background) >= 4.5) return candidate
+    if (contrastRatio(candidate, background) >= 5.1) return candidate
   }
 
   return '#111111'

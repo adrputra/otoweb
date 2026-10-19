@@ -149,7 +149,7 @@ export function VehicleTable({ initialVehicles }: { initialVehicles: Vehicle[] }
       />
       <div className="mb-5 flex flex-col gap-3 md:flex-row lg:items-center">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 size-4 text-neutral-400" />
+          <Search className="absolute left-3 top-3 size-4 text-neutral-500" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -263,7 +263,7 @@ function MobileRow({ vehicle, act, pending }: RowProps) {
         <p className="mt-3 font-medium">{formatRupiah(vehicle.price)}</p>
         <div className="mt-2 flex gap-2">
           <Status vehicle={vehicle} />
-          <span className="text-xs text-neutral-400">{vehicle.publication}</span>
+          <span className="text-xs text-neutral-500">{vehicle.publication}</span>
         </div>
       </div>
       <Actions vehicle={vehicle} act={act} pending={pending} />

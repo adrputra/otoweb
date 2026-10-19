@@ -132,7 +132,7 @@ export function LeadTable({ initialLeads }: { initialLeads: Lead[] }) {
 
       <div className="mb-5 mt-6 flex flex-col gap-3 md:flex-row lg:items-center">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 size-4 text-neutral-400" />
+          <Search className="absolute left-3 top-3 size-4 text-neutral-500" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -255,7 +255,7 @@ function LeadSummary({ lead }: { lead: Lead }) {
     <div className="min-w-0">
       <div className="flex flex-wrap items-center gap-2">
         <p className="font-semibold">{lead.name || 'Tanpa nama'}</p>
-        <span className="text-[11px] font-medium text-neutral-400">
+        <span className="text-[11px] font-medium text-neutral-500">
           {LEAD_SOURCE_LABELS[lead.source]}
         </span>
       </div>
@@ -263,7 +263,7 @@ function LeadSummary({ lead }: { lead: Lead }) {
         {lead.message}
       </p>
       {lead.vehicleLabel && (
-        <p className="mt-2 text-xs text-neutral-400">{lead.vehicleLabel}</p>
+        <p className="mt-2 text-xs text-neutral-500">{lead.vehicleLabel}</p>
       )}
     </div>
   )
@@ -271,13 +271,13 @@ function LeadSummary({ lead }: { lead: Lead }) {
 
 function Contact({ lead }: { lead: Lead }) {
   if (!lead.phone && !lead.email) {
-    return <span className="text-xs text-neutral-400">Tanpa kontak</span>
+    return <span className="text-xs text-neutral-500">Tanpa kontak</span>
   }
 
   return (
     <div className="text-xs leading-5 text-neutral-600">
       {lead.phone && <p>{lead.phone}</p>}
-      {lead.email && <p className="break-words text-neutral-400">{lead.email}</p>}
+      {lead.email && <p className="break-words text-neutral-500">{lead.email}</p>}
     </div>
   )
 }
@@ -358,7 +358,7 @@ function MobileRow({ lead, pending, showroomName, onChange }: RowProps) {
       <LeadSummary lead={lead} />
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
         <Contact lead={lead} />
-        <span className="text-xs text-neutral-400">
+        <span className="text-xs text-neutral-500">
           {formatDate(lead.createdAt)}
         </span>
       </div>

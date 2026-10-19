@@ -109,7 +109,7 @@ export default async function PlatformPage() {
                     </p>
                   </div>
                   <ArrowRight
-                    className="size-4 shrink-0 text-neutral-400 transition-transform group-hover:translate-x-1"
+                    className="size-4 shrink-0 text-neutral-500 transition-transform group-hover:translate-x-1"
                     aria-hidden="true"
                   />
                 </div>

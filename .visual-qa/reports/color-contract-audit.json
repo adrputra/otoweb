@@ -1,0 +1,513 @@
+{
+  "capturedAt": "2026-10-18T21:40:06.956Z",
+  "baseUrl": "http://prima.otoweb.id:3100",
+  "schemes": [
+    "light",
+    "dark"
+  ],
+  "routes": [
+    {
+      "name": "public-home",
+      "host": "prima.otoweb.id",
+      "path": "/"
+    },
+    {
+      "name": "public-inventory",
+      "host": "prima.otoweb.id",
+      "path": "/cars"
+    },
+    {
+      "name": "public-detail",
+      "host": "prima.otoweb.id",
+      "path": "/cars/toyota-fortuner-2021-1"
+    },
+    {
+      "name": "tenant-b-home",
+      "host": "tenant-b.otoweb.id",
+      "path": "/"
+    },
+    {
+      "name": "tenant-b-inventory",
+      "host": "tenant-b.otoweb.id",
+      "path": "/cars"
+    },
+    {
+      "name": "tenant-b-detail",
+      "host": "tenant-b.otoweb.id",
+      "path": "/cars/toyota-rush-2022-1"
+    },
+    {
+      "name": "login",
+      "host": "prima.otoweb.id",
+      "path": "/login"
+    },
+    {
+      "name": "forgot-password",
+      "host": "prima.otoweb.id",
+      "path": "/forgot-password"
+    },
+    {
+      "name": "reset-password",
+      "host": "prima.otoweb.id",
+      "path": "/reset-password"
+    },
+    {
+      "name": "admin-dashboard",
+      "host": "prima.otoweb.id",
+      "path": "/admin"
+    },
+    {
+      "name": "admin-vehicles",
+      "host": "prima.otoweb.id",
+      "path": "/admin/vehicles"
+    },
+    {
+      "name": "admin-vehicle-new",
+      "host": "prima.otoweb.id",
+      "path": "/admin/vehicles/new"
+    },
+    {
+      "name": "admin-vehicle-edit",
+      "host": "prima.otoweb.id",
+      "path": "/admin/vehicles/30000000-0000-4000-8000-000000000001/edit"
+    },
+    {
+      "name": "admin-leads",
+      "host": "prima.otoweb.id",
+      "path": "/admin/leads"
+    },
+    {
+      "name": "admin-staff",
+      "host": "prima.otoweb.id",
+      "path": "/admin/staff"
+    },
+    {
+      "name": "admin-settings",
+      "host": "prima.otoweb.id",
+      "path": "/admin/settings"
+    },
+    {
+      "name": "admin-showroom-settings",
+      "host": "prima.otoweb.id",
+      "path": "/admin/settings/showroom"
+    },
+    {
+      "name": "platform-home",
+      "host": "prima.otoweb.id",
+      "path": "/platform"
+    },
+    {
+      "name": "platform-tenant",
+      "host": "prima.otoweb.id",
+      "path": "/platform/tenants/11111111-1111-4111-8111-111111111111"
+    },
+    {
+      "name": "platform-tenant-new",
+      "host": "prima.otoweb.id",
+      "path": "/platform/tenants/new"
+    }
+  ],
+  "totalIssues": 0,
+  "report": [
+    {
+      "scheme": "light",
+      "route": "public-home",
+      "path": "/",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "public-inventory",
+      "path": "/cars",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "public-detail",
+      "path": "/cars/toyota-fortuner-2021-1",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "tenant-b-home",
+      "path": "/",
+      "host": "tenant-b.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "tenant-b-inventory",
+      "path": "/cars",
+      "host": "tenant-b.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "tenant-b-detail",
+      "path": "/cars/toyota-rush-2022-1",
+      "host": "tenant-b.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "login",
+      "path": "/login",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "forgot-password",
+      "path": "/forgot-password",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "reset-password",
+      "path": "/reset-password",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-dashboard",
+      "path": "/admin",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-vehicles",
+      "path": "/admin/vehicles",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-vehicle-new",
+      "path": "/admin/vehicles/new",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-vehicle-edit",
+      "path": "/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-leads",
+      "path": "/admin/leads",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-staff",
+      "path": "/admin/staff",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-settings",
+      "path": "/admin/settings",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "admin-showroom-settings",
+      "path": "/admin/settings/showroom",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "platform-home",
+      "path": "/platform",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "platform-tenant",
+      "path": "/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "light",
+      "route": "platform-tenant-new",
+      "path": "/platform/tenants/new",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "public-home",
+      "path": "/",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "public-inventory",
+      "path": "/cars",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "public-detail",
+      "path": "/cars/toyota-fortuner-2021-1",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "tenant-b-home",
+      "path": "/",
+      "host": "tenant-b.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "tenant-b-inventory",
+      "path": "/cars",
+      "host": "tenant-b.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "tenant-b-detail",
+      "path": "/cars/toyota-rush-2022-1",
+      "host": "tenant-b.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "login",
+      "path": "/login",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "forgot-password",
+      "path": "/forgot-password",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "reset-password",
+      "path": "/reset-password",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-dashboard",
+      "path": "/admin",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-vehicles",
+      "path": "/admin/vehicles",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-vehicle-new",
+      "path": "/admin/vehicles/new",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-vehicle-edit",
+      "path": "/admin/vehicles/30000000-0000-4000-8000-000000000001/edit",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-leads",
+      "path": "/admin/leads",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-staff",
+      "path": "/admin/staff",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-settings",
+      "path": "/admin/settings",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "admin-showroom-settings",
+      "path": "/admin/settings/showroom",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "platform-home",
+      "path": "/platform",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "platform-tenant",
+      "path": "/platform/tenants/11111111-1111-4111-8111-111111111111",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    },
+    {
+      "scheme": "dark",
+      "route": "platform-tenant-new",
+      "path": "/platform/tenants/new",
+      "host": "prima.otoweb.id",
+      "issues": [],
+      "issueCount": 0,
+      "opacityZero": [],
+      "opacityZeroCount": 0
+    }
+  ]
+}

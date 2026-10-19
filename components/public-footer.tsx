@@ -110,7 +110,7 @@ export function PublicFooter({ showroom }: { showroom: Showroom }) {
           href="/api/public/whatsapp"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex w-fit items-center justify-center bg-[#25D366] px-4 py-2 text-xs font-semibold text-white opacity-100"
+          className="inline-flex w-fit items-center justify-center bg-[#25D366] px-4 py-2 text-xs font-semibold text-neutral-950 opacity-100"
         >
           Chat WhatsApp
         </a>

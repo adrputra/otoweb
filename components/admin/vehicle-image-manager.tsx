@@ -460,7 +460,7 @@ export function VehicleImageManager({
           <p className="text-xs text-neutral-500" data-testid="photo-count">
             {photos.length}/{MAX_VEHICLE_IMAGES} foto · pertama menjadi cover default
           </p>
-          <p className="mt-1 text-[11px] text-neutral-400">
+          <p className="mt-1 text-[11px] text-neutral-500">
             JPEG, PNG, WebP · maks 10 MB · minimal 640×480. Tarik atau gunakan panah untuk
             mengurutkan.
           </p>
@@ -498,7 +498,7 @@ export function VehicleImageManager({
               />
             ))}
             {photos.length < MAX_VEHICLE_IMAGES && (
-              <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-neutral-300 text-neutral-400 transition-colors hover:border-neutral-400 hover:text-neutral-600">
+              <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-neutral-300 text-neutral-500 transition-colors hover:border-neutral-400 hover:text-neutral-600">
                 <ImagePlus className="size-6" />
                 <span className="text-xs">Tambah foto</span>
                 <input

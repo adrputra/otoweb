@@ -45,7 +45,7 @@ export default async function AdminPage() {
           <div key={label} className="border border-neutral-200 bg-white p-4">
             <p className="text-sm text-neutral-500">{label}</p>
             <p className="mt-3 text-2xl font-bold">{value}</p>
-            <p className="mt-1 text-xs text-neutral-400">{unit}</p>
+            <p className="mt-1 text-xs text-neutral-500">{unit}</p>
           </div>
         ))}
       </div>
@@ -72,14 +72,14 @@ export default async function AdminPage() {
               <p data-testid={testId} className="mt-3 text-2xl font-bold tabular-nums">
                 {value}
               </p>
-              <p className="mt-1 text-xs text-neutral-400">{unit}</p>
+              <p className="mt-1 text-xs text-neutral-500">{unit}</p>
             </div>
           ))}
         </div>
         <div className="mt-4 border border-neutral-200 bg-white">
           <div className="flex items-center justify-between border-b border-neutral-100 p-5">
             <h3 className="font-semibold">Paling banyak dilihat</h3>
-            <span className="text-xs text-neutral-400">5 teratas</span>
+            <span className="text-xs text-neutral-500">5 teratas</span>
           </div>
           <div data-testid="analytics-most-viewed" className="divide-y divide-neutral-100">
             {analytics.mostViewedVehicles.length === 0 && (
@@ -94,7 +94,7 @@ export default async function AdminPage() {
                 href={`/cars/${vehicle.slug}`}
                 className="flex items-center gap-4 p-4 transition hover:bg-neutral-50"
               >
-                <span className="w-5 text-xs font-semibold tabular-nums text-neutral-400">
+                <span className="w-5 text-xs font-semibold tabular-nums text-neutral-500">
                   {index + 1}
                 </span>
                 <span className="min-w-0 flex-1 truncate text-sm font-semibold">
@@ -104,7 +104,7 @@ export default async function AdminPage() {
                   <span className="block text-sm font-semibold tabular-nums">
                     {vehicle.views}
                   </span>
-                  <span className="block text-[11px] text-neutral-400">
+                  <span className="block text-[11px] text-neutral-500">
                     kunjungan
                   </span>
                 </span>
@@ -148,7 +148,7 @@ export default async function AdminPage() {
                   <p className="text-sm font-semibold">
                     {formatRupiah(vehicle.price)}
                   </p>
-                  <p className="mt-1 text-xs text-neutral-400">
+                  <p className="mt-1 text-xs text-neutral-500">
                     {vehicle.publication}
                   </p>
                 </div>
@@ -187,7 +187,7 @@ export default async function AdminPage() {
                   <span className="text-xs font-medium text-neutral-500">
                     {LEAD_STATUS_LABELS[lead.status]}
                   </span>
-                  <p className="mt-1 text-[11px] text-neutral-400">
+                  <p className="mt-1 text-[11px] text-neutral-500">
                     {formatDate(lead.createdAt)}
                   </p>
                 </div>

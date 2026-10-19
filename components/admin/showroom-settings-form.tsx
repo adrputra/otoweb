@@ -44,7 +44,7 @@ function Field({
     <label className="block">
       <span className={labelClass}>{label}</span>
       {children}
-      {hint && !error && <span className="mt-1 block text-xs text-neutral-400">{hint}</span>}
+      {hint && !error && <span className="mt-1 block text-xs text-neutral-500">{hint}</span>}
       {error && <span className="mt-1 block text-xs text-red-600">{error}</span>}
     </label>
   )
@@ -107,7 +107,7 @@ function MediaPreview({ src, name }: { src: string; name: string }) {
       {image ? (
         <Image src={image} alt="" fill sizes="320px" className="object-contain p-2" />
       ) : (
-        <span className="px-4 text-center text-xs font-medium text-neutral-400">
+        <span className="px-4 text-center text-xs font-medium text-neutral-500">
           {name}
         </span>
       )}
@@ -276,7 +276,7 @@ export function ShowroomSettingsForm({
           <ArrowLeft className="size-4" />
         </Link>
         <div>
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">
             Pengaturan
           </p>
           <h1 className="text-2xl font-bold tracking-tight">Profil showroom</h1>
@@ -489,10 +489,10 @@ export function ShowroomSettingsForm({
                 <p className="text-sm font-bold">Live preview</p>
                 <p className="text-xs text-neutral-500">Tampilan publik</p>
               </div>
-              <Eye className="size-4 text-neutral-400" />
+              <Eye className="size-4 text-neutral-500" />
             </summary>
             <div className="p-4" style={theme}>
-              <div className="relative flex h-40 flex-col justify-end overflow-hidden p-5">
+              <div className="relative flex h-40 flex-col justify-end overflow-hidden bg-neutral-950 p-5">
                 <Image
                   src={previewHero}
                   alt=""
@@ -504,7 +504,7 @@ export function ShowroomSettingsForm({
                   className="absolute inset-0"
                   style={{
                     background:
-                      'linear-gradient(0deg, var(--showroom-secondary) 0%, rgba(0,0,0,0.15) 75%)',
+                      'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 55%, var(--showroom-secondary) 100%)',
                   }}
                 />
                 <div className="relative flex items-center gap-2 text-white/80">

@@ -230,7 +230,7 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
   return (
     <form onSubmit={handleSubmit((values) => submit(values))} className="pb-40 md:pb-28">
       <div className="mb-6">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-neutral-500">
           Prima Auto Gallery
         </p>
         <h1 className="text-2xl font-bold">
@@ -249,7 +249,7 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
             className={`whitespace-nowrap border-b-2 px-3 py-3 text-xs font-semibold ${
               step === index
                 ? 'border-neutral-950'
-                : 'border-transparent text-neutral-400'
+                : 'border-transparent text-neutral-500'
             }`}
           >
             {index + 1}. {label}
@@ -323,7 +323,7 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
                 )}
               />
             </Field>
-            <p className="mt-1 text-xs text-neutral-400">Rp {money(price)}</p>
+            <p className="mt-1 text-xs text-neutral-500">Rp {money(price)}</p>
             <div className="mt-4">
               <Field label="Deskripsi" error={err('description')}>
                 <textarea
@@ -482,7 +482,7 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
 
         <aside className="hidden lg:block">
           <div className="sticky top-24 rounded-xl border bg-white p-4">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-500">
               Live preview
             </p>
             {coverPreview ? (
@@ -493,11 +493,11 @@ export function VehicleForm({ vehicle }: { vehicle?: Vehicle }) {
                 className="aspect-[4/3] w-full rounded-lg object-cover"
               />
             ) : (
-              <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-neutral-100 text-xs text-neutral-400">
+              <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-neutral-100 text-xs text-neutral-600">
                 Belum ada foto
               </div>
             )}
-            <p className="mt-3 text-xs text-neutral-400">
+            <p className="mt-3 text-xs text-neutral-500">
               {brand || 'Brand'} · {model || 'Model'}
             </p>
             <p className="font-bold">{variant || 'Varian kendaraan'}</p>

@@ -96,7 +96,7 @@ export default async function Detail({ params }: { params: Promise<{ slug: strin
               href={`/api/public/whatsapp?vehicle=${encodeURIComponent(vehicle.slug)}`}
               target="_blank"
               rel="noreferrer"
-              className="mt-8 flex h-14 items-center justify-center bg-[#25D366] font-semibold text-white"
+              className="mt-8 flex h-14 items-center justify-center bg-[#25D366] font-semibold text-neutral-950"
             >
               {sold ? 'Tanya mobil serupa' : 'Tanya via WhatsApp'} <ArrowRight className="ml-2 size-5" />
             </a>

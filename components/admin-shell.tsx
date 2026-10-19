@@ -93,7 +93,7 @@ export function AdminShell({
               href="/admin"
               className="truncate text-lg font-bold tracking-tight md:hidden lg:block"
             >
-              {brand} <span className="font-normal text-neutral-400">/ Admin</span>
+              {brand} <span className="font-normal text-neutral-500">/ Admin</span>
             </Link>
             <span className="hidden text-lg font-bold md:block lg:hidden">
               {initialsFor(brand)}
@@ -120,7 +120,7 @@ export function AdminShell({
               </Link>
             ))}
           </nav>
-          <div className="absolute inset-x-5 bottom-5 hidden border-t border-neutral-100 pt-4 text-xs text-neutral-400 lg:block">
+          <div className="absolute inset-x-5 bottom-5 hidden border-t border-neutral-100 pt-4 text-xs text-neutral-500 lg:block">
             {brand}
             {showroomLocation && (
               <>
@@ -176,7 +176,7 @@ export function AdminShell({
             <Link
               key={href}
               href={href}
-              className={`flex min-h-14 flex-col items-center justify-center gap-1 text-[10px] ${active(href) ? 'text-neutral-950' : 'text-neutral-400'}`}
+              className={`flex min-h-14 flex-col items-center justify-center gap-1 text-[10px] ${active(href) ? 'text-neutral-950' : 'text-neutral-500'}`}
             >
               <Icon className="size-4" />
               <span>{label}</span>
@@ -203,7 +203,7 @@ export function PageHeader({
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-500">
           {showroom.name}
         </p>
         <h1 className="break-words text-2xl font-bold tracking-tight">{title}</h1>
