@@ -3,13 +3,12 @@ import { mkdir, writeFile } from 'node:fs/promises'
 
 import { chromium } from '@playwright/test'
 
+import { signIn } from './visual-qa-auth.mjs'
+
 const PORT = '3106'
-const AUTH_PORT = '54325'
 const HOST = 'prima.otoweb.id'
 const CUSTOM_HOST = 'showroom.prima.test'
 const PLATFORM_BASE = `http://${HOST}:${PORT}`
-const AUTH_URL = `http://127.0.0.1:${AUTH_PORT}`
-const PLATFORM_PROFILE_ID = '50000000-0000-4000-8000-000000000003'
 const PRIMA_TENANT_ID = '11111111-1111-4111-8111-111111111111'
 
 const viewports = [
@@ -17,21 +16,6 @@ const viewports = [
   { name: 'mobile', width: 390, height: 844 },
 ]
 
-const platformUser = {
-  id: PLATFORM_PROFILE_ID,
-  aud: 'authenticated',
-  role: 'authenticated',
-  email: 'operator@otoweb.test',
-  email_confirmed_at: '2026-10-18T00:00:00.000Z',
-  phone: '',
-  confirmed_at: '2026-10-18T00:00:00.000Z',
-  last_sign_in_at: '2026-10-18T00:00:00.000Z',
-  app_metadata: { provider: 'email', providers: ['email'] },
-  user_metadata: { full_name: 'Platform Operator' },
-  identities: [],
-  created_at: '2026-10-18T00:00:00.000Z',
-  updated_at: '2026-10-18T00:00:00.000Z',
-}
 
 const routes = [
   {
@@ -65,22 +49,6 @@ const routes = [
   },
 ]
 
-function sessionCookie() {
-  const session = {
-    access_token: 'fake-access-token',
-    refresh_token: 'fake-refresh-token',
-    token_type: 'bearer',
-    expires_in: 3600,
-    expires_at: Math.floor(Date.now() / 1000) + 3600,
-    user: platformUser,
-  }
-
-  return {
-    name: `sb-${new URL(AUTH_URL).hostname.split('.')[0]}-auth-token`,
-    value: `base64-${Buffer.from(JSON.stringify(session)).toString('base64url')}`,
-  }
-}
-
 async function waitForServer(url, timeoutMs = 180_000) {
   const startedAt = Date.now()
 
@@ -98,17 +66,7 @@ async function waitForServer(url, timeoutMs = 180_000) {
 }
 
 async function addPlatformSession(context) {
-  const cookie = sessionCookie()
-  await context.addCookies([
-    {
-      name: cookie.name,
-      value: cookie.value,
-      domain: HOST,
-      path: '/',
-      httpOnly: true,
-      sameSite: 'Lax',
-    },
-  ])
+  await signIn(context, PLATFORM_BASE)
 }
 
 async function registerAndVerify(page) {
@@ -202,7 +160,7 @@ ${rows}
   provider selected by \`DOMAIN_PROVIDER=fake\`.
 - Captured the platform domain-management section, the verified custom-domain
   public home, and the \`${HOST}\` platform-subdomain fallback.
-- Desktop 1440×900 and mobile 390×844, signed in through the QA-only fake GoTrue
+- Desktop 1440×900 and mobile 390×844, signed in through the seeded local PostgreSQL account
   endpoint as the seeded \`platform_admin\` identity.
 - Checks include visible verification/SSL state, exact TXT/CNAME instructions,
   correct showroom identity, absence of the other tenant, and no horizontal
@@ -219,17 +177,6 @@ async function main() {
   await mkdir('.visual-qa/screenshots/mobile', { recursive: true })
   await mkdir('.visual-qa/reports', { recursive: true })
 
-  const auth = spawn('node', ['scripts/fake-supabase-auth.mjs'], {
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      FAKE_AUTH_PORT: AUTH_PORT,
-      FAKE_AUTH_USER_ID: PLATFORM_PROFILE_ID,
-      FAKE_AUTH_EMAIL: 'operator@otoweb.test',
-      FAKE_AUTH_NAME: 'Platform Operator',
-    },
-  })
-
   const server = spawn('pnpm', ['exec', 'next', 'dev', '-p', PORT], {
     stdio: 'inherit',
     detached: true,
@@ -238,15 +185,14 @@ async function main() {
       NEXT_TELEMETRY_DISABLED: '1',
       NEXT_PUBLIC_SITE_URL: `http://${HOST}:${PORT}`,
       NEXT_PUBLIC_SHOWROOM_SLUG: 'prima-auto-gallery',
-      NEXT_PUBLIC_SUPABASE_URL: AUTH_URL,
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'fake-anon-key',
+      SEED_DEV_AUTH: '1',
+      ALLOW_DEV_LOGIN: '1',
       DOMAIN_PROVIDER: 'fake',
     },
   })
 
   try {
     await waitForServer(`http://127.0.0.1:${PORT}/cars`)
-    await waitForServer(`${AUTH_URL}/health`, 30_000)
 
     const browser = await chromium.launch({
       args: [
@@ -332,7 +278,6 @@ async function main() {
 
     console.log(`Captured ${results.length} custom-domain screenshots; all checks passed.`)
   } finally {
-    auth.kill('SIGTERM')
     try {
       if (server.pid) process.kill(-server.pid, 'SIGKILL')
     } catch {

@@ -3,12 +3,11 @@ import { mkdir, writeFile } from 'node:fs/promises'
 
 import { chromium } from '@playwright/test'
 
+import { signIn } from './visual-qa-auth.mjs'
+
 const PORT = '3104'
-const AUTH_PORT = '54324'
 const HOST = 'prima.otoweb.id'
 const BASE_URL = `http://${HOST}:${PORT}`
-const AUTH_URL = `http://127.0.0.1:${AUTH_PORT}`
-const PLATFORM_PROFILE_ID = '50000000-0000-4000-8000-000000000003'
 const PRIMA_TENANT_ID = '11111111-1111-4111-8111-111111111111'
 
 const viewports = [
@@ -62,37 +61,6 @@ const routes = [
   },
 ]
 
-const platformUser = {
-  id: PLATFORM_PROFILE_ID,
-  aud: 'authenticated',
-  role: 'authenticated',
-  email: 'operator@otoweb.test',
-  email_confirmed_at: '2026-10-18T00:00:00.000Z',
-  phone: '',
-  confirmed_at: '2026-10-18T00:00:00.000Z',
-  last_sign_in_at: '2026-10-18T00:00:00.000Z',
-  app_metadata: { provider: 'email', providers: ['email'] },
-  user_metadata: { full_name: 'Platform Operator' },
-  identities: [],
-  created_at: '2026-10-18T00:00:00.000Z',
-  updated_at: '2026-10-18T00:00:00.000Z',
-}
-
-function sessionCookie() {
-  const session = {
-    access_token: 'fake-access-token',
-    refresh_token: 'fake-refresh-token',
-    token_type: 'bearer',
-    expires_in: 3600,
-    expires_at: Math.floor(Date.now() / 1000) + 3600,
-    user: platformUser,
-  }
-
-  return {
-    name: `sb-${new URL(AUTH_URL).hostname.split('.')[0]}-auth-token`,
-    value: `base64-${Buffer.from(JSON.stringify(session)).toString('base64url')}`,
-  }
-}
 
 async function waitForServer(url, timeoutMs = 120_000) {
   const startedAt = Date.now()
@@ -180,7 +148,7 @@ ${report.failures.length === 0 ? 'None.' : report.failures.map((failure) => `- $
 - Platform tenant list, create form, and the seeded Prima tenant detail with
   plan, status, owner, subdomain, and disable controls.
 - Desktop 1440×900 and mobile 390×844.
-- Signed in through the QA-only fake GoTrue endpoint as the seeded
+- Signed in through the seeded local PostgreSQL account as the
   \`platform_admin\` identity. The real Next proxy, platform layout, explicit
   operator membership check, and database code all run.
 - No horizontal overflow and every roadmap capability is visible without a
@@ -196,17 +164,6 @@ async function main() {
   await mkdir('.visual-qa/screenshots/mobile', { recursive: true })
   await mkdir('.visual-qa/reports', { recursive: true })
 
-  const auth = spawn('node', ['scripts/fake-supabase-auth.mjs'], {
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      FAKE_AUTH_PORT: AUTH_PORT,
-      FAKE_AUTH_USER_ID: PLATFORM_PROFILE_ID,
-      FAKE_AUTH_EMAIL: 'operator@otoweb.test',
-      FAKE_AUTH_NAME: 'Platform Operator',
-    },
-  })
-
   const server = spawn('pnpm', ['exec', 'next', 'dev', '-p', PORT], {
     stdio: 'inherit',
     detached: true,
@@ -215,14 +172,13 @@ async function main() {
       NEXT_TELEMETRY_DISABLED: '1',
       NEXT_PUBLIC_SITE_URL: BASE_URL,
       NEXT_PUBLIC_SHOWROOM_SLUG: 'prima-auto-gallery',
-      NEXT_PUBLIC_SUPABASE_URL: AUTH_URL,
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'fake-anon-key',
+      SEED_DEV_AUTH: '1',
+      ALLOW_DEV_LOGIN: '1',
     },
   })
 
   try {
     await waitForServer(`http://127.0.0.1:${PORT}/cars`)
-    await waitForServer(`${AUTH_URL}/health`, 30_000)
 
     const browser = await chromium.launch({
       args: [
@@ -239,17 +195,7 @@ async function main() {
           deviceScaleFactor: 1,
         })
 
-        const cookie = sessionCookie()
-        await context.addCookies([
-          {
-            name: cookie.name,
-            value: cookie.value,
-            domain: HOST,
-            path: '/',
-            httpOnly: true,
-            sameSite: 'Lax',
-          },
-        ])
+        await signIn(context, BASE_URL)
 
         const page = await context.newPage()
 
@@ -307,7 +253,6 @@ async function main() {
 
     console.log(`Captured ${results.length} platform screenshots; all checks passed.`)
   } finally {
-    auth.kill('SIGTERM')
     try {
       if (server.pid) process.kill(-server.pid, 'SIGKILL')
     } catch {

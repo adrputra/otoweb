@@ -106,13 +106,44 @@ export const tenantDomains = pgTable(
   (table) => [index('tenant_domains_tenant_id_idx').on(table.tenantId)],
 )
 
-export const profiles = pgTable('profiles', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  fullName: text('full_name'),
-  avatarUrl: text('avatar_url'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-})
+export const profiles = pgTable(
+  'profiles',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    fullName: text('full_name'),
+    avatarUrl: text('avatar_url'),
+    /** Login identity for the local PostgreSQL-backed auth provider. */
+    email: text('email'),
+    /** scrypt password hash. Never selected by public/browser code. */
+    passwordHash: text('password_hash'),
+    emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex('profiles_email_unique').on(sql`lower(${table.email})`)],
+)
+
+/**
+ * Server-side session records. The browser only receives an opaque random
+ * token; only its SHA-256 hash is stored here.
+ */
+export const authSessions = pgTable(
+  'auth_sessions',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => profiles.id, { onDelete: 'cascade' }),
+    tokenHash: text('token_hash').notNull().unique(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    lastSeenAt: timestamp('last_seen_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index('auth_sessions_user_id_idx').on(table.userId),
+    index('auth_sessions_expires_at_idx').on(table.expiresAt),
+  ],
+)
 
 export const tenantMembers = pgTable(
   'tenant_members',

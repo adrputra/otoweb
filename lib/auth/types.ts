@@ -1,6 +1,4 @@
-import type { CookieOptions } from '@supabase/ssr'
-
-/** A Supabase Auth identity as consumed by the OtoWeb application. */
+/** A PostgreSQL-backed identity as consumed by the OtoWeb application. */
 export interface AuthUser {
   id: string
   email: string | null
@@ -25,21 +23,33 @@ export interface SignInCredentials {
 
 /**
  * The authentication contract used by server actions, the proxy, and tests.
- * Production uses Supabase Auth; tests inject a controlled fake.
+ * Production uses PostgreSQL-backed local sessions; tests inject a controlled
+ * fake backend.
  */
 export interface AuthBackend {
   /** Server-verified user lookup. Returns null for anonymous/expired/invalid sessions. */
   getUser(): Promise<AuthUser | null>
   signInWithPassword(credentials: SignInCredentials): Promise<AuthResult<AuthUser>>
   signOut(): Promise<AuthResult<null>>
-  requestPasswordReset(email: string, redirectTo: string): Promise<AuthResult<null>>
+  requestPasswordReset(email: string, redirectTo?: string): Promise<AuthResult<null>>
   updatePassword(password: string): Promise<AuthResult<AuthUser>>
+}
+
+/** Cookie attributes accepted by Next's cookie store and response cookies. */
+export interface AuthCookieOptions {
+  path?: string
+  httpOnly?: boolean
+  secure?: boolean
+  sameSite?: 'lax' | 'strict' | 'none'
+  maxAge?: number
+  expires?: Date
+  domain?: string
 }
 
 export interface AuthCookie {
   name: string
   value: string
-  options?: CookieOptions
+  options?: AuthCookieOptions
 }
 
 /** Result of resolving a request's session, including refreshed cookies. */

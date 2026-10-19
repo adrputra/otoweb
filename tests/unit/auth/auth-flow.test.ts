@@ -7,7 +7,6 @@ import {
   signOut,
   updatePassword,
 } from '@/lib/auth/service'
-import { buildResetCallbackUrl } from '@/lib/auth/site-url'
 
 import { FakeAuthBackend, testUser } from './fake-auth'
 
@@ -81,19 +80,16 @@ describe('auth flow', () => {
 
   it('requests a password reset with the recovery callback URL', async () => {
     const auth = new FakeAuthBackend()
-    const redirectTo = buildResetCallbackUrl()
-
-    const result = await requestPasswordReset(auth, ' OWNER@example.com ', redirectTo)
+    const result = await requestPasswordReset(auth, ' OWNER@example.com ')
 
     expect(result).toEqual({ ok: true, data: null })
-    expect(redirectTo).toBe('http://localhost:3000/auth/callback?next=/reset-password')
-    expect(auth.resetRequests).toEqual([{ email: 'owner@example.com', redirectTo }])
+    expect(auth.resetRequests).toEqual([{ email: 'owner@example.com', redirectTo: undefined }])
   })
 
   it('accepts a reset request for an unknown email without revealing existence', async () => {
     const auth = new FakeAuthBackend()
 
-    const result = await requestPasswordReset(auth, 'missing@example.com', buildResetCallbackUrl())
+    const result = await requestPasswordReset(auth, 'missing@example.com')
 
     expect(result).toEqual({ ok: true, data: null })
     expect(auth.resetRequests).toHaveLength(1)

@@ -36,6 +36,13 @@
       "when": 1792354802699,
       "tag": "0004_analytics",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792366000000,
+      "tag": "0005_local-auth",
+      "breakpoints": true
     }
   ]
 }

@@ -1,167 +1,133 @@
 # Authentication
 
-Status: implemented in Phase 4 (F004). Source of intent: `docs/ROADMAP.md` §46
-and `specs/003-authentication/`.
+Status: implemented as **local PostgreSQL-backed authentication**. There is no
+external identity provider and no Supabase dependency.
 
-The project uses **Supabase Auth** as the production identity provider. Sessions
-are cookie-based and refreshed on the server with `@supabase/ssr`, so every
-server-rendered admin request is checked against the provider rather than
-trusting client state.
+The application stores login identities and scrypt password hashes in
+`profiles`, and opaque session records in `auth_sessions`. The browser receives
+only a random HTTP-only cookie; the database stores its SHA-256 hash.
 
 ## What exists
 
-| Artifact                      | Purpose                                                            |
-| ----------------------------- | ------------------------------------------------------------------ |
-| `proxy.ts`                    | Next.js 16 request proxy; default-denies `/admin/:path*`           |
-| `lib/auth/admin-proxy.ts`     | Testable proxy factory with injected session resolver              |
-| `lib/auth/supabase-proxy.ts`  | Edge-safe Supabase resolver; refreshes cookies on the response     |
-| `lib/auth/supabase-server.ts` | Request-scoped Supabase backend for actions/routes/components      |
-| `lib/auth/server.ts`          | `getCurrentUser()` and `requireAdminUser()`                        |
-| `lib/auth/actions.ts`         | Server actions: sign in, sign out, reset request, password update  |
-| `lib/auth/service.ts`         | Testable auth orchestration over the `AuthBackend` interface       |
-| `lib/auth/session.ts`         | Pure session-validity and fail-closed user resolution              |
-| `lib/auth/paths.ts`           | Safe same-origin `/admin` redirects + recovery callback allow-list |
-| `app/login/`                  | Sign-in page and client form                                       |
-| `app/forgot-password/`        | Password reset request                                             |
-| `app/auth/callback/route.ts`  | PKCE code / email OTP exchange                                     |
-| `app/reset-password/`         | Recovery-session password update                                   |
-| `components/auth/`            | Shared auth shell and form primitives                              |
-| `components/admin-shell.tsx`  | Shows the signed-in account and a "Keluar" control                 |
-| `tests/unit/auth/`            | Fake backend, session, proxy, flow, and no-registration tests      |
-| `tests/e2e/auth.spec.ts`      | Unauthenticated redirect, auth screens, no-registration routes     |
+| Artifact | Purpose |
+| --- | --- |
+| `proxy.ts` | Next.js 16 request proxy; redirects cookie-less `/admin/**` and `/platform/**` requests |
+| `lib/auth/admin-proxy.ts` | Testable proxy factory with an injectable session resolver |
+| `lib/auth/local-proxy.ts` | Fast cookie-presence probe used by the proxy (no database access) |
+| `lib/auth/local.ts` | Request-scoped local auth backend factory |
+| `lib/auth/local-backend.ts` | Sign-in, session lookup, sign-out, and password update against PostgreSQL |
+| `lib/auth/crypto.ts` | scrypt password hashing and session-token hashing |
+| `lib/auth/server.ts` | `getCurrentUser()` and `requireAdminUser()` |
+| `lib/auth/actions.ts` | Server actions: sign in, sign out, reset request, password update |
+| `lib/auth/service.ts` | Testable auth orchestration over the `AuthBackend` interface |
+| `lib/auth/session.ts` | Cookie name, lifetime, and session-validity helpers |
+| `lib/auth/paths.ts` | Safe same-origin `/admin` and `/platform` redirects |
+| `app/login/` | Sign-in page and client form |
+| `app/forgot-password/` | Operator-assisted reset request form |
+| `app/reset-password/` | Password update for a signed-in user |
+| `app/api/dev-login/` | Development/QA-only sign-in shortcut (disabled outside non-production with `ALLOW_DEV_LOGIN=1`) |
+| `scripts/auth-admin.ts` | Operator CLI to create or reset an admin account |
+| `tests/unit/auth/` | Crypto, local backend, session, proxy, flow, and no-registration tests |
 
 ## Routes
 
-| Route                  | Access           | Behavior                                                        |
-| ---------------------- | ---------------- | --------------------------------------------------------------- |
-| `/login`               | Public           | Sign in; authenticated users redirect to a safe admin `next`    |
-| `/forgot-password`     | Public           | Request a reset email; response never reveals account existence |
-| `/auth/callback`       | Public           | Exchanges Supabase `code` or `token_hash` for a session         |
-| `/reset-password`      | Recovery session | Set a new password; invalid links show a recovery prompt        |
-| `/admin/**`            | Authenticated + tenant member | Proxy verifies the session; the layout also requires a valid tenant context |
-| `/register`, `/signup` | —                | Do not exist; requests return 404                               |
+| Route | Access | Behavior |
+| --- | --- | --- |
+| `/login` | Public | Sign in with email/password; authenticated users redirect to a safe admin `next` |
+| `/forgot-password` | Public | Submit an operator-assisted reset request; the response never reveals account existence |
+| `/reset-password` | Signed-in | Set a new password for the current account |
+| `/admin/**` | Signed-in + tenant member | Proxy checks the cookie; the layout verifies the session and tenant context |
+| `/platform/**` | Signed-in + `platform_admin` | Proxy checks the cookie; the layout verifies the operator membership |
+| `/register`, `/signup` | — | Do not exist; requests return 404 |
 
 ## Environment
 
-Set these in `.env.local` for a real Supabase project:
+Only the database and site origin are required:
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+DATABASE_URL=postgresql://user:password@host:5432/database
+NEXT_PUBLIC_SITE_URL=https://your-deployment.example
 ```
 
-`.env.example` contains placeholders only. Never add a service-role key to the
-repository or to `NEXT_PUBLIC_*` variables.
+Create or reset an admin after migrations:
 
-Supabase dashboard → Authentication → URL Configuration:
+```bash
+pnpm db:migrate
+pnpm auth:admin --email admin@example.com --name "Administrator"
+```
 
-- Site URL: the deployed origin.
-- Redirect URLs: `<origin>/auth/callback`.
-
-`supabase/config.toml` sets the local callback URL, refresh-token rotation, and
-`enable_signup = false`. Showroom accounts are created or invited by platform
-operators from the Supabase dashboard/Admin API; the application exposes no
-self-service registration.
+Omit `--password` to generate a random password; the command prints it once.
+The default role is `platform_admin` (showroom admin plus `/platform`). Use
+`--role owner` for a showroom-only owner and `--tenant <slug>` to choose the
+tenant (default `prima-auto-gallery`).
 
 ## Session lifecycle
 
 ```text
-anonymous --valid credentials--> active (HTTP-only Supabase cookies)
-active --request--> getUser() verifies the access token
-active --token near expiry--> @supabase/ssr refreshes; Set-Cookie on response
-active --expired/invalid/revoked--> rejected; admin request redirects to /login
-active --Keluar--> signOut(); cookies cleared; redirect to /login
-recovery link --callback--> recovery session; /reset-password updates password
+anonymous --valid email/password--> active (HTTP-only otoweb_session cookie)
+active --request--> hash cookie, look up auth_sessions, reject expired rows
+active --Keluar--> delete session row and clear cookie
+active --password update--> update scrypt hash; revoke every other session
+expired/invalid/missing--> admin request redirects to /login
 ```
 
 Key decisions:
 
-- The proxy calls `getUser()` (server-verified) instead of trusting
-  `getSession()` or a decoded JWT. Provider/config errors fail closed.
-- The admin layout calls `requireAdminUser()` as defense in depth.
-- Refreshed cookies and cache headers are attached to both allow and redirect
-  responses so token rotation is never lost.
-- The login/admin `next` parameter is restricted to `/admin` or `/admin/*`;
-  external, protocol-relative, backslash, and non-admin values fall back to
-  `/admin`.
-- The auth callback additionally allows the exact `/reset-password`
-  destination so recovery links land on the reset form. Every other value falls
-  back to `/admin`.
+- Passwords use Node's built-in scrypt with a 16-byte random salt and a 64-byte
+  derived key. Verifications are constant-time.
+- Session tokens are 32 random bytes. Only their SHA-256 hash is stored, so a
+  database leak cannot replay a live session.
+- The cookie is `HttpOnly`, `SameSite=Lax`, `Path=/`, and `Secure` when
+  `NODE_ENV=production`. Its lifetime is seven days.
+- The proxy is a fast cookie gate and does not query the database. The admin
+  and platform layouts are the authoritative server-side checks.
+- Login errors do not reveal whether the email exists.
 
 ## Password reset
 
-1. `/forgot-password` validates the email and calls
-   `resetPasswordForEmail(email, { redirectTo: <site>/auth/callback?next=/reset-password })`.
-2. The response is generic for known and unknown emails to avoid account
-   enumeration.
-3. `/auth/callback` exchanges the Supabase code (PKCE) or verifies the email
-   OTP (`recovery`), writing session cookies to the redirect response, then
-   sends the owner to `/reset-password`.
-4. `/reset-password` requires a recovery session, validates 8+ characters and a
-   matching confirmation, and calls `updateUser({ password })`.
-5. The owner can then sign in with the new password.
+There is no email provider. Reset is operator-assisted:
 
-Email delivery/SMTP and email templates are Supabase deployment configuration,
-not application code.
+1. The user submits the form at `/forgot-password`; the UI returns a generic
+   acknowledgement.
+2. The operator sets a new password:
+
+   ```bash
+   pnpm auth:admin --email user@example.com --password "new-password"
+   ```
+
+3. The user signs in with the new password. Existing sessions remain valid
+   unless the password is changed from `/reset-password` (which revokes other
+   sessions).
 
 ## No public registration
 
 - No `register`/`signup` route exists in `app/`.
-- Supabase `enable_signup` is disabled in the local project config; operators
-  create/invite accounts.
+- Accounts are created by operators with `pnpm auth:admin`.
 - `tests/unit/auth/no-registration.test.ts` walks the route tree and checks the
   auth screens; `tests/e2e/auth.spec.ts` asserts `/register`, `/signup`, and
   `/sign-up` return 404.
 
-## Testing without a live auth service
+## Development and QA
 
-The environment has no Docker daemon and no Supabase Auth server. Production
-code is written against `@supabase/ssr`; verification injects a
-`FakeAuthBackend` that implements the same `AuthBackend` interface:
-
-- `tests/unit/auth/session.test.ts` — active, expired, invalid, and throwing
-  session lookup.
-- `tests/unit/auth/admin-proxy.test.ts` — anonymous redirect with full `next`,
-  authenticated allow, fail-closed resolver, expired/invalid rejection,
-  refreshed-cookie/header application, safe redirect validation.
-- `tests/unit/auth/auth-flow.test.ts` — valid/invalid sign-in, sign-out,
-  expired/invalid sessions, reset request callback URL, generic unknown-email
-  behavior, password update with/without a session.
-- `tests/unit/auth/callback.test.ts` — recovery code/OTP redirect to
-  `/reset-password`, safe admin destinations, off-site rejection, exchange
-  failures.
-- `tests/unit/auth/no-registration.test.ts` — route tree and auth-screen checks.
-- `tests/e2e/auth.spec.ts` — real Next.js proxy redirect and 404 checks.
+- `SEED_DEV_AUTH=1` while seeding adds development credentials:
+  - `owner@primaauto.test` / `correct-horse` (Prima owner)
+  - `operator@otoweb.test` / `correct-horse` (platform operator)
+- `ALLOW_DEV_LOGIN=1` enables `GET /api/dev-login?as=owner|operator`, which
+  creates a real local session for those accounts. Both gates are required;
+  the route returns 404 in production.
+- Playwright and visual-QA scripts use this endpoint instead of injecting an
+  auth cookie.
 
 ## Validation
 
 ```bash
-npx tsc --noEmit
-npm test
-pnpm lint
 pnpm typecheck
 pnpm test
+pnpm lint
 pnpm build
-pnpm test:e2e
-pnpm visual:qa
 ```
 
-Visual evidence is written under `.visual-qa/screenshots/` and
-`.visual-qa/reports/`.
-
-## Phase 5 integration (F005)
-
-Phase 4 authenticates identity only; tenant authorization is implemented by F005
-and documented in [`TENANCY.md`](./TENANCY.md).
-
-- `lib/auth/server.ts` now calls `requireTenantContext()` after the session
-  lookup. An authenticated user with no valid tenant membership is redirected to
-  the public home instead of rendering admin content.
-- Tenant membership, role capabilities (`platform_admin`/`owner`/`staff`),
-  hostname resolution, tenant-scoped queries, and row-level security live under
-  `lib/tenant/` and `db/migrations/0001_tenant-isolation.sql`.
-- The admin layout now forces dynamic rendering (`connection()`), so a build-time
-  anonymous result can never be baked into a static admin page.
-- The admin surface remains closed to anonymous visitors; authentication alone
-  is still insufficient for tenant access.
+Phase 5 integration remains unchanged: authentication alone is not sufficient
+for tenant access. `requireAdminUser()` calls `requireTenantContext()` after the
+session lookup, and the platform boundary requires an active `platform_admin`
+membership. See [`TENANCY.md`](./TENANCY.md).

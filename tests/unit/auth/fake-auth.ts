@@ -32,14 +32,14 @@ export const secondUser: AuthUser = {
 
 /**
  * Controlled in-memory AuthBackend used to prove auth behavior without a live
- * Supabase Auth server. It implements the production interface exactly.
+ * auth server. It implements the production interface exactly.
  */
 export class FakeAuthBackend implements AuthBackend {
   readonly accounts = new Map<string, FakeAccount>()
   session: { email: string; expiresAt: number | null } | null = null
   failNext: FakeFailure | null = null
   signOutCalls = 0
-  resetRequests: { email: string; redirectTo: string }[] = []
+  resetRequests: { email: string; redirectTo?: string }[] = []
   passwordUpdates: string[] = []
 
   constructor(options: FakeAuthOptions = {}) {
@@ -127,7 +127,7 @@ export class FakeAuthBackend implements AuthBackend {
     return { ok: true, data: null }
   }
 
-  async requestPasswordReset(email: string, redirectTo: string): Promise<AuthResult<null>> {
+  async requestPasswordReset(email: string, redirectTo?: string): Promise<AuthResult<null>> {
     if (this.failNext === 'requestReset') {
       this.failNext = null
       throw new Error('Auth provider unavailable')

@@ -36,7 +36,7 @@ mutations are non-durable.
 | Auth | None |
 | Tenancy | None; one hard-coded showroom |
 | Media | Fake client-side upload using object URLs |
-| Database | None (no Supabase, no Drizzle, no PostgreSQL) |
+| Database | PostgreSQL with Drizzle migrations and local auth |
 | Tests | None |
 | Lint | None configured |
 | CI | None |
@@ -318,7 +318,7 @@ Implemented in `components/vehicle-form.tsx`:
 Not implemented:
 
 - Real upload to any storage provider.
-- Cloudinary integration.
+- R2/Cloudinary media-provider integration.
 - File type validation beyond `accept="image/*"`.
 - File size validation.
 - Server-side validation.
@@ -466,9 +466,9 @@ showroom model.
 | `.env.example` | Absent |
 | Environment variable validation | Absent |
 | Runtime env usage | Only `process.env.NODE_ENV` for Vercel Analytics |
-| Supabase env vars | Absent |
+| External auth env vars | None; sessions live in PostgreSQL |
 | Drizzle config | Absent |
-| Cloudinary config | Absent |
+| Object storage config | Absent; R2/Cloudinary providers available |
 | `next.config.mjs` | Security headers: `X-Content-Type-Options`, `Referrer-Policy`; `typescript.ignoreBuildErrors: true`; `images.unoptimized: true` |
 | `tsconfig.json` | `strict: true`, bundler resolution, path alias `@/*` |
 | `package.json` | Name `my-project`; scripts only `dev`, `build`, `start`; `packageManager: pnpm@12.3.4` |
@@ -586,12 +586,12 @@ the implementation status map in `docs/IMPLEMENTATION_STATUS.md`.
 As required by Phase 1, the following are **not** present and were **not**
 added during this audit:
 
-- Supabase client/server packages and configuration.
+- Local PostgreSQL auth modules (`lib/auth/`) and session tables.
 - Drizzle ORM and migrations.
 - PostgreSQL schema and seeds.
 - Authentication, sessions, login/logout/password reset.
 - Tenant resolution, memberships, RLS, permission helpers.
-- Cloudinary or any object storage.
+- R2/Cloudinary object storage.
 - Git hooks, CI, test frameworks, linters, or formatters.
 - A Vercel project configuration.
 - Any visual redesign.

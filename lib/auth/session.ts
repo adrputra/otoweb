@@ -1,5 +1,11 @@
 import type { AuthBackend, AuthUser } from './types'
 
+/** Opaque HTTP-only session cookie issued by the local auth backend. */
+export const SESSION_COOKIE_NAME = 'otoweb_session'
+
+/** Session lifetime. Expired rows are removed on the next sign-in. */
+export const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000
+
 export interface SessionSnapshot {
   user: AuthUser | null
   /** Epoch milliseconds. `null`/`undefined` means the provider owns expiry. */

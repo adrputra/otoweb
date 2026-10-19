@@ -199,7 +199,7 @@ than shown admin content. No presentation markup changed in F005.
   a `NEXT_PUBLIC_` prefix.
 - `.env.example` contains placeholders only and no service-role assignment.
 - Browser-reachable modules must not import `lib/tenant/*`, `db/client`, or the
-  server Supabase backend. `tests/unit/tenant/service-role.test.ts` enforces
+  server auth and database modules. `tests/unit/tenant/service-role.test.ts` enforces
   this.
 - `assertServerOnly()` throws when tenant server code is evaluated with a defined
   `window`.
@@ -240,7 +240,7 @@ If any tenant isolation test fails, do not proceed: fix the isolation first.
 
 - Apply `0001_tenant-isolation.sql` with the normal migration command
   (`pnpm db:migrate`).
-- Supabase's `authenticated` role must have `USAGE` on schema `app` and the
+- The application database role must have `USAGE` on schema `app` and the
   normal table privileges; the migration grants schema usage to `PUBLIC` and
   policies do the rest.
 - The application may use an elevated connection for server work; RLS is a second

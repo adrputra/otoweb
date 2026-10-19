@@ -154,7 +154,7 @@ Next.js
 Backend platform:
 
 ```text
-Supabase
+PostgreSQL
 ```
 
 Database:
@@ -172,7 +172,7 @@ Drizzle ORM
 Authentication:
 
 ```text
-Supabase Auth
+Local PostgreSQL email/password sessions
 ```
 
 Authorization:
@@ -186,7 +186,7 @@ PostgreSQL Row Level Security
 Media:
 
 ```text
-Cloudinary
+Cloudflare R2
 ```
 
 Deployment:
@@ -391,7 +391,7 @@ primaauto.co.id
 
 # 11. Users and Membership
 
-Authentication users come from Supabase Auth.
+Authentication users are stored locally in `profiles` with an email and a scrypt password hash. Opaque sessions are stored in `auth_sessions`.
 
 Application user data:
 
@@ -494,7 +494,7 @@ tenant_members
 
 Platform administration may use explicit privileged server-side operations.
 
-Never expose Supabase service-role credentials to the browser.
+Never expose database credentials or password hashes to the browser.
 
 ---
 
@@ -814,7 +814,7 @@ Do not block MVP on autosave.
 
 # 23. Media Upload
 
-Integrate Cloudinary.
+Integrate Cloudflare R2 object storage (Cloudinary optional).
 
 Required:
 
@@ -1491,7 +1491,7 @@ No backend integration yet.
 Install and configure:
 
 ```text
-Supabase
+PostgreSQL
 Drizzle ORM
 PostgreSQL migrations
 ```
@@ -1537,7 +1537,7 @@ Acceptance:
 
 # 46. PHASE 4 — Authentication
 
-Implement Supabase Auth.
+Implement local PostgreSQL authentication.
 
 Required:
 
@@ -1678,7 +1678,7 @@ No manual DB operations required.
 
 # 50. PHASE 8 — Image Management
 
-Integrate Cloudinary.
+Integrate Cloudflare R2 object storage (Cloudinary optional).
 
 Implement:
 

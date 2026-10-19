@@ -71,12 +71,12 @@ describe('service-role boundary', () => {
   it('does not import server-only tenant or database modules from browser code', () => {
     const clientFiles = sourceFiles().filter((path) => {
       const content = read(path)
-      return /^['"]use client['"]/m.test(content) || path === 'lib/supabase/client.ts'
+      return /^['"]use client['"]/m.test(content)
     })
 
     const offenders = clientFiles.filter((path) => {
       const content = read(path)
-      return /from ['"]@\/(?:lib\/tenant|db\/|lib\/auth\/supabase-server)/.test(content)
+      return /from ['"]@\/(?:lib\/tenant|db\/|lib\/auth\/(?:local|local-backend|server))/.test(content)
     })
 
     expect(offenders).toEqual([])

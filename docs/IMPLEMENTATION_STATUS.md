@@ -34,8 +34,8 @@ in `docs/TENANCY.md`, `docs/PUBLIC_SITE.md`, and `docs/ADMIN.md`.
 |---|---|---|---|
 | 1 | Repository Production Audit | `COMPLETE` | Audit and three documents delivered; build verified |
 | 2 | Engineering Foundation | `COMPLETE` | Lint/format/typecheck, Vitest + Testing Library, Playwright smoke, CI, env validation, and `.env.example` delivered and verified |
-| 3 | Database Foundation | `COMPLETE` | Supabase/Drizzle config, checked-in migrations, idempotent seeds for two showrooms, schema docs, and embedded-PostgreSQL verification delivered |
-| 4 | Authentication | `COMPLETE` | Supabase Auth sign-in/out, password reset, proxy-protected admin routes, cookie session refresh, and fake-backend/Playwright verification delivered |
+| 3 | Database Foundation | `COMPLETE` | PostgreSQL/Drizzle config, checked-in migrations, idempotent seeds for two showrooms, schema docs, and embedded-PostgreSQL verification delivered |
+| 4 | Authentication | `COMPLETE` | Local PostgreSQL sign-in/out, operator-assisted password reset, proxy-protected admin routes, HTTP-only session cookies, and unit/Playwright verification delivered |
 | 5 | Multi-Tenant Security | `COMPLETE` | Memberships, tenant context, capabilities, forced RLS, and cross-tenant regression tests; see `docs/TENANCY.md` |
 | 6 | Connect Public Website to Database | `COMPLETE` | Public routes read tenant-scoped database data; draft/archived filtering and two-showroom coverage; see `docs/PUBLIC_SITE.md` |
 | 7 | Admin Vehicle CRUD | `COMPLETE` | Tenant-scoped DB create/edit/publish/reserve/sell/archive/duplicate/delete with shared Zod validation; see `docs/ADMIN.md` |
@@ -121,12 +121,12 @@ These counts describe the Phase 1 capability map in §3 and are retained for tra
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| Install/configure Supabase | `COMPLETE` | `@supabase/supabase-js`, `supabase/config.toml`, `lib/supabase/client.ts`, `.env.example` placeholders |
+| Install/configure PostgreSQL | `COMPLETE` | `postgres`, `drizzle-orm`, `drizzle-kit`, `DATABASE_URL`, `.env.example` placeholders |
 | Install/configure Drizzle ORM | `COMPLETE` | `drizzle-orm`, `drizzle-kit`, `drizzle.config.ts`, `db/schema.ts` |
 | PostgreSQL migrations | `COMPLETE` | `db/migrations/0000_*.sql`, `db/migrate.ts`, PGlite migration test |
 | `tenants` table | `COMPLETE` | `db/schema.ts`, `db/migrations/0000_*.sql`, `docs/DATABASE.md` |
 | `tenant_domains` table | `COMPLETE` | `db/schema.ts`, migration SQL, uniqueness/index tests |
-| `profiles` table | `COMPLETE` | `db/schema.ts`, migration SQL; auth user id linkage documented |
+| `profiles` table | `COMPLETE` | `db/schema.ts`, migration SQL; local auth identity columns and `auth_sessions` linkage |
 | `tenant_members` table | `COMPLETE` | `db/schema.ts`, migration SQL, tenant/user unique index |
 | `showroom_settings` table | `COMPLETE` | `db/schema.ts`, migration SQL, seeded settings rows |
 | `vehicles` table | `COMPLETE` | `db/schema.ts`, migration SQL, twelve seeded vehicles |
@@ -146,13 +146,13 @@ These counts describe the Phase 1 capability map in §3 and are retained for tra
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| Supabase Auth setup | `COMPLETE` | `@supabase/ssr@0.12.7`, `lib/auth/supabase-server.ts`, `lib/auth/supabase-proxy.ts`, `supabase/config.toml` `[auth]` |
+| Local PostgreSQL auth setup | `COMPLETE` | `lib/auth/local-backend.ts`, `lib/auth/crypto.ts`, `db/migrations/0005_local-auth.sql`, `scripts/auth-admin.ts` |
 | Login | `COMPLETE` | `app/login/page.tsx`, `app/login/login-form.tsx`; `tests/unit/auth/auth-flow.test.ts` |
 | Logout | `COMPLETE` | `components/admin-shell.tsx` sign-out form, `lib/auth/actions.ts`; auth-flow tests |
-| Password reset | `COMPLETE` | `app/forgot-password/`, `app/auth/callback/route.ts`, `app/reset-password/`; auth-flow tests |
+| Password reset | `COMPLETE` | `app/forgot-password/`, `app/reset-password/`, `pnpm auth:admin`; auth-flow and local-backend tests |
 | Authenticated admin routes | `COMPLETE` | `proxy.ts`, `lib/auth/admin-proxy.ts`, `app/admin/layout.tsx` guard |
-| Session handling | `COMPLETE` | `lib/auth/supabase-proxy.ts` cookie refresh, `lib/auth/session.ts`, `docs/AUTH.md` |
-| No public registration | `COMPLETE` | No registration route; `enable_signup = false`; no-registration unit test and e2e 404 checks |
+| Session handling | `COMPLETE` | `lib/auth/local-backend.ts`, `lib/auth/session.ts`, `auth_sessions`, `docs/AUTH.md` |
+| No public registration | `COMPLETE` | No registration route; operator-created accounts; no-registration unit test and e2e 404 checks |
 | Unauthenticated admin access blocked | `COMPLETE` | `tests/unit/auth/admin-proxy.test.ts`, `tests/e2e/auth.spec.ts` |
 | Authenticated owner can access admin | `COMPLETE` | Proxy allow test with a valid session; F004 authenticates identity, tenant roles deferred to F005 |
 | Logout works | `COMPLETE` | Sign-out clears the session (`auth-flow.test.ts`); admin shell control |
@@ -219,7 +219,7 @@ These counts describe the Phase 1 capability map in §3 and are retained for tra
 
 | Capability | Status | Evidence / gap |
 |---|---|---|
-| Cloudinary integration | `COMPLETE` | Signed REST provider behind `MediaProvider`; `docs/MEDIA.md` |
+| Object storage integration | `COMPLETE` | Cloudflare R2 (S3-compatible) and Cloudinary providers behind `MediaProvider`; `docs/MEDIA.md` |
 | Upload | `COMPLETE` | `POST /api/admin/vehicles/{id}/images` + `VehicleImageManager` |
 | Multiple upload | `COMPLETE` | Sequential per-file uploads preserve selection order |
 | Upload progress | `COMPLETE` | XHR upload progress rendered per tile |
@@ -547,8 +547,8 @@ Runtime route checks performed during the audit:
 
 **PHASE 3 — Database Foundation.**
 
-Phase 2 is complete and verified. The next phase can add Supabase, Drizzle,
-PostgreSQL migrations, and development seeds on top of the now-enforced lint,
+Phase 2 is complete and verified. The next phase can add PostgreSQL, Drizzle,
+migrations, and development seeds on top of the now-enforced lint,
 typecheck, unit/component test, Playwright smoke, CI, and environment-validation
 gates.
 

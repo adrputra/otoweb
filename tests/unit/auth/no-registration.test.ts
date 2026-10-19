@@ -46,7 +46,7 @@ describe('no public registration', () => {
     const routes = collectRoutes(appDir)
 
     expect(routes).toEqual(
-      expect.arrayContaining(['/login', '/forgot-password', '/reset-password', '/auth/callback']),
+      expect.arrayContaining(['/login', '/forgot-password', '/reset-password']),
     )
     expect(routes).not.toEqual(expect.arrayContaining(['/register', '/signup', '/sign-up']))
   })

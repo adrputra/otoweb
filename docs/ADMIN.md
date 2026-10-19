@@ -12,7 +12,7 @@ it is not a runtime source for the admin vehicle surface.
 
 ```text
 /admin/vehicles request
-  -> proxy.ts                  (server-verified Supabase session)
+  -> proxy.ts                  (server-verified local session)
   -> requireAdminTenantContext (tenant context + manage_vehicles)
   -> listAdminVehicles         (tenant-filtered Drizzle read)
   -> VehicleTable              (client filters + action buttons)

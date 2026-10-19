@@ -38,6 +38,10 @@ export const PRIMA_PROFILE_ID = '50000000-0000-4000-8000-000000000001'
 export const TENANT_B_PROFILE_ID = '50000000-0000-4000-8000-000000000002'
 export const PLATFORM_PROFILE_ID = '50000000-0000-4000-8000-000000000003'
 
+/** Development/visual-QA credential hash: correct-horse. Never seeded unless SEED_DEV_AUTH=1. */
+const DEV_AUTH_PASSWORD_HASH =
+  'scrypt$gFyNb14xuisdpr8bToNIBA$V4ofriCsmDyBhamfyiDGGFSHuUg5q0EqUzytlD2TJAmyi5osVf7JYxBip6WfEsCTpN2UdYgUrX7NzHrwuA063A'
+
 export const PRIMA_DOMAIN_ID = '70000000-0000-4000-8000-000000000001'
 export const TENANT_B_DOMAIN_ID = '70000000-0000-4000-8000-000000000002'
 
@@ -103,19 +107,38 @@ const tenantRows: NewTenant[] = [
   },
 ]
 
+const devAuthEnabled = process.env.SEED_DEV_AUTH === '1'
+
+function withDevAuth(profile: NewProfile, email: string): NewProfile {
+  if (!devAuthEnabled) return profile
+
+  return {
+    ...profile,
+    email,
+    passwordHash: DEV_AUTH_PASSWORD_HASH,
+    emailVerifiedAt: SEED_TIMESTAMP,
+  }
+}
+
 const profileRows: NewProfile[] = [
-  {
-    id: PRIMA_PROFILE_ID,
-    fullName: 'Aditya Pranata',
-  },
+  withDevAuth(
+    {
+      id: PRIMA_PROFILE_ID,
+      fullName: 'Aditya Pranata',
+    },
+    'owner@primaauto.test',
+  ),
   {
     id: TENANT_B_PROFILE_ID,
     fullName: 'Tenant B Owner',
   },
-  {
-    id: PLATFORM_PROFILE_ID,
-    fullName: 'Platform Operator',
-  },
+  withDevAuth(
+    {
+      id: PLATFORM_PROFILE_ID,
+      fullName: 'Platform Operator',
+    },
+    'operator@otoweb.test',
+  ),
 ]
 
 const domainRows: NewTenantDomain[] = [

@@ -13,12 +13,12 @@ let database: Database | undefined
  *
  * The client is created lazily so importing this module never opens a
  * connection (safe for builds and tests). `prepare: false` keeps the
- * connection compatible with Supabase's transaction pooler.
+ * connection compatible with transaction-pooling proxies such as PgBouncer.
  */
 export function getDatabase(url: string | undefined = process.env.DATABASE_URL): Database {
   if (!url) {
     throw new Error(
-      'DATABASE_URL is not set. Copy .env.example to .env.local and configure the PostgreSQL/Supabase connection string.',
+      'DATABASE_URL is not set. Copy .env.example to .env.local and configure the PostgreSQL connection string.',
     )
   }
 

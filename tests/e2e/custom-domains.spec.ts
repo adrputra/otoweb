@@ -3,49 +3,10 @@ import http from 'node:http'
 import { expect, test, type BrowserContext } from '@playwright/test'
 
 const APP_PORT = Number(process.env.PLATFORM_APP_PORT ?? 3003)
-const PLATFORM_PROFILE_ID = '50000000-0000-4000-8000-000000000003'
-const AUTH_COOKIE_PREFIX = '127'
 const PRIMA_TENANT_ID = '11111111-1111-4111-8111-111111111111'
 
-const platformUser = {
-  id: PLATFORM_PROFILE_ID,
-  aud: 'authenticated',
-  role: 'authenticated',
-  email: 'operator@otoweb.test',
-  email_confirmed_at: '2026-10-18T00:00:00.000Z',
-  phone: '',
-  confirmed_at: '2026-10-18T00:00:00.000Z',
-  last_sign_in_at: '2026-10-18T00:00:00.000Z',
-  app_metadata: { provider: 'email', providers: ['email'] },
-  user_metadata: { full_name: 'Platform Operator' },
-  identities: [],
-  created_at: '2026-10-18T00:00:00.000Z',
-  updated_at: '2026-10-18T00:00:00.000Z',
-}
-
-function sessionCookie(host: string) {
-  const session = {
-    access_token: 'fake-access-token',
-    refresh_token: 'fake-refresh-token',
-    token_type: 'bearer',
-    expires_in: 3600,
-    expires_at: Math.floor(Date.now() / 1000) + 3600,
-    user: platformUser,
-  }
-
-  return {
-    name: `sb-${AUTH_COOKIE_PREFIX}-auth-token`,
-    value: `base64-${Buffer.from(JSON.stringify(session)).toString('base64url')}`,
-    domain: host,
-    path: '/',
-    httpOnly: true,
-    sameSite: 'Lax' as const,
-  }
-}
-
-async function signIn(context: BrowserContext, baseURL: string | undefined) {
-  const host = new URL(baseURL!).hostname
-  await context.addCookies([sessionCookie(host)])
+async function signIn(context: BrowserContext) {
+  await context.request.get('/api/dev-login?as=operator', { maxRedirects: 0 })
 }
 
 interface RawResponse {
@@ -84,9 +45,8 @@ function fetchRaw(host: string, path = '/'): Promise<RawResponse> {
 test('operator registers, verifies, and routes a custom domain with platform fallback', async ({
   context,
   page,
-  baseURL,
 }) => {
-  await signIn(context, baseURL)
+  await signIn(context)
   await page.goto(`/platform/tenants/${PRIMA_TENANT_ID}`)
   await page.waitForLoadState('networkidle')
 
@@ -122,9 +82,8 @@ test('operator registers, verifies, and routes a custom domain with platform fal
 test('a pending custom domain fails closed while the platform subdomain still serves', async ({
   context,
   page,
-  baseURL,
 }) => {
-  await signIn(context, baseURL)
+  await signIn(context)
   await page.goto(`/platform/tenants/${PRIMA_TENANT_ID}`)
   await page.waitForLoadState('networkidle')
 

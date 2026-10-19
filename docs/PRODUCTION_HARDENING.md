@@ -70,7 +70,7 @@ command proves the new behavior.
 | F016-D05 | CI does not run the Playwright matrix | The current CI runs lint/typecheck/unit/build; browser execution is an explicit follow-up | Add a seeded dev server + the affected e2e specs to CI |
 | F016-D06 | No Lighthouse/load/soak testing | The environment has no production-shaped CDN or load generator; warm-local timings are the agreed audit vehicle | Run Lighthouse/load tests against a staging deployment |
 | F016-D07 | Accessibility is a baseline audit, not WCAG certification | No axe dependency or manual assistive-technology pass was in scope | Add automated axe checks and a manual keyboard/screen-reader review |
-| F016-D08 | Production boot does not assert `DATABASE_URL` or Supabase public keys before serving | The build must run without live credentials; the runtime already fails closed (DB throws in production, auth returns anonymous) | Add a production-only startup check or deployment health probe for required server configuration |
+| F016-D08 | Production boot does not assert `DATABASE_URL` before serving | The build must run without live credentials; the runtime already fails closed (DB throws in production, auth returns anonymous) | Add a production-only startup check or deployment health probe for required server configuration |
 
 ## Dependency audit detail
 

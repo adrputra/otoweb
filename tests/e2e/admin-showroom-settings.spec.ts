@@ -2,25 +2,6 @@ import { expect, test } from '@playwright/test'
 
 import { createPngFixture } from '../helpers/image-fixtures'
 
-// Mirrors `sb-${new URL(authUrl).hostname.split('.')[0]}-auth-token`.
-const AUTH_COOKIE_PREFIX = '127'
-
-const user = {
-  id: '50000000-0000-4000-8000-000000000001',
-  aud: 'authenticated',
-  role: 'authenticated',
-  email: 'owner@primaauto.test',
-  email_confirmed_at: '2026-10-18T00:00:00.000Z',
-  phone: '',
-  confirmed_at: '2026-10-18T00:00:00.000Z',
-  last_sign_in_at: '2026-10-18T00:00:00.000Z',
-  app_metadata: { provider: 'email', providers: ['email'] },
-  user_metadata: { full_name: 'Aditya Pranata' },
-  identities: [],
-  created_at: '2026-10-18T00:00:00.000Z',
-  updated_at: '2026-10-18T00:00:00.000Z',
-}
-
 const original = {
   tagline: 'Pilihan mobil berkualitas, tanpa kompromi.',
   seoTitle: 'Prima Auto Gallery — Mobil Bekas Berkualitas',
@@ -28,29 +9,8 @@ const original = {
   openingHours: 'Senin–Sabtu, 08.00–18.00',
 }
 
-function sessionCookie(host: string) {
-  const session = {
-    access_token: 'fake-access-token',
-    refresh_token: 'fake-refresh-token',
-    token_type: 'bearer',
-    expires_in: 3600,
-    expires_at: Math.floor(Date.now() / 1000) + 3600,
-    user,
-  }
-
-  return {
-    name: `sb-${AUTH_COOKIE_PREFIX}-auth-token`,
-    value: `base64-${Buffer.from(JSON.stringify(session)).toString('base64url')}`,
-    domain: host,
-    path: '/',
-    httpOnly: true,
-    sameSite: 'Lax' as const,
-  }
-}
-
-test.beforeEach(async ({ context, baseURL }) => {
-  const host = new URL(baseURL!).hostname
-  await context.addCookies([sessionCookie(host)])
+test.beforeEach(async ({ context }) => {
+  await context.request.get('/api/dev-login?as=owner', { maxRedirects: 0 })
 })
 
 test('admin saves showroom settings and the public site reflects them without a deployment', async ({

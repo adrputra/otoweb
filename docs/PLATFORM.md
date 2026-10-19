@@ -56,7 +56,7 @@ Platform access requires an **active `tenant_members` row with
 
 The check runs at three layers:
 
-1. **Proxy** — a server-verified Supabase session is required for
+1. **Proxy** — a server-verified local PostgreSQL session is required for
    `/platform/:path*`.
 2. **Layout/page** — `requirePlatformOperatorPage()` resolves the explicit
    membership; otherwise it redirects unauthenticated users to sign-in and

@@ -123,7 +123,7 @@ redirect. See `docs/ANALYTICS.md`.
 
 ## Development runtime
 
-- With `DATABASE_URL`, the normal PostgreSQL/Supabase connection is used.
+- With `DATABASE_URL`, the normal PostgreSQL connection is used.
 - Without `DATABASE_URL` in development, `lib/db/runtime.ts` lazily creates an
   in-memory PGlite database, applies `db/migrations`, and runs the deterministic
   seed. This keeps `next dev`, Playwright, and Visual QA runnable without Docker.

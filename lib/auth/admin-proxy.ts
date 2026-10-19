@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
+import { resolveSessionCookie } from './local-proxy'
 import { loginUrlFor } from './paths'
-import { resolveSupabaseUser } from './supabase-proxy'
 import type { AuthResolution } from './types'
 
 export type AdminAuthResolver = (request: NextRequest) => Promise<AuthResolution>
@@ -20,7 +20,7 @@ export interface AdminProxyOptions {
  * responses carry any refreshed auth cookies and cache headers.
  */
 export function createAdminProxy(options: AdminProxyOptions = {}) {
-  const resolveAuth = options.resolveAuth ?? resolveSupabaseUser
+  const resolveAuth = options.resolveAuth ?? resolveSessionCookie
 
   return async function proxy(request: NextRequest): Promise<NextResponse> {
     let resolution: AuthResolution

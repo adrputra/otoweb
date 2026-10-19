@@ -4,7 +4,7 @@ import { connection } from 'next/server'
 import { requireTenantContext } from '@/lib/tenant/server'
 
 import { resolveSessionUser } from './session'
-import { createServerAuthBackend } from './supabase-server'
+import { createServerAuthBackend } from './local'
 import type { AuthUser } from './types'
 
 /**

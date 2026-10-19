@@ -41,7 +41,7 @@ const REQUIRED_HEADERS = [
 const EXPECTED_RAW_HTML_SINKS = new Set(['components/seo/json-ld.tsx'])
 
 const SECRET_PATTERNS = [
-  { name: 'service-role assignment', pattern: /SUPABASE_SERVICE_ROLE_KEY\s*=\s*['"]?[A-Za-z0-9._-]{8,}/ },
+  { name: 'database url with inline password', pattern: /DATABASE_URL\s*=\s*['"]?postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@/ },
   { name: 'stripe live secret', pattern: /sk_live_[A-Za-z0-9]{8,}/ },
   { name: 'private key block', pattern: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/ },
   { name: 'cloudinary secret assignment', pattern: /CLOUDINARY_API_SECRET\s*=\s*['"]?[A-Za-z0-9._-]{8,}/ },

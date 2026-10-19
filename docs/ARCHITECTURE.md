@@ -226,7 +226,7 @@ renders only the first image.
 
 - `next.config.mjs` sets two security headers, disables TypeScript build
   validation, and disables image optimization.
-- No `.env.example`, no environment validation, no Supabase/Drizzle/Cloudinary
+- No `.env.example`, no environment validation, no PostgreSQL/Drizzle/object storage
   configuration.
 - No lint, format, typecheck script, unit test, E2E test, or CI.
 - `package.json` scripts: `dev`, `build`, `start`.
@@ -264,15 +264,15 @@ Next.js 16 on Vercel
    ├── Server Actions / Route Handlers
    ├── Tenant resolution (centralized)
    ├── Authorization + permission helpers
-   ├── Media service (Cloudinary)
+   ├── Media service (Cloudflare R2 / Cloudinary)
    └── Analytics / logging
    │
    ▼
-Supabase
-   ├── PostgreSQL
-   ├── Supabase Auth
+PostgreSQL
+   ├── Domain tables
+   ├── Local auth (profiles, auth_sessions)
    ├── Row Level Security
-   └── Storage/asset metadata where applicable
+   └── Media metadata (R2 / Cloudinary for assets)
    │
    ▼
 Drizzle ORM
@@ -288,11 +288,11 @@ Drizzle ORM
 | Application | One full-stack Next.js App Router app | Current |
 | Language | TypeScript strict | Current |
 | Styling | Tailwind 4 + approved v0 design | Current |
-| Database | Supabase PostgreSQL | Target |
+| Database | PostgreSQL | Current |
 | ORM | Drizzle ORM | Target |
-| Auth | Supabase Auth | Target |
+| Auth | Local PostgreSQL sessions | Current |
 | Authorization | Application permissions + PostgreSQL RLS | Target |
-| Media | Cloudinary | Target |
+| Media | Cloudflare R2 (Cloudinary optional) | Current |
 | Deployment | Vercel | Target |
 | Analytics | Vercel Analytics + product events | Target |
 | Error reporting | Vercel logs first; Sentry optional | Target |
@@ -420,7 +420,7 @@ lib/
   tenant/          Resolution and context
   permissions/     Role/capability checks
   validation/      Shared Zod schemas
-  media/           Cloudinary integration
+  media/           R2 / Cloudinary provider boundary
   seo/             Metadata, sitemap, structured data helpers
 
 features/
@@ -501,7 +501,7 @@ Browser file selection
   ↓
 Client-side pre-validation (type, size, count)
   ↓
-Cloudinary upload (signed)
+R2 / Cloudinary upload (signed)
   ↓
 Provider asset metadata
   ↓
@@ -642,7 +642,7 @@ The roadmap phases are dependency-ordered. Do not skip ahead.
 | 5 | PHASE 5 — Multi-tenant security | Memberships, tenant context, RLS, isolation tests |
 | 6 | PHASE 6 — Public website DB | Replace public mock reads with tenant-scoped queries |
 | 7 | PHASE 7 — Admin vehicle CRUD | Real create/edit/lifecycle actions |
-| 8 | PHASE 8 — Image management | Cloudinary, ordering, cover, validation |
+| 8 | PHASE 8 — Image management | R2/Cloudinary, ordering, cover, validation |
 | 9 | PHASE 9 — Showroom settings | Tenant-scoped configuration and public reflection |
 | 10 | PHASE 10 — Lead capture | Contact form, WhatsApp tracking, lead pipeline |
 | 11 | PHASE 11 — SEO productionization | Metadata, sitemap, structured data |
@@ -663,11 +663,11 @@ These decisions come from the roadmap and should not be re-litigated without
 an explicit owner decision:
 
 1. One full-stack Next.js application.
-2. Supabase PostgreSQL as the backend platform.
+2. PostgreSQL as the backend platform.
 3. Drizzle ORM for schema, migrations, and typed queries.
-4. Supabase Auth for authentication.
+4. Local PostgreSQL-backed authentication for authentication.
 5. Application permissions plus PostgreSQL RLS for authorization.
-6. Cloudinary for media.
+6. Cloudflare R2 for media (Cloudinary remains an alternative).
 7. Vercel for deployment.
 8. Multi-tenant from the start; no per-showroom forks.
 9. Approved v0 design is the baseline; no redesign.

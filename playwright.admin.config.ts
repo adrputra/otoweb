@@ -1,8 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const AUTH_PORT = '54322'
 const APP_PORT = '3002'
-const AUTH_URL = `http://127.0.0.1:${AUTH_PORT}`
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -29,29 +27,18 @@ export default defineConfig({
       },
     },
   ],
-  webServer: [
-    {
-      command: 'node scripts/fake-supabase-auth.mjs',
-      url: `${AUTH_URL}/health`,
-      reuseExistingServer: false,
-      timeout: 30_000,
-      env: {
-        FAKE_AUTH_PORT: AUTH_PORT,
-      },
+  webServer: {
+    command: `pnpm exec next dev -p ${APP_PORT}`,
+    url: `http://127.0.0.1:${APP_PORT}`,
+    reuseExistingServer: false,
+    timeout: 120_000,
+    env: {
+      NEXT_TELEMETRY_DISABLED: '1',
+      NEXT_PUBLIC_SITE_URL: `http://prima.otoweb.id:${APP_PORT}`,
+      NEXT_PUBLIC_SHOWROOM_SLUG: 'prima-auto-gallery',
+      MEDIA_PROVIDER: 'fake',
+      SEED_DEV_AUTH: '1',
+      ALLOW_DEV_LOGIN: '1',
     },
-    {
-      command: `NEXT_PUBLIC_SUPABASE_URL=${AUTH_URL} NEXT_PUBLIC_SUPABASE_ANON_KEY=fake-anon-key NEXT_PUBLIC_SHOWROOM_SLUG=prima-auto-gallery pnpm exec next dev -p ${APP_PORT}`,
-      url: `http://127.0.0.1:${APP_PORT}`,
-      reuseExistingServer: false,
-      timeout: 120_000,
-      env: {
-        NEXT_TELEMETRY_DISABLED: '1',
-        NEXT_PUBLIC_SITE_URL: `http://prima.otoweb.id:${APP_PORT}`,
-        NEXT_PUBLIC_SHOWROOM_SLUG: 'prima-auto-gallery',
-        NEXT_PUBLIC_SUPABASE_URL: AUTH_URL,
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: 'fake-anon-key',
-        MEDIA_PROVIDER: 'fake',
-      },
-    },
-  ],
+  },
 })

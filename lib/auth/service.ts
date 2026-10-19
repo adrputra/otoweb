@@ -32,7 +32,7 @@ export async function signOut(auth: AuthBackend): Promise<AuthResult<null>> {
 export async function requestPasswordReset(
   auth: AuthBackend,
   email: string,
-  redirectTo: string,
+  redirectTo?: string,
 ): Promise<AuthResult<null>> {
   try {
     return await auth.requestPasswordReset(normalizeEmail(email), redirectTo)

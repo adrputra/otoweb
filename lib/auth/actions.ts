@@ -4,16 +4,14 @@ import { redirect } from 'next/navigation'
 
 import { safeNextPath } from './paths'
 import { requestPasswordReset, signInWithPassword, signOut, updatePassword } from './service'
-import { buildResetCallbackUrl } from './site-url'
-import { createServerAuthBackend } from './supabase-server'
+import { createServerAuthBackend } from './local'
 import type { AuthActionState } from './types'
 import { loginSchema, resetRequestSchema, updatePasswordSchema } from './validation'
 
 const INVALID_LOGIN = 'Email atau kata sandi tidak cocok. Periksa kembali lalu coba lagi.'
 const GENERIC_RESET =
-  'Jika email tersebut terdaftar, tautan pemulihan sudah dikirim. Periksa kotak masuk Anda.'
-const CONFIG_ERROR =
-  'Autentikasi belum dikonfigurasi. Hubungi operator platform untuk mengaktifkan akses.'
+  'Permintaan diterima. Operator platform akan menindaklanjuti reset kata sandi Anda.'
+const CONFIG_ERROR = 'Autentikasi sedang tidak tersedia. Hubungi operator platform.'
 
 function formValue(formData: FormData, key: string): string {
   const value = formData.get(key)
@@ -77,7 +75,7 @@ export async function requestPasswordResetAction(
 
   try {
     const auth = await createServerAuthBackend()
-    await requestPasswordReset(auth, parsed.data.email, buildResetCallbackUrl())
+    await requestPasswordReset(auth, parsed.data.email)
   } catch {
     // Never reveal whether the account exists or whether auth is configured.
   }
